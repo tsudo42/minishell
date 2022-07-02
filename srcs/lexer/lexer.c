@@ -57,7 +57,7 @@ t_token_list	*lexer(char *input)
 		token_list_append = lex_loop(&input);
 	}
 	if (token_list_append == NULL)
-		token_list_free(token_list_head);
+		token_list_free(&token_list_head);
 	else
 		token_list_head = token_list_join(token_list_head, token_list_append);
 	free(input_to_free);

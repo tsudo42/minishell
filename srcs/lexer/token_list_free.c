@@ -14,11 +14,15 @@
 
 /**
  * Frees the token list.
+ * Argument must be a pointer to token list.
+ * usage: token_list_free(&token_list);
  */
-void	token_list_free(t_token_list *token_list)
+void	token_list_free(t_token_list **token_list_ptr)
 {
+	t_token_list	*token_list;
 	t_token_list	*next;
 
+	token_list = *token_list_ptr;
 	while (token_list != NULL)
 	{
 		next = token_list->next;
@@ -29,4 +33,5 @@ void	token_list_free(t_token_list *token_list)
 		free(token_list);
 		token_list = next;
 	}
+	*token_list_ptr = NULL;
 }

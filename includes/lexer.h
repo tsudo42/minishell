@@ -74,8 +74,10 @@ t_token_list	*lexer(char *input);
 
 /**
  * Frees the token list.
+ * Argument must be a pointer to token list.
+ * usage: token_list_free(&token_list);
  */
-void			token_list_free(t_token_list *token_list);
+void			token_list_free(t_token_list **token_list_ptr);
 
 /**
  * Prints token list via printf.

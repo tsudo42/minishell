@@ -28,7 +28,7 @@ int	debug_lexer(void)
 	{
 		list = lexer(input);
 		token_list_print(list);
-		token_list_free(list);
+		token_list_free(&list);
 		input = get_next_line_easy(0);
 	}
 	return (0);
