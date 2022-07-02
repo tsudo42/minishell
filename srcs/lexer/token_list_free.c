@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   token_list_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,13 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "lexer.h"
 
-# include "libft.h"
-# include <unistd.h>
+/**
+ * Frees the token list.
+ */
+void	token_list_free(t_token_list *token_list)
+{
+	t_token_list	*next;
 
-# include "lexer.h"
-# include "debug.h"
-
-#endif /* MINISHELL_H */
+	while (token_list != NULL)
+	{
+		next = token_list->next;
+		free(token_list->other_param);
+		token_list->other_param = NULL;
+		free(token_list->raw_str);
+		token_list->raw_str = NULL;
+		free(token_list);
+		token_list = next;
+	}
+}

@@ -32,6 +32,7 @@ def update_makefile():
 		fobj.writelines(get_body("lexer"))
 		fobj.writelines(get_body("parser"))
 		fobj.writelines(get_body("utils"))
+		fobj.writelines(get_body("debug"))
 		fobj.write(MAKEFILE_PART2)
 
 if __name__ == "__main__":

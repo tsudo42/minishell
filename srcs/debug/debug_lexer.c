@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   debug_lexer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,13 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "lexer.h"
+#include "debug.h"
 
-# include "libft.h"
-# include <unistd.h>
+/**
+ * Function to debug lexer().
+ * Input via stdin and print the token list.
+ * Always returns 0.
+ */
+int	debug_lexer(void)
+{
+	char			*input;
+	t_token_list	*list;
 
-# include "lexer.h"
-# include "debug.h"
-
-#endif /* MINISHELL_H */
+	input = get_next_line_easy(0);
+	while (input != NULL)
+	{
+		list = lexer(input);
+		token_list_print(list);
+		token_list_free(list);
+		input = get_next_line_easy(0);
+	}
+	return (0);
+}

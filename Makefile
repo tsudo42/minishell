@@ -37,12 +37,25 @@ I_SRCS	:= \
 
 SRCS	+= $(L_SRCS)
 L_SRCS	:= \
+	srcs/lexer/lex_redirection.c \
+	srcs/lexer/token_list_print.c \
+	srcs/lexer/lexer.c \
+	srcs/lexer/lex_loop.c \
+	srcs/lexer/token_list_join.c \
+	srcs/lexer/token_list_new.c \
+	srcs/lexer/lex_quote.c \
+	srcs/lexer/token_list_free.c \
+	srcs/lexer/lex_string.c \
 
 SRCS	+= $(P_SRCS)
 P_SRCS	:= \
 
 SRCS	+= $(U_SRCS)
 U_SRCS	:= \
+
+SRCS	+= $(D_SRCS)
+D_SRCS	:= \
+	srcs/debug/debug_lexer.c \
 
 INCS	:= \
 	includes \
