@@ -1,4 +1,3 @@
-//#include"../../libft/libft.h" //need to modify the path
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,6 +17,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 */
+
 int	main(void)
 {
 	char *line;
