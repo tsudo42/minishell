@@ -3,33 +3,40 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <unistd.h>
+#include <signal.h>
 
-/*
-size_t	ft_strlen(const char *s)
+#define STATUS_FAILURE -1
+
+int	g_status;
+
+void	ft_signal_handler(int sig)
 {
-	size_t	i;
-
-	if (!s)
-		return (-1);
-	i = 0;
-	while (s[i] != '\0')
-	i++;
-	return (i);
+	(void)sig;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	g_status = STATUS_FAILURE;
 }
-*/
 
 int	main(void)
 {
 	char *line;
 
 	line = NULL;
-	while ((line = readline("minishell> ")))
+	while (1)
 	{
+		signal(SIGINT, ft_signal_handler);
+		signal(SIGQUIT, SIG_IGN);
+		line = readline("minishell> ");
+		if (line == NULL)
+			break ;
 		add_history(line);
 		free(line);
 	}
 	free(line);
 	printf("exit\n");
-//	rl_clear_history;  ->I guess it's not necessary.
-	return (0);
+	//	rl_clear_history;  ->I guess it's not necessary.
+	return (g_status);
 }
