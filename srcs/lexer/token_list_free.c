@@ -26,10 +26,8 @@ void	token_list_free(t_token_list **token_list_ptr)
 	while (token_list != NULL)
 	{
 		next = token_list->next;
-		free(token_list->other_param);
-		token_list->other_param = NULL;
-		free(token_list->raw_str);
-		token_list->raw_str = NULL;
+		free(token_list->str);
+		token_list->str = NULL;
 		free(token_list);
 		token_list = next;
 	}

@@ -15,28 +15,30 @@
 
 # include "lexer.h"
 
+# define LEX_SEP	" \n"           /* separator          */
+# define LEX_ANDAND	"&&"            /* and operator       */
+# define LEX_OROR	"||"            /* or operator        */
+# define LEX_PIPE	"|"             /* pipe character     */
+# define LEX_LBRACE	"("             /* brace begin        */
+# define LEX_RBRACE	")"             /* brace end          */
+# define LEX_REDIN	"<"             /* redirect in        */
+# define LEX_REDOUT	">"             /* redirect out       */
+# define LEX_REDAPP	">>"            /* redirect append    */
+# define LEX_HERE	"<<"            /* heredoc            */
+# define LEX_NUM	"0123456789"    /* set of numbers     */
+# define LEX_EOW	" \n&|()<>"     /* set of end of word */
+
 /* lex_loop.c */
 t_token_list	*lex_loop(char **input);
-/* lex_string.c */
-t_token_list	*lex_space_tab(char **input);
-/* lex_string.c */
-t_token_list	*lex_string(char **input);
-/* lex_redirection.c */
-t_token_list	*lex_less(char **input);
-/* lex_redirection.c */
-t_token_list	*lex_greater(char **input);
-/* lex_quote.c */
-t_token_list	*lex_single_quote(char **input);
-/* lex_quote.c */
-t_token_list	*lex_double_quote(char **input);
 
 /* token_list_utils.c */
-t_token_list	*token_list_new( \
-	t_token_type type, char *raw_str, void *other_param);
+t_token_list	*token_list_new(t_lr_token_type type, char *str);
 /* token_list_utils.c */
 t_token_list	*token_list_append( \
-	t_token_list *head, t_token_type type, char *raw_str, void *other_param);
+	t_token_list *head, t_lr_token_type type, char *str);
 /* token_list_utils.c */
 t_token_list	*token_list_join(t_token_list *head, t_token_list *tail);
+
+char			*ft_strndup(const char *s, size_t len);
 
 #endif /* LEXER_INTERNAL_H */

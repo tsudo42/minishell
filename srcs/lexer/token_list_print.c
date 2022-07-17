@@ -12,49 +12,26 @@
 
 #include "lexer.h"
 
-static const char	*token_list_get_typestr(t_token_type type);
-static const char	*token_list_get_typestr_2(t_token_type type);
-
-static const char	*token_list_get_typestr(t_token_type type)
+static const char	*token_list_get_typestr(t_lr_token_type type)
 {
-	if (type == NULL_TOKEN)
-		return ("NULL_TOKEN");
-	else if (type == SQ_STRING)
-		return ("SQ_STRING");
-	else if (type == DQ_STRING)
-		return ("DQ_STRING");
-	else if (type == STRING)
-		return ("STRING");
-	else if (type == RED_IN)
-		return ("RED_IN");
-	else if (type == RED_OUT)
-		return ("RED_OUT");
-	else if (type == RED_OUT_APPEND)
-		return ("RED_OUT_APPEND");
-	else if (type == RED_IN_HEREDOC)
-		return ("RED_IN_HEREDOC");
-	else if (type == PIPE)
-		return ("PIPE");
-	else if (type == AND)
-		return ("AND");
-	else if (type == OR)
-		return ("OR");
-	else
-		return (token_list_get_typestr_2(type));
-}
-
-static const char	*token_list_get_typestr_2(t_token_type type)
-{
-	if (type == BRACE_BEGIN)
-		return ("BRACE_BEGIN");
-	else if (type == BRACE_END)
-		return ("BRACE_END");
-	else if (type == NEWLINE)
-		return ("NEWLINE");
-	else if (type == SPACE_TAB)
-		return ("SPACE_TAB");
-	else if (type == EOF_TOKEN)
-		return ("EOF_TOKEN");
+	if (type == LR_NULL)
+		return ("LR_NULL");
+	else if (type == LR_T_RED)
+		return ("LR_T_RED");
+	else if (type == LR_T_WORD)
+		return ("LR_T_WORD");
+	else if (type == LR_T_OP)
+		return ("LR_T_OP");
+	else if (type == LR_T_PIPE)
+		return ("LR_T_PIPE");
+	else if (type == LR_T_LBRACE)
+		return ("LR_T_LBRACE");
+	else if (type == LR_T_RBRACE)
+		return ("LR_T_RBRACE");
+	else if (type == LR_T_EOL)
+		return ("LR_T_EOL");
+	else if (type == LR_NULL)
+		return ("LR_NULL");
 	else
 		return ("????UNDEFINED????");
 }
@@ -77,8 +54,7 @@ void	token_list_print(t_token_list *list)
 	{
 		printf("<< list[%zu] >>\n", i);
 		printf("  type        : %s\n", token_list_get_typestr(list->type));
-		printf("  raw_str     : %s\n", list->raw_str);
-		printf("  other_param : %p\n", list->other_param);
+		printf("  raw_str     : %s\n", list->str);
 		list = list->next;
 		i++;
 	}

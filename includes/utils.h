@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_redirection.c                                  :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,36 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer_internal.h"
+#ifndef UTILS_H
+# define UTILS_H
 
-t_token_list	*lex_less(char **input)
-{
-	if (**input != '<')
-		return (NULL);
-	if (*(*input + 1) == '<')
-	{
-		(*input) += 2;
-		return (token_list_new(RED_IN_HEREDOC, strdup("<<"), NULL));
-	}
-	else
-	{
-		(*input) += 1;
-		return (token_list_new(RED_IN, strdup("<"), NULL));
-	}
-}
+# include "libft.h"
 
-t_token_list	*lex_greater(char **input)
-{
-	if (**input != '>')
-		return (NULL);
-	if (*(*input + 1) == '>')
-	{
-		(*input) += 2;
-		return (token_list_new(RED_OUT_APPEND, strdup(">>"), NULL));
-	}
-	else
-	{
-		(*input) += 1;
-		return (token_list_new(RED_OUT, strdup(">"), NULL));
-	}
-}
+/* ************************************************************************** */
+/*  This function duplicates s with allocating memory with malloc(3),         */
+/*  at most len length.                                                       */
+/* ************************************************************************** */
+char	*ft_strndup(const char *s, size_t len);
+
+#endif /* UTILS_H */

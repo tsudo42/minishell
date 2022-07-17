@@ -20,7 +20,7 @@ static int	if_continue_lex(t_token_list *token)
 {
 	if (token == NULL)
 		return (0);
-	if (token->type == NULL_TOKEN || token->type == EOF_TOKEN)
+	if (token->type == LR_NULL || token->type == LR_T_EOL)
 		return (0);
 	else
 		return (1);

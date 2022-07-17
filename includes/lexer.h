@@ -14,47 +14,37 @@
 # define LEXER_H
 
 # include "libft.h"
+# include "utils.h"
 
-/**
- * NULL_TOKEN means error.
- * currently only unclosed quotation(single/double) occurs this error.
- * AND/OR is not currently used.
- * EOF means '\0'.
- */
-typedef enum e_token_type {
-	NULL_TOKEN,
-	SQ_STRING,
-	DQ_STRING,
-	STRING,
-	RED_IN,
-	RED_OUT,
-	RED_OUT_APPEND,
-	RED_IN_HEREDOC,
-	PIPE,
-	AND,
-	OR,
-	BRACE_BEGIN,
-	BRACE_END,
-	NEWLINE,
-	SPACE_TAB,
-	EOF_TOKEN
-}	t_token_type;
+typedef enum e_lr_token_type {
+	LR_NULL,
+	LR_T_RED,
+	LR_T_WORD,
+	LR_T_OP,
+	LR_T_PIPE,
+	LR_T_LBRACE,
+	LR_T_RBRACE,
+	LR_T_EOL,
+	LR_N_L,
+	LR_N_P,
+	LR_N_S,
+	LR_N_C,
+	LR_N_A,
+	LR_N_D
+}	t_lr_token_type;
 
 /**
  * The liner list of token.
- * All token list should be end with EOF_TOKEN or NULL_TOKEN.
- * NULL_TOKEN represents error and should be handled outside of lexer().
+ * All token list should be end with LR_T_EOL or LR_NULL.
+ * LR_NULL represents error and should be handled outside of lexer().
  *
  * `type` is token type described above.
- * `raw_str` is the alloced string if token type is STRING/SQ_STRING/
- * DQ_STRING/SPACE_TAB.
- * otherwise, NULL.
+ * `str` is the alloced string or NULL (only with LR_T_EOL or LR_NULL).
  * `next` is the pointer to next t_token_list or NULL.
  */
 typedef struct s_token_list {
-	t_token_type		type;
-	char				*raw_str;
-	void				*other_param;
+	t_lr_token_type		type;
+	char				*str;
 	struct s_token_list	*next;
 }	t_token_list;
 
