@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   lr_apply_rule.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Created: 2021/11/19 17:23:08 by tsudo             #+#    #+#             */
+/*   Updated: 2022/03/04 15:55:19 by tsudo            ###   ##########        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUG_H
-# define DEBUG_H
+#include "lr_func.h"
 
-/**
- * Function to debug lexer().
- * Input via stdin and print the token list.
- * Always returns 0.
- */
-int		debug_lexer(void);
-
-int		debug_syntax(void);
-
-#endif /* DEBUG_H*/
+void	lr_apply_rule(int rule)
+{
+	(void)rule;
+}

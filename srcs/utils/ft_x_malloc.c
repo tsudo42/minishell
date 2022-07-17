@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   ft_x_malloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,16 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUG_H
-# define DEBUG_H
+#include <stdlib.h>
+#include <errno.h>
 
-/**
- * Function to debug lexer().
- * Input via stdin and print the token list.
- * Always returns 0.
- */
-int		debug_lexer(void);
+/* ************************************************************************** */
+/*  This function allocates size memory using malloc(3).                      */
+/*  If malloc(3) fails, exit with 256 + errno by malloc(3).                   */
+/* ************************************************************************** */
+void	*x_malloc(size_t size)
+{
+	void	*ptr;
 
-int		debug_syntax(void);
-
-#endif /* DEBUG_H*/
+	ptr = malloc(size);
+	if (ptr == NULL)
+		exit(256 + errno);
+	return (ptr);
+}

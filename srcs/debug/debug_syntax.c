@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   debug_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,16 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUG_H
-# define DEBUG_H
+#include "debug.h"
+#include "lexer.h"
+#include "parser.h"
 
-/**
- * Function to debug lexer().
- * Input via stdin and print the token list.
- * Always returns 0.
- */
-int		debug_lexer(void);
+int	debug_syntax(void)
+{
+	char			*line;
+	t_token_list	*token;
 
-int		debug_syntax(void);
-
-#endif /* DEBUG_H*/
+	write(1, "> ", 2);
+	line = get_next_line_easy(0);
+	while (line != NULL)
+	{
+		token = lexer(line);
+		parser(token);
+		write(1, "> ", 2);
+		line = get_next_line_easy(0);
+	}
+	return (0);
+}

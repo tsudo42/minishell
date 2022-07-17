@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,16 +10,44 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUG_H
-# define DEBUG_H
+#ifndef PARSER_H
+# define PARSER_H
+
+# include "lexer.h"
+# include "libft.h"
 
 /**
- * Function to debug lexer().
- * Input via stdin and print the token list.
- * Always returns 0.
+ * The information to be passed to execve.
  */
-int		debug_lexer(void);
+typedef struct s_cmd {
+	pid_t		pid;
+	const char	*raw_str;
+	char		**args;
+	int			redin_fd;
+	int			redout_fd;
+	int			ret_val;
+}	t_cmd;
 
-int		debug_syntax(void);
+typedef enum e_cmd_list_type {
+	NULL_CMDLIST,
+	HEAD,
+	PIPELINE,
+	OR_CMDLIST,
+	AND_CMDLIST,
+	BRACES
+}	t_cmd_list_type;
 
-#endif /* DEBUG_H*/
+typedef struct s_cmd_list {
+	pid_t				pid;
+	t_cmd_list_type		type;
+	union {
+		struct s_cmd		*content_cmd;
+		struct s_cmd_list	*content_list;
+	};
+	int					ret_val;
+	struct s_cmd_list	*next;
+}	t_cmd_list;
+
+int	parser(t_token_list *token_list);
+
+#endif /* PARSER_H */

@@ -44,19 +44,24 @@ L_SRCS	:= \
 	srcs/lexer/token_list_new.c \
 	srcs/lexer/token_list_free.c \
 
-# SRCS	+= $(P_SRCS)
+SRCS	+= $(P_SRCS)
 P_SRCS	:= \
 	srcs/parser/lr_parse_error.c \
+	srcs/parser/lr_stack.c \
 	srcs/parser/lr_table.c \
 	srcs/parser/lr_apply_rule.c \
+	srcs/parser/lr_parse.c \
 	srcs/parser/lr_rule.c \
+	srcs/parser/parser.c \
 
 SRCS	+= $(U_SRCS)
 U_SRCS	:= \
+	srcs/utils/ft_x_malloc.c \
 	srcs/utils/ft_strndup.c \
 
 SRCS	+= $(D_SRCS)
 D_SRCS	:= \
+	srcs/debug/debug_syntax.c \
 	srcs/debug/debug_lexer.c \
 
 INCS	:= \

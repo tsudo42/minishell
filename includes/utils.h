@@ -13,12 +13,16 @@
 #ifndef UTILS_H
 # define UTILS_H
 
-# include "libft.h"
-
 /* ************************************************************************** */
 /*  This function duplicates s with allocating memory with malloc(3),         */
 /*  at most len length.                                                       */
 /* ************************************************************************** */
 char	*ft_strndup(const char *s, size_t len);
+
+/* ************************************************************************** */
+/*  This function allocates size memory using malloc(3).                      */
+/*  If malloc(3) fails, exit with 256 + errno by malloc(3).                   */
+/* ************************************************************************** */
+void	*x_malloc(size_t size);
 
 #endif /* UTILS_H */

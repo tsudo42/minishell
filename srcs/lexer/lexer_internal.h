@@ -39,6 +39,4 @@ t_token_list	*token_list_append( \
 /* token_list_utils.c */
 t_token_list	*token_list_join(t_token_list *head, t_token_list *tail);
 
-char			*ft_strndup(const char *s, size_t len);
-
 #endif /* LEXER_INTERNAL_H */
