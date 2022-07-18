@@ -1,33 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
-#include <signal.h>
-#include <stdbool.h>
-
-typedef struct s_cmd {
-	pid_t		     pid; // waitpidのため
-	const char	 *raw_str; // 入力それ自体
-	char         **args;
-	//  t_envvar     *envvar;
-	int          redin_fd;  // dup2で使う
-	int          redout_fd;
-	int          ret_val; // 返り値
-}	t_cmd;
-
-typedef struct s_cmd_list{
-	pid_t	pid; // for waitpid
-//	t_cmd_list_type	type; // head, pipeline, or, and, braces
-	void	*contents; // bracesなら*t_cmd_list, それ以外なら*t_cmd
-	int	ret_val; // 返り値
-	struct s_cmd_list *next;
-} t_cmd_list;
-
-
-int	ft_strcmp(const char *s1, const char *s2);
-size_t	ft_strlen(const char *s);
+#include "heredoc.h"
 
 /*
 static bool	is_envname(char c)
@@ -71,20 +42,20 @@ char	*expand_env(char *line)
 	}
 	return (expanded);
 }
+*/
 
-bool	is_quoted(const char *str)
+bool	ft_is_quote(char *delimi)
 {
 	char	*s;
 
-	s = ft_strchr(str, '"');
-	if (s != NULL && s != ft_strrchr(str, '"'))
+	s = ft_strchr(delimi, '"');
+	if (s != NULL && s != ft_strrchr(delimi, '"'))
 		return (true);
-	s = ft_strchr(str, '\'');
-	if (s != NULL && s != ft_strrchr(str, '\''))
+	s = ft_strchr(delimi, '\'');
+	if (s != NULL && s != ft_strrchr(delimi, '\''))
 		return (true);
 	return (false);
 }
-*/
 
 char	*ft_extract_quote(char *delimi)
 {
@@ -104,8 +75,8 @@ char	*ft_extract_quote(char *delimi)
 		else
 			*temp_str++ = *delimi++;
 	}
-	printf("ret_str: %s\n", ret_str);
-	printf("temp_str: %s\n", temp_str - 1);
+//	printf("ret_str: %s\n", ret_str);
+//	printf("temp_str: %s\n", temp_str - 1);
 	*temp_str = *delimi;
 	return (ret_str);
 }
@@ -122,7 +93,7 @@ int	heredoc(char *delimi)
 {
 	char	*line;
 
-	line == NULL;
+	line = NULL;
 	while (1)
 	{
 		signal(SIGINT, ft_signal_handler_heredoc);
@@ -130,14 +101,14 @@ int	heredoc(char *delimi)
 		line = readline("heredoc> ");
 		if (line == NULL || !ft_strcmp(line, ft_extract_quote(delimi)))
 		{
-		//	free(line);
+			free(line);
 			break ;
 		}
-//		if (is_quoted(info->heredoc_word))
-//			ft_putendl_fd(line, pipe_fd[WRITE_INDEX]);
+		if (ft_is_quote(delimi))
+			ft_putendl_fd(line, 1);
 //		else
 //			ft_putendl_fd(expand_env(line), pipe_fd[WRITE_INDEX]);
-//		free(line);
+		free(line);
 	}	
 //	xclose(pipe_fd[WRITE_INDEX]);
 //	return (pipe_fd[READ_INDEX]);
