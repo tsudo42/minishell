@@ -10,7 +10,12 @@
 # include <signal.h>
 # include <stdbool.h>
 
+# define READ 0
+# define WRITE 1
+
 # include ".dev/libft.h" //has to be changed
+
+
 
 typedef struct s_cmd {
 	pid_t		     pid; // waitpidのため
