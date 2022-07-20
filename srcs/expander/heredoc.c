@@ -92,7 +92,13 @@ void	ft_signal_handler_heredoc(int sig)
 int	heredoc(char *delimi)
 {
 	char	*line;
-
+	int	pipefd[2];
+	
+	if (pipe(pipefd) == -1)
+	{
+		perror("heredoc");
+		exit(EXIT_FAILURE);
+	}
 	line = NULL;
 	while (1)
 	{
@@ -105,7 +111,7 @@ int	heredoc(char *delimi)
 			break ;
 		}
 		if (ft_is_quote(delimi))
-			ft_putendl_fd(line, 1);
+			ft_putendl_fd(line, pipefd[WRITE]);
 //		else
 //			ft_putendl_fd(expand_env(line), pipe_fd[WRITE_INDEX]);
 		free(line);
