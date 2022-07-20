@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   ft_x_waitpid.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/19 17:23:08 by tsudo             #+#    #+#             */
-/*   Updated: 2022/03/04 15:55:19 by tsudo            ###   ##########        */
+/*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
+/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "utils.h"
 #include "libft.h"
+#include <sys/wait.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 /* ************************************************************************** */
-/*  This function duplicates s with allocating memory with malloc(3),         */
-/*  at most len length.                                                       */
+/*  This function is an error checking version of waitpid(2).                 */
+/*  This function prints an error message and terminates the process calling  */
+/*  exit(3) when waitpid faces error.                                         */
 /* ************************************************************************** */
-char	*ft_strndup(const char *s, size_t len)
+pid_t	ft_x_waitpid(pid_t pid, int *stat_loc, int opitons, const char *errmsg)
 {
-	char	*ptr;
+	pid_t	ret;
 
-	len = ft_strnlen(s, len);
-	ptr = malloc(sizeof(char) * (len + 1));
-	if (ptr != NULL)
-		ft_strlcpy(ptr, s, len + 1);
-	return (ptr);
+	ret = waitpid(pid, stat_loc, opitons);
+	if (ret >= 0)
+		return (ret);
+	perror(errmsg);
+	exit(INTERNAL_ERR_NUM);
 }

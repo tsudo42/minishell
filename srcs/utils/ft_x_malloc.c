@@ -10,19 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "utils.h"
 #include <stdlib.h>
-#include <errno.h>
+#include <stdio.h>
 
 /* ************************************************************************** */
-/*  This function allocates size memory using malloc(3).                      */
-/*  If malloc(3) fails, exit with 256 + errno by malloc(3).                   */
+/*  This function is an error checking version of malloc(3).                  */
+/*  This function prints an error message and terminates the process calling  */
+/*  exit(3) when malloc faces error.                                          */
 /* ************************************************************************** */
-void	*x_malloc(size_t size)
+void	*ft_x_malloc(size_t size, const char *errmsg)
 {
-	void	*ptr;
+	void	*ret;
 
-	ptr = malloc(size);
-	if (ptr == NULL)
-		exit(256 + errno);
-	return (ptr);
+	ret = malloc(size);
+	if (ret != NULL)
+		return (ret);
+	perror(errmsg);
+	exit(INTERNAL_ERR_NUM);
 }

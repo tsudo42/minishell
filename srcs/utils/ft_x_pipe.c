@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   ft_x_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/19 17:23:08 by tsudo             #+#    #+#             */
-/*   Updated: 2022/03/04 15:55:19 by tsudo            ###   ##########        */
+/*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
+/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "utils.h"
+#include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 /* ************************************************************************** */
-/*  This function duplicates s with allocating memory with malloc(3),         */
-/*  at most len length.                                                       */
+/*  This function is an error checking version of pipe(2).                    */
+/*  This function prints an error message and terminates the process calling  */
+/*  exit(3) when pipe faces error.                                            */
 /* ************************************************************************** */
-char	*ft_strndup(const char *s, size_t len)
+void	ft_x_pipe(int fildes[2], const char *errmsg)
 {
-	char	*ptr;
+	int	ret;
 
-	len = ft_strnlen(s, len);
-	ptr = malloc(sizeof(char) * (len + 1));
-	if (ptr != NULL)
-		ft_strlcpy(ptr, s, len + 1);
-	return (ptr);
+	ret = pipe(fildes);
+	if (ret >= 0)
+		return ;
+	perror(errmsg);
+	exit(INTERNAL_ERR_NUM);
 }

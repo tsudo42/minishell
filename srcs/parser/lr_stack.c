@@ -16,10 +16,10 @@ t_lr_stack	*lr_stack_init(void)
 {
 	t_lr_stack	*stack;
 
-	stack = x_malloc(sizeof(t_lr_stack));
+	stack = ft_x_malloc(sizeof(t_lr_stack), "");
 	stack->size = 0;
 	stack->alloc_size = 16;
-	stack->c = x_malloc(sizeof(t_lr_pair) * stack->alloc_size);
+	stack->c = ft_x_malloc(sizeof(t_lr_pair) * stack->alloc_size, "");
 	return (stack);
 }
 
@@ -30,7 +30,7 @@ void	lr_stack_push(t_lr_stack *stack, t_lr_token_type type, int state)
 	if (stack->size == stack->alloc_size)
 	{
 		stack->alloc_size *= 2;
-		new_pair = x_malloc(sizeof(t_lr_pair) * stack->alloc_size);
+		new_pair = ft_x_malloc(sizeof(t_lr_pair) * stack->alloc_size, "");
 		ft_memmove(new_pair, stack->c, sizeof(t_lr_pair) * stack->size);
 		free(stack->c);
 		stack->c = new_pair;
