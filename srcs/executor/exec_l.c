@@ -1,0 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_l.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
+/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "exec_internal.h"
+
+int	exec_l(t_ast_l *l)
+{
+	int	ret;
+
+	if (l == NULL)
+		exec_error("l is NULL");
+	ret = exec_p(l->p);
+	l = l->next;
+	while (l != NULL)
+	{
+		if (ret ^ l->op)
+			ret = exec_p(l->p);
+		l = l->next;
+	}
+	return (ret);
+}

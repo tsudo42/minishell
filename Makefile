@@ -46,9 +46,19 @@ EV_SRCS	:= \
 
 SRCS	+= $(EX_SRCS)
 EX_SRCS	:= \
+	srcs/executor/executor.c \
+	srcs/executor/exec_c.c \
+	srcs/executor/exec_d.c \
+	srcs/executor/exec_s.c \
+	srcs/executor/exec_stdfd.c \
+	srcs/executor/exec_a.c \
+	srcs/executor/exec_p.c \
+	srcs/executor/exec_l.c \
+	srcs/executor/exec_error.c \
 
 SRCS	+= $(EP_SRCS)
 EP_SRCS	:= \
+	srcs/expander/expander.c \
 
 SRCS	+= $(I_SRCS)
 I_SRCS	:= \
