@@ -26,11 +26,19 @@ SRCS	+= $(M_SRCS)
 M_SRCS	:= \
 	srcs/minishell/main.c \
 
-SRCS	+= $(E_SRCS)
-E_SRCS	:= \
+SRCS	+= $(EV_SRCS)
+EV_SRCS	:= \
+	srcs/environ/ft_putenv.c \
+	srcs/environ/ft_setenv.c \
+	srcs/environ/ft_getenv.c \
+	srcs/environ/ft_init_environ.c \
+	srcs/environ/ft_unsetenv.c \
 
-SRCS	+= $(E_SRCS)
-E_SRCS	:= \
+SRCS	+= $(EX_SRCS)
+EX_SRCS	:= \
+
+SRCS	+= $(EP_SRCS)
+EP_SRCS	:= \
 
 SRCS	+= $(I_SRCS)
 I_SRCS	:= \
