@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "lexer_internal.h"
+#include <stdlib.h>
 
 /**
  * Frees the token list.

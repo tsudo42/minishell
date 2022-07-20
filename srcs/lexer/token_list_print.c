@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include <stdio.h>
 
 static const char	*token_list_get_typestr(t_lr_token_type type)
 {

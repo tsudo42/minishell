@@ -12,6 +12,7 @@
 
 #include "lexer.h"
 #include "lexer_internal.h"
+#include <stdlib.h>
 
 /**
  * Checks if tokenization to be end.

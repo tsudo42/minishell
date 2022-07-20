@@ -12,6 +12,7 @@
 
 #include "parser.h"
 #include "lr_internal.h"
+#include <stdio.h>
 
 int	parser(t_token_list *token_list)
 {

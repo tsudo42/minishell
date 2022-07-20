@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "lexer_internal.h"
+#include <stdlib.h>
 
 t_token_list	*token_list_new(t_lr_token_type type, char *str)
 {
