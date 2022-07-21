@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "exec_internal.h"
+#include <stdlib.h>
 
 static size_t	count_args(t_ast_a *a)
 {
@@ -30,9 +31,7 @@ char	**exec_a(t_ast_a *a)
 	char	**args;
 	size_t	i;
 
-	if (a == NULL)
-		exec_error("a is NULL");
-	args = ft_x_malloc(sizeof(char *) * (count_args(a) + 2), EXEC_ERRMSG);
+	args = ft_x_malloc(sizeof(char *) * (count_args(a) + 1), EXEC_ERRMSG);
 	i = 0;
 	while (a != NULL)
 	{
@@ -42,4 +41,18 @@ char	**exec_a(t_ast_a *a)
 	}
 	args[i] = NULL;
 	return (args);
+}
+
+void	ast_free_a(t_ast_a *a)
+{
+	t_ast_a	*prev_a;
+
+	while (a != NULL)
+	{
+		free(a->red);
+		free(a->word);
+		prev_a = a;
+		a = a->next;
+		free(prev_a);
+	}
 }

@@ -14,5 +14,6 @@
 # define EXPANDER_H
 
 char	*expander(char *word);
+char	*execpath(char *name);
 
 #endif /* EXPANDER_H */

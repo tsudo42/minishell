@@ -14,22 +14,30 @@
 
 static int	lr_parse_shift(t_token_list **tokens, t_lr_stack *stack, int param)
 {
-	lr_stack_push(stack, (*tokens)->type, param);
+	lr_stack_push(stack, (*tokens)->type, param, (*tokens)->str);
+	(*tokens)->str = NULL;
 	*tokens = (*tokens)->next;
 	return (0);
 }
 
 static int	lr_parse_reduce(t_token_list **tokens, t_lr_stack *stack, int param)
 {
+	static void	(*reduce_funcs[15])(t_lr_stack*) = {
+		NULL, lr_parse_reduce_1, lr_parse_reduce_2, lr_parse_reduce_3,
+		lr_parse_reduce_4, lr_parse_reduce_5, lr_parse_reduce_6,
+		lr_parse_reduce_7, lr_parse_reduce_8, lr_parse_reduce_9,
+		lr_parse_reduce_10, lr_parse_reduce_11, lr_parse_reduce_12,
+		lr_parse_reduce_13, lr_parse_reduce_14
+	};
+
 	(void)tokens;
-	lr_stack_pop(stack, lr_get_size_of_rule(param));
-	lr_stack_push(stack, lr_get_left_of_rule(param), \
-	lr_goto(lr_get_left_of_rule(param), lr_stack_peak(stack)->state));
-	lr_apply_rule(param);
+	if (param <= 0 || 15 <= param)
+		return (1);
+	reduce_funcs[param](stack);
 	return (0);
 }
 
-static int	lr_parse_loop(t_token_list **tokens, t_lr_stack *stack)
+static t_ast	*lr_parse_loop(t_token_list **tokens, t_lr_stack *stack)
 {
 	t_lr_action_type	action;
 	int					param;
@@ -45,19 +53,22 @@ static int	lr_parse_loop(t_token_list **tokens, t_lr_stack *stack)
 		else
 			break ;
 	}
-	if (action == LR_ACT_ACCEPT)
-		return (0);
-	return (lr_parse_error(*tokens));
+	if (action != LR_ACT_ACCEPT)
+	{
+		lr_parse_error(*tokens);
+		return (NULL);
+	}
+	return (lr_stack_pop(stack));
 }
 
-int	lr_parse(t_token_list *token_list)
+t_ast	*lr_parse(t_token_list *token_list)
 {
 	t_lr_stack	*stack;
-	int			ret_val;
+	t_ast		*ast_root;
 
 	stack = lr_stack_init();
-	lr_stack_push(stack, LR_NULL, 0);
-	ret_val = lr_parse_loop(&token_list, stack);
+	lr_stack_push(stack, LR_NULL, 0, NULL);
+	ast_root = lr_parse_loop(&token_list, stack);
 	lr_stack_terminate(&stack);
-	return (ret_val);
+	return (ast_root);
 }

@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "exec_internal.h"
+#include "libft.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 /* NOTIMPLEMENTED */
@@ -45,22 +47,43 @@ static int	exec_d_heredoc(const char *word, int fd)
 
 int	exec_d(t_ast_d *d)
 {
-	int	is_err;
+	int		is_err;
+	long	fd;
 
 	is_err = 0;
-	while (d != NULL && !is_err)
+	while (d != NULL && is_err)
 	{
+		fd = ft_strtol(d->num, NULL, 10);
+		if (fd > 3)
+		{
+			perror("minishell: file descriptor out of range");
+			return (1);
+		}
 		if (d->type == AST_D_REDIN)
-			is_err = exec_d_redin(d->word, d->fd);
+			is_err = exec_d_redin(d->word, fd);
 		else if (d->type == AST_D_REDOUT)
-			is_err = exec_d_redout(d->word, d->fd, 0);
+			is_err = exec_d_redout(d->word, fd, 0);
 		else if (d->type == AST_D_REDAPP)
-			is_err = exec_d_redout(d->word, d->fd, 1);
+			is_err = exec_d_redout(d->word, fd, 1);
 		else if (d->type == AST_D_HEREDOC)
-			is_err = exec_d_heredoc(d->word, d->fd);
+			is_err = exec_d_heredoc(d->word, fd);
 		else
 			exec_error("undefined d type");
 		d = d->next;
 	}
 	return (is_err);
+}
+
+void	ast_free_d(t_ast_d *d)
+{
+	t_ast_d	*prev_d;
+
+	while (d != NULL)
+	{
+		free(d->num);
+		free(d->word);
+		prev_d = d;
+		d = d->next;
+		free(prev_d);
+	}
 }

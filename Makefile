@@ -48,6 +48,7 @@ SRCS	+= $(EX_SRCS)
 EX_SRCS	:= \
 	srcs/executor/executor.c \
 	srcs/executor/exec_c.c \
+	srcs/executor/exec_p_piped.c \
 	srcs/executor/exec_d.c \
 	srcs/executor/exec_s.c \
 	srcs/executor/exec_stdfd.c \
@@ -59,6 +60,7 @@ EX_SRCS	:= \
 SRCS	+= $(EP_SRCS)
 EP_SRCS	:= \
 	srcs/expander/expander.c \
+	srcs/expander/execpath.c \
 
 SRCS	+= $(I_SRCS)
 I_SRCS	:= \
@@ -74,13 +76,16 @@ L_SRCS	:= \
 
 SRCS	+= $(P_SRCS)
 P_SRCS	:= \
+	srcs/parser/lr_reduce_c.c \
+	srcs/parser/lr_reduce_ad.c \
 	srcs/parser/lr_parse_error.c \
 	srcs/parser/lr_stack.c \
 	srcs/parser/lr_table.c \
-	srcs/parser/lr_apply_rule.c \
+	srcs/parser/lr_reduce_s.c \
 	srcs/parser/lr_parse.c \
-	srcs/parser/lr_rule.c \
+	srcs/parser/lr_reduce_p.c \
 	srcs/parser/parser.c \
+	srcs/parser/lr_reduce_l.c \
 
 SRCS	+= $(U_SRCS)
 U_SRCS	:= \

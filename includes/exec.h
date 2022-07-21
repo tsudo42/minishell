@@ -32,7 +32,7 @@ typedef enum e_ast_d_type {
 
 typedef struct s_ast_d {
 	t_ast_d_type	type;
-	int				fd;
+	char			*num;
 	char			*word;
 	struct s_ast_d	*next;
 }	t_ast_d;
@@ -80,6 +80,13 @@ typedef struct s_ast_l {
 
 typedef t_ast_l	t_ast;
 
-int	executor(t_ast *ast_root);
+int		executor(t_ast *ast_root);
+
+void	ast_free_l(t_ast_l *l);
+void	ast_free_p(t_ast_p *p);
+void	ast_free_s(t_ast_s *s);
+void	ast_free_c(t_ast_c *c);
+void	ast_free_a(t_ast_a *a);
+void	ast_free_d(t_ast_d *d);
 
 #endif /* EXEC_H */

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lr_rule.c                                          :+:      :+:    :+:   */
+/*   lr_reduce_l.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lr_func.h"
+#include "lr_internal.h"
+#include "exec.h"
+#include "libft.h"
 
 /**
 L     : L OP P            (1
@@ -35,36 +37,56 @@ D     : D RED WORD        (13
       ;
 */
 
-int	lr_get_size_of_rule(int rule)
+static t_ast_l	*ast_l_join(t_ast_l *head, t_ast_l *tail)
 {
-	static const int	size_table[15] = {\
-		-1,
-		3, 1,
-		3, 3, 1, 1,
-		4, 3,
-		2, 1,
-		2, 1,
-		3, 2
-	};
+	t_ast_l	*middle;
 
-	if (rule <= 0 || rule >= 15)
-		return (-1);
-	return (size_table[rule]);
+	if (head == NULL)
+		return (tail);
+	middle = head;
+	while (middle->next != NULL)
+		middle = middle->next;
+	middle->next = tail;
+	return (head);
 }
 
-t_lr_token_type	lr_get_left_of_rule(int rule)
+/* L     : L OP P            (1 */
+void	lr_parse_reduce_1(t_lr_stack *stack)
 {
-	static const t_lr_token_type	left_table[15] = {\
-		LR_NULL,
-		LR_N_L, LR_N_L,
-		LR_N_P, LR_N_P, LR_N_P, LR_N_P,
-		LR_N_S, LR_N_S,
-		LR_N_C, LR_N_C,
-		LR_N_A, LR_N_A,
-		LR_N_D, LR_N_D
-	};
+	t_ast_l	*l;
+	char	*op;
+	t_ast_l	*prev_l;
 
-	if (rule <= 0 || rule >= 15)
-		return (-1);
-	return (left_table[rule]);
+	l = ft_x_malloc(sizeof(t_ast_l), PARSER_ERRMSG);
+	\
+	l->p = lr_stack_pop(stack);
+	op = lr_stack_pop(stack);
+	prev_l = lr_stack_pop(stack);
+	\
+	if (ft_strncmp("&&", op, sizeof("&&")) == 0)
+		l->op = AST_L_AND;
+	else
+		l->op = AST_L_OR;
+	free(op);
+	l->next = NULL;
+	prev_l = ast_l_join(prev_l, l);
+	\
+	lr_stack_push(stack, \
+		LR_N_L, lr_goto(LR_N_L, lr_stack_peak(stack)->state), prev_l);
+}
+
+/* L      |      P            (2 */
+void	lr_parse_reduce_2(t_lr_stack *stack)
+{
+	t_ast_l	*l;
+
+	l = ft_x_malloc(sizeof(t_ast_l), PARSER_ERRMSG);
+	\
+	l->p = lr_stack_pop(stack);
+	\
+	l->op = AST_L_AND;
+	l->next = NULL;
+	\
+	lr_stack_push(stack, \
+		LR_N_L, lr_goto(LR_N_L, lr_stack_peak(stack)->state), l);
 }

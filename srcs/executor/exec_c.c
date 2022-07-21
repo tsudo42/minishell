@@ -49,26 +49,22 @@ static int	exec_c_builtin(\
 	return (ret);
 }
 
-/* NOTIMPLEMENTED */
-static char	*get_path(char *name)
-{
-	return (name);
-}
-
 static int	exec_c_command(char **args, t_ast_d *d)
 {
 	pid_t	pid;
 	int		ret_val;
 	char	*path;
 
-	path = get_path(args[0]);
+	path = execpath(args[0]);
 	if (path == NULL)
-		exec_error("get_path");
+		exec_error("execpath");
 	pid = ft_x_fork(EXEC_ERRMSG);
 	if (pid == 0)
 	{
 		if (exec_d(d) != 0)
 			exit(1);
+		if (*path == '\0')
+			exit(0);
 		ft_x_execve(path, args, environ, EXEC_ERRMSG);
 	}
 	ft_x_waitpid(pid, &ret_val, 0, EXEC_ERRMSG);
@@ -85,8 +81,20 @@ int	exec_c(t_ast_c *c)
 	args = exec_a(c->a);
 	if (args == NULL)
 		exec_error("args is NULL");
-	builtin_func = get_builtin_func(args[0]);
+	if (args[0] != NULL)
+		builtin_func = get_builtin_func(args[0]);
+	else
+		builtin_func = NULL;
 	if (builtin_func != NULL)
 		return (exec_c_builtin(builtin_func, args, c->d));
 	return (exec_c_command(args, c->d));
+}
+
+void	ast_free_c(t_ast_c *c)
+{
+	if (c == NULL)
+		return ;
+	ast_free_a(c->a);
+	ast_free_d(c->d);
+	free(c);
 }

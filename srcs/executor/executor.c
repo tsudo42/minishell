@@ -15,9 +15,11 @@
 
 int	executor(t_ast *ast_root)
 {
+	int	ret;
+
 	if (ast_root == NULL)
-	{
-		exec_error("ast_root is NULL");
-	}
-	return (exec_l(ast_root));
+		return (1);
+	ret = exec_l(ast_root);
+	ast_free_l(ast_root);
+	return (ret);
 }

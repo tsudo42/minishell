@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "exec_internal.h"
+#include <stdlib.h>
 
 int	exec_l(t_ast_l *l)
 {
@@ -22,9 +23,22 @@ int	exec_l(t_ast_l *l)
 	l = l->next;
 	while (l != NULL)
 	{
-		if (ret ^ l->op)
+		if (!(ret) ^ (l->op == AST_L_OR))
 			ret = exec_p(l->p);
 		l = l->next;
 	}
 	return (ret);
+}
+
+void	ast_free_l(t_ast_l *l)
+{
+	t_ast_l	*prev_l;
+
+	while (l != NULL)
+	{
+		ast_free_p(l->p);
+		prev_l = l;
+		l = l->next;
+		free(prev_l);
+	}
 }

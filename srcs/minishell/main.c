@@ -11,10 +11,26 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <unistd.h>
+#include "lexer.h"
+#include "parser.h"
+#include "exec.h"
+#include "libft.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 int	main(void)
 {
-	write(1, "42\n", 3);
+	char	*line;
+	int		ret;
+
+	ret = 0;
+	write(1, "> ", 2);
+	line = get_next_line(0);
+	while (line != NULL)
+	{
+		ret = executor(parser(lexer(line)));
+		write(1, "> ", 2);
+		line = get_next_line(0);
+	}
 	return (0);
 }

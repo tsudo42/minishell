@@ -22,6 +22,7 @@ void	exec_error(const char *name);
 
 int		exec_l(t_ast_l *l);
 int		exec_p(t_ast_p *p);
+int		exec_p_piped(t_ast_p *p, size_t p_len);
 int		exec_s(t_ast_s *s);
 int		exec_c(t_ast_c *c);
 char	**exec_a(t_ast_a *a);

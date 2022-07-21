@@ -12,12 +12,15 @@
 
 #include "parser.h"
 #include "lr_internal.h"
-#include <stdio.h>
+#include "lexer.h"
 
-int	parser(t_token_list *token_list)
+t_ast_l	*parser(t_token_list *token_list)
 {
-	if (lr_parse(token_list) == 0)
-		printf("parse success\n");
+	t_ast_l	*ast_root;
+
+	if (token_list == NULL)
+		return (NULL);
+	ast_root = lr_parse(token_list);
 	token_list_free(&token_list);
-	return (0);
+	return (ast_root);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lr_func.h"
+#include "lr_def.h"
 #include <stdio.h>
 
 int	lr_parse_error(t_token_list *token)

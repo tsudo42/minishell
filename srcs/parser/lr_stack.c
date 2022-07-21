@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "lr_internal.h"
+#include "libft.h"
 
 t_lr_stack	*lr_stack_init(void)
 {
@@ -19,36 +20,38 @@ t_lr_stack	*lr_stack_init(void)
 	stack = ft_x_malloc(sizeof(t_lr_stack), "");
 	stack->size = 0;
 	stack->alloc_size = 16;
-	stack->c = ft_x_malloc(sizeof(t_lr_pair) * stack->alloc_size, "");
+	stack->c = ft_x_malloc(sizeof(t_lr_node) * stack->alloc_size, "");
 	return (stack);
 }
 
-void	lr_stack_push(t_lr_stack *stack, t_lr_token_type type, int state)
+void	lr_stack_push(t_lr_stack *stack, \
+	t_lr_token_type type, int state, void *content)
 {
-	t_lr_pair	*new_pair;
+	t_lr_node	*new_stack_c;
 
 	if (stack->size == stack->alloc_size)
 	{
 		stack->alloc_size *= 2;
-		new_pair = ft_x_malloc(sizeof(t_lr_pair) * stack->alloc_size, "");
-		ft_memmove(new_pair, stack->c, sizeof(t_lr_pair) * stack->size);
+		new_stack_c = ft_x_malloc(sizeof(t_lr_node) * stack->alloc_size, "");
+		ft_memmove(new_stack_c, stack->c, sizeof(t_lr_node) * stack->size);
 		free(stack->c);
-		stack->c = new_pair;
+		stack->c = new_stack_c;
 	}
 	stack->c[stack->size].type = type;
 	stack->c[stack->size].state = state;
+	stack->c[stack->size].content = content;
 	stack->size++;
 }
 
-int	lr_stack_pop(t_lr_stack *stack, size_t popcount)
+void	*lr_stack_pop(t_lr_stack *stack)
 {
-	if (stack->size < popcount)
-		return (1);
-	stack->size -= popcount;
-	return (0);
+	if (stack->size == 0)
+		return (NULL);
+	stack->size--;
+	return (stack->c[stack->size].content);
 }
 
-t_lr_pair	*lr_stack_peak(t_lr_stack *stack)
+t_lr_node	*lr_stack_peak(t_lr_stack *stack)
 {
 	if (stack->size == 0)
 		return (NULL);
@@ -60,8 +63,25 @@ void	lr_stack_terminate(t_lr_stack **stack_ptr)
 	t_lr_stack	*stack;
 
 	stack = *stack_ptr;
-	if (stack != NULL)
-		free(stack->c);
-	free(stack);
+	if (stack == NULL)
+		return ;
+	while (stack->size-- > 0)
+	{
+		if (stack->c[stack->size].type == LR_N_L)
+			ast_free_l(stack->c[stack->size].content);
+		else if (stack->c[stack->size].type == LR_N_P)
+			ast_free_p(stack->c[stack->size].content);
+		else if (stack->c[stack->size].type == LR_N_S)
+			ast_free_s(stack->c[stack->size].content);
+		else if (stack->c[stack->size].type == LR_N_C)
+			ast_free_c(stack->c[stack->size].content);
+		else if (stack->c[stack->size].type == LR_N_A)
+			ast_free_a(stack->c[stack->size].content);
+		else if (stack->c[stack->size].type == LR_N_D)
+			ast_free_d(stack->c[stack->size].content);
+		else
+			free(stack->c[stack->size].content);
+	}
+	free(stack->c);
 	*stack_ptr = NULL;
 }

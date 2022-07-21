@@ -13,41 +13,40 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "lexer.h"
-# include "libft.h"
+# include "exec.h"
+
+typedef enum e_lr_token_type {
+	LR_NULL,
+	LR_T_RED,
+	LR_T_WORD,
+	LR_T_OP,
+	LR_T_PIPE,
+	LR_T_LBRACE,
+	LR_T_RBRACE,
+	LR_T_EOL,
+	LR_N_L,
+	LR_N_P,
+	LR_N_S,
+	LR_N_C,
+	LR_N_A,
+	LR_N_D
+}	t_lr_token_type;
 
 /**
- * The information to be passed to execve.
+ * The liner list of token.
+ * All token list should be end with LR_T_EOL or LR_NULL.
+ * LR_NULL represents error and should be handled outside of lexer().
+ *
+ * `type` is token type described above.
+ * `str` is the alloced string or NULL (only with LR_T_EOL or LR_NULL).
+ * `next` is the pointer to next t_token_list or NULL.
  */
-typedef struct s_cmd {
-	pid_t		pid;
-	const char	*raw_str;
-	char		**args;
-	int			redin_fd;
-	int			redout_fd;
-	int			ret_val;
-}	t_cmd;
+typedef struct s_token_list {
+	t_lr_token_type		type;
+	char				*str;
+	struct s_token_list	*next;
+}	t_token_list;
 
-typedef enum e_cmd_list_type {
-	NULL_CMDLIST,
-	HEAD,
-	PIPELINE,
-	OR_CMDLIST,
-	AND_CMDLIST,
-	BRACES
-}	t_cmd_list_type;
-
-typedef struct s_cmd_list {
-	pid_t				pid;
-	t_cmd_list_type		type;
-	union {
-		struct s_cmd		*content_cmd;
-		struct s_cmd_list	*content_list;
-	};
-	int					ret_val;
-	struct s_cmd_list	*next;
-}	t_cmd_list;
-
-int	parser(t_token_list *token_list);
+t_ast_l	*parser(t_token_list *token_list);
 
 #endif /* PARSER_H */

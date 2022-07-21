@@ -13,11 +13,4 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft.h"
-# include <unistd.h>
-
-# include "lexer.h"
-# include "parser.h"
-# include "debug.h"
-
 #endif /* MINISHELL_H */
