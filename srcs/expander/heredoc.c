@@ -1,48 +1,55 @@
 #include "heredoc.h"
 
-/*
-static bool	is_envname(char c)
+static bool	ft_is_env(char c)
 {
 	return (ft_isalpha(c) || c == '_');
 }
 
-static char	*str_append(char *src, char dst)
+static char	*ft_str_c_join(char *str, char c)
 {
-	char	*appended_str;
+	char	*res;
 	size_t	len;
 
 	len = ft_strlen(src);
-	appended_str = (char *)ft_xcalloc(len + 2, sizeof(char));
-	ft_strlcpy(appended_str, src, len + 1);
-	appended_str[len] = dst;
-	free(src);
-	return (appended_str);
+	res = (char *)malloc(sizeof(char) * (len + 2));
+	if(!res)
+	{
+		perror ("ft_str_c_join");
+		exit (EXIT_FAILURE);
+	}
+	ft_strlcpy(res, str, len + 1);
+	res[len] = c;
+	free(str);
+	return (res);
 }
 
-char	*expand_env(char *line)
+char	*ft_expand_env(char *line)
 {
-	char	*key;
-	char	*expanded;
+	char	*env_name;
+	char	*res;
 
-	expanded = ft_xstrdup("");
+	res = ft_strdup("");
 	while (*line != '\0')
 	{
 		if (*line == '$')
 		{
 			line++;
-			key = ft_xstrdup("");
-			while (is_envname(*line))
+			env_name = ft_strdup("");
+			while (ft_is_env(*line))
 			{
-				key = str_append(key, *(line++));
+				env_name = ft_str_c_join(env_name, *line);
+				line++;
 			}
-			expanded = ft_xstrjoin(expanded, get_env(key));
+			res = ft_strjoin(res, getenv(env_name));
 		}
 		else
-			expanded = str_append(expanded, *(line++));
+		{
+			res = ft_str_c_join(res, *line);
+			line++;
+		}
 	}
-	return (expanded);
+	return (res);
 }
-*/
 
 bool	ft_is_quote(char *delimi)
 {
@@ -59,26 +66,26 @@ bool	ft_is_quote(char *delimi)
 
 char	*ft_extract_quote(char *delimi)
 {
-	char	*ret_str;
-	char	*temp_str;
+	char	*res;
+	char	*temp;
 
-	ret_str = (char *)malloc(sizeof(char)*(ft_strlen(delimi) + 1));
-	temp_str = ret_str;
+	res = (char *)malloc(sizeof(char)*(ft_strlen(delimi) + 1));
+	temp = res;
 	while (*delimi != '\0')
 	{
 		if (*delimi == '"')
 			while (*(++delimi) != '"' && *delimi != '\0')
-				*temp_str++ = *delimi;
+				*temp++ = *delimi;
 		else if (*delimi == '\'')
 			while (*(++delimi) != '\'' && *delimi != '\0')
-				*temp_str++ = *delimi;
+				*temp++ = *delimi;
 		else
-			*temp_str++ = *delimi++;
+			*temp++ = *delimi++;
 	}
-//	printf("ret_str: %s\n", ret_str);
-//	printf("temp_str: %s\n", temp_str - 1);
-	*temp_str = *delimi;
-	return (ret_str);
+//	printf("res: %s\n", res);
+//	printf("temp: %s\n", temp - 1);
+	*temp = *delimi;
+	return (res);
 }
 
 void	ft_signal_handler_heredoc(int sig)
@@ -104,7 +111,7 @@ int	heredoc(char *delimi)
 	{
 		signal(SIGINT, ft_signal_handler_heredoc);
 		signal(SIGQUIT, SIG_IGN);
-		line = readline("heredoc> ");
+		line = readline("hd> ");
 		if (line == NULL || !ft_strcmp(line, ft_extract_quote(delimi)))
 		{
 			free(line);
@@ -112,11 +119,10 @@ int	heredoc(char *delimi)
 		}
 		if (ft_is_quote(delimi))
 			ft_putendl_fd(line, pipefd[WRITE]);
-//		else
-//			ft_putendl_fd(expand_env(line), pipe_fd[WRITE_INDEX]);
+		else
+			ft_putendl_fd(ft_expand_env(line), pipefd[WRITE]);
 		free(line);
 	}	
-//	xclose(pipe_fd[WRITE_INDEX]);
-//	return (pipe_fd[READ_INDEX]);
-	return (0);
+	close(pipefd[WRITE]);
+	return (pipefd[READ]);
 }
