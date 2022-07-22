@@ -10,7 +10,7 @@ static char	*ft_str_c_join(char *str, char c)
 	char	*res;
 	size_t	len;
 
-	len = ft_strlen(src);
+	len = ft_strlen(str);
 	res = (char *)malloc(sizeof(char) * (len + 2));
 	if(!res)
 	{
@@ -96,7 +96,7 @@ void	ft_signal_handler_heredoc(int sig)
 //	g_status·=·STATUS_FAILURE;
 }
 
-int	heredoc(char *delimi)
+int	ft_heredoc(char *delimi)
 {
 	char	*line;
 	int	pipefd[2];
@@ -124,5 +124,6 @@ int	heredoc(char *delimi)
 		free(line);
 	}	
 	close(pipefd[WRITE]);
+//	printf("pipefd[READ])\n");
 	return (pipefd[READ]);
 }
