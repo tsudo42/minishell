@@ -14,7 +14,7 @@
 # define WRITE 1
 
 # include ".dev/libft.h" //has to be changed
-
+# include ".dev/main.h" 
 
 
 typedef struct s_cmd {
