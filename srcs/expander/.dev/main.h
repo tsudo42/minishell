@@ -9,6 +9,10 @@
 #include <unistd.h>
 #include <signal.h>
 #include <stdbool.h>
+#include "libft.h"
+#include <sys/types.h>
+#include <sys/wait.h>
+
 
 #define READ  (0)
 #define WRITE (1)
@@ -18,7 +22,7 @@
 
 int	g_status;
 
-void	ft_exec_heredoc(char *delimi);
+int	ft_exec_heredoc(char *delimi);
 
 //size_t	ft_strlen(const char *s);
 

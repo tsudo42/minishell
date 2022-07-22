@@ -2,7 +2,9 @@
 
 bool	ft_is_continue(char	*line)
 {
-	if (ft_strlen(line) >= ARG_MAX_SIZE)
+//	if (!line)
+//		return (false);
+	if (strlen(line) >= ARG_MAX_SIZE)
 	{
 		printf("line too long\n");
 		return (true);
@@ -36,7 +38,7 @@ int	main(void)
 		if (line == NULL)
 			break ;
 		if (!strcmp(line, "here"))
-			ft_exec_heredoc("\"EOF\"");
+			ft_exec_heredoc("here");
 		add_history(line);
 		free(line); // has to be deleted when the compilation with lexer.
 	}
