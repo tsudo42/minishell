@@ -79,14 +79,13 @@ t_ast_d	*ast_make_d(t_ast_d *prev_d, char *red, char *word);
 
 t_ast_d	*ast_convert_a_to_d(t_ast_a *a);
 
-t_ast_a	*ast_join_a(t_ast_a *a_head, t_ast_a *a_tail);
-t_ast_d	*ast_join_d(t_ast_d *d_head, t_ast_d *d_tail);
-
 void	ast_free_l(t_ast_l *l);
 void	ast_free_p(t_ast_p *p);
 void	ast_free_s(t_ast_s *s);
 void	ast_free_c(t_ast_c *c);
 void	ast_free_a(t_ast_a *a);
 void	ast_free_d(t_ast_d *d);
+
+void	print_ast(t_ast	*ast);
 
 #endif /* AST_H */

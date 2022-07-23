@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ast.h"
+#include "ast_internal.h"
 #include "utils.h"
 #include "libft.h"
 #include <stdlib.h>

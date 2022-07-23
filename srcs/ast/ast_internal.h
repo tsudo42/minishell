@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug_syntax.c                                     :+:      :+:    :+:   */
+/*   ast_internal.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,26 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug.h"
-#include "lexer.h"
-#include "parser.h"
+#ifndef AST_INTERNAL_H
+# define AST_INTERNAL_H
 
-int	debug_syntax(void)
-{
-	char			*line;
-	t_token_list	*token;
-	t_ast			*ast;
+# include "ast.h"
 
-	write(1, "> ", 2);
-	line = get_next_line_easy(0);
-	while (line != NULL)
-	{
-		token = lexer(line);
-		ast = parser(token);
-		print_ast(ast);
-		ast_free_l(ast);
-		write(1, "> ", 2);
-		line = get_next_line_easy(0);
-	}
-	return (0);
-}
+t_ast_a	*ast_join_a(t_ast_a *a_head, t_ast_a *a_tail);
+t_ast_d	*ast_join_d(t_ast_d *d_head, t_ast_d *d_tail);
+
+# define PRINT_BUFSIZE 42
+
+void	print_ast_l(char pref[PRINT_BUFSIZE], t_ast_l *l);
+void	print_ast_p(char pref[PRINT_BUFSIZE], t_ast_p *p);
+void	print_ast_s(char pref[PRINT_BUFSIZE], t_ast_s *s);
+void	print_ast_c(char pref[PRINT_BUFSIZE], t_ast_c *c);
+void	print_ast_a(char pref[PRINT_BUFSIZE], t_ast_a *a);
+void	print_ast_d(char pref[PRINT_BUFSIZE], t_ast_d *d);
+
+#endif /* AST_INTERNAL_H */

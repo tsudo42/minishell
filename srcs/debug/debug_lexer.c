@@ -23,12 +23,14 @@ int	debug_lexer(void)
 	char			*input;
 	t_token_list	*list;
 
+	write(1, "> ", 2);
 	input = get_next_line_easy(0);
 	while (input != NULL)
 	{
 		list = lexer(input);
 		token_list_print(list);
 		token_list_free(&list);
+		write(1, "> ", 2);
 		input = get_next_line_easy(0);
 	}
 	return (0);

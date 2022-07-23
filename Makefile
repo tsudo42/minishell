@@ -30,7 +30,9 @@ M_SRCS	:= \
 
 SRCS	+= $(A_SRCS)
 A_SRCS	:= \
+	srcs/ast/print_ast.c \
 	srcs/ast/ast_d.c \
+	srcs/ast/print_ast2.c \
 	srcs/ast/ast_c.c \
 	srcs/ast/ast_p.c \
 	srcs/ast/ast_l.c \
