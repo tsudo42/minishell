@@ -65,11 +65,4 @@ void	*ft_x_malloc(size_t size, const char *errmsg);
 /* ************************************************************************** */
 void	ft_x_pipe(int fildes[2], const char *errmsg);
 
-/* ************************************************************************** */
-/*  This function is an error checking version of waitpid(2).                 */
-/*  This function prints an error message and terminates the process calling  */
-/*  exit(3) when waitpid faces error.                                         */
-/* ************************************************************************** */
-pid_t	ft_x_waitpid(pid_t pid, int *stat_loc, int opitons, const char *errmsg);
-
 #endif /* UTILS_H */

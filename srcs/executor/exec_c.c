@@ -12,6 +12,7 @@
 
 #include "exec_internal.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 static int	(*get_builtin_func(char	*name))(char **args)
 {
@@ -67,7 +68,12 @@ static int	exec_c_command(char **args, t_ast_d *d)
 			exit(0);
 		ft_x_execve(path, args, environ, EXEC_ERRMSG);
 	}
-	ft_x_waitpid(pid, &ret_val, 0, EXEC_ERRMSG);
+	if (waitpid(pid, &ret_val, 0) < 0)
+	{
+		perror(EXEC_ERRMSG ": waitpid");
+		errno = 0;
+		ret_val = 1;
+	}
 	return (ret_val);
 }
 

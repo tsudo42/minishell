@@ -90,7 +90,6 @@ P_SRCS	:= \
 SRCS	+= $(U_SRCS)
 U_SRCS	:= \
 	srcs/utils/ft_x_malloc.c \
-	srcs/utils/ft_x_waitpid.c \
 	srcs/utils/ft_x_dup2.c \
 	srcs/utils/ft_x_execve.c \
 	srcs/utils/ft_strndup.c \

@@ -32,5 +32,5 @@ int	main(void)
 		write(1, "> ", 2);
 		line = get_next_line(0);
 	}
-	return (0);
+	return (ret);
 }
