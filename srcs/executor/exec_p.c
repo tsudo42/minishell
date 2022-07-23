@@ -37,17 +37,3 @@ int	exec_p(t_ast_p *p)
 		return (exec_c(p->c));
 	return (exec_p_piped(p, p_len));
 }
-
-void	ast_free_p(t_ast_p *p)
-{
-	t_ast_p	*prev_p;
-
-	while (p != NULL)
-	{
-		ast_free_s(p->s);
-		ast_free_c(p->c);
-		prev_p = p;
-		p = p->next;
-		free(prev_p);
-	}
-}

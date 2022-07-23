@@ -26,6 +26,15 @@ SRCS	+= $(M_SRCS)
 M_SRCS	:= \
 	srcs/minishell/main.c \
 
+SRCS	+= $(A_SRCS)
+A_SRCS	:= \
+	srcs/ast/ast_d.c \
+	srcs/ast/ast_c.c \
+	srcs/ast/ast_p.c \
+	srcs/ast/ast_l.c \
+	srcs/ast/ast_s.c \
+	srcs/ast/ast_a.c \
+
 SRCS	+= $(B_SRCS)
 B_SRCS	:= \
 	srcs/builtin/builtin_echo.c \

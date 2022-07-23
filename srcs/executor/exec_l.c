@@ -29,16 +29,3 @@ int	exec_l(t_ast_l *l)
 	}
 	return (ret);
 }
-
-void	ast_free_l(t_ast_l *l)
-{
-	t_ast_l	*prev_l;
-
-	while (l != NULL)
-	{
-		ast_free_p(l->p);
-		prev_l = l;
-		l = l->next;
-		free(prev_l);
-	}
-}

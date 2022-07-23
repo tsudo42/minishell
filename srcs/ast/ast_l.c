@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_s.c                                           :+:      :+:    :+:   */
+/*   ast_l.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,35 +10,43 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec_internal.h"
+#include "ast.h"
+#include "utils.h"
 #include <stdlib.h>
 
-static size_t	count_args(t_ast_a *a)
+t_ast_l	*ast_make_l(t_ast_l *prev_l, t_ast_l_type op, t_ast_p *p)
 {
-	size_t	count;
+	t_ast_l	*l;
+	t_ast_l	*prev_l_head;
 
-	count = 0;
-	while (a != NULL)
+	l = malloc(sizeof(t_ast_l));
+	if (l == NULL)
 	{
-		count++;
-		a = a->next;
+		ast_free_l(prev_l);
+		ast_free_p(p);
+		return (NULL);
 	}
-	return (count);
+	l->op = op;
+	l->p = p;
+	l->next = NULL;
+	if (prev_l == NULL)
+		return (l);
+	prev_l_head = prev_l;
+	while (prev_l->next != NULL)
+		prev_l = prev_l->next;
+	prev_l->next = l;
+	return (prev_l_head);
 }
 
-char	**exec_a(t_ast_a *a)
+void	ast_free_l(t_ast_l *l)
 {
-	char	**args;
-	size_t	i;
+	t_ast_l	*prev_l;
 
-	args = ft_x_malloc(sizeof(char *) * (count_args(a) + 1), EXEC_ERRMSG);
-	i = 0;
-	while (a != NULL)
+	while (l != NULL)
 	{
-		args[i] = expander(a->word);
-		a = a->next;
-		i++;
+		ast_free_p(l->p);
+		prev_l = l;
+		l = l->next;
+		free(prev_l);
 	}
-	args[i] = NULL;
-	return (args);
 }

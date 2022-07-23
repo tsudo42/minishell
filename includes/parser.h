@@ -13,6 +13,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
+# include "ast.h"
 # include "exec.h"
 
 typedef enum e_lr_token_type {
@@ -47,6 +48,6 @@ typedef struct s_token_list {
 	struct s_token_list	*next;
 }	t_token_list;
 
-t_ast_l	*parser(t_token_list *token_list);
+t_ast	*parser(t_token_list *token_list);
 
 #endif /* PARSER_H */

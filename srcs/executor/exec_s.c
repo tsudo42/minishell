@@ -30,12 +30,3 @@ int	exec_s(t_ast_s *s)
 	exec_stdfd_reset(stdfds);
 	return (ret);
 }
-
-void	ast_free_s(t_ast_s *s)
-{
-	if (s == NULL)
-		return ;
-	ast_free_l(s->l);
-	ast_free_d(s->d);
-	free(s);
-}

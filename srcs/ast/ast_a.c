@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_s.c                                           :+:      :+:    :+:   */
+/*   ast_a.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,35 +10,51 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec_internal.h"
+#include "ast.h"
+#include "utils.h"
+#include "libft.h"
 #include <stdlib.h>
 
-static size_t	count_args(t_ast_a *a)
+t_ast_a	*ast_join_a(t_ast_a *a_head, t_ast_a *a_tail)
 {
-	size_t	count;
+	t_ast_a	*a_head_ret;
 
-	count = 0;
-	while (a != NULL)
-	{
-		count++;
-		a = a->next;
-	}
-	return (count);
+	if (a_head == NULL)
+		return (a_tail);
+	a_head_ret = a_head;
+	while (a_head->next != NULL)
+		a_head = a_head->next;
+	a_head->next = a_tail;
+	return (a_head_ret);
 }
 
-char	**exec_a(t_ast_a *a)
+t_ast_a	*ast_make_a(char *red, char *word)
 {
-	char	**args;
-	size_t	i;
+	t_ast_a	*a;
 
-	args = ft_x_malloc(sizeof(char *) * (count_args(a) + 1), EXEC_ERRMSG);
-	i = 0;
+	a = malloc(sizeof(t_ast_a));
+	if (a == NULL)
+	{
+		free(red);
+		free(word);
+		return (NULL);
+	}
+	a->red = red;
+	a->word = word;
+	a->next = NULL;
+	return (a);
+}
+
+void	ast_free_a(t_ast_a *a)
+{
+	t_ast_a	*prev_a;
+
 	while (a != NULL)
 	{
-		args[i] = expander(a->word);
+		free(a->red);
+		free(a->word);
+		prev_a = a;
 		a = a->next;
-		i++;
+		free(prev_a);
 	}
-	args[i] = NULL;
-	return (args);
 }

@@ -29,6 +29,7 @@ def update_makefile():
 	with open("Makefile", mode='w') as fobj:
 		fobj.write(MAKEFILE_PART1)
 		fobj.writelines(get_body("minishell"))
+		fobj.writelines(get_body("ast"))
 		fobj.writelines(get_body("builtin"))
 		fobj.writelines(get_body("environ", "EV"))
 		fobj.writelines(get_body("executor", "EX"))

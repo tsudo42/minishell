@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_s.c                                           :+:      :+:    :+:   */
+/*   ast_s.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,35 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec_internal.h"
+#include "ast.h"
+#include "utils.h"
 #include <stdlib.h>
 
-static size_t	count_args(t_ast_a *a)
+t_ast_s	*ast_make_s(t_ast_l *l, t_ast_d *d)
 {
-	size_t	count;
+	t_ast_s	*s;
 
-	count = 0;
-	while (a != NULL)
+	s = malloc(sizeof(t_ast_s));
+	if (s == NULL)
 	{
-		count++;
-		a = a->next;
+		ast_free_l(l);
+		ast_free_d(d);
+		return (NULL);
 	}
-	return (count);
+	s->l = l;
+	s->d = d;
+	return (s);
 }
 
-char	**exec_a(t_ast_a *a)
+void	ast_free_s(t_ast_s *s)
 {
-	char	**args;
-	size_t	i;
-
-	args = ft_x_malloc(sizeof(char *) * (count_args(a) + 1), EXEC_ERRMSG);
-	i = 0;
-	while (a != NULL)
-	{
-		args[i] = expander(a->word);
-		a = a->next;
-		i++;
-	}
-	args[i] = NULL;
-	return (args);
+	if (s == NULL)
+		return ;
+	ast_free_l(s->l);
+	ast_free_d(s->d);
+	free(s);
 }

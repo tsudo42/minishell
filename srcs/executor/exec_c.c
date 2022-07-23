@@ -95,12 +95,3 @@ int	exec_c(t_ast_c *c)
 		return (exec_c_builtin(builtin_func, args, c->d));
 	return (exec_c_command(args, c->d));
 }
-
-void	ast_free_c(t_ast_c *c)
-{
-	if (c == NULL)
-		return ;
-	ast_free_a(c->a);
-	ast_free_d(c->d);
-	free(c);
-}

@@ -73,17 +73,3 @@ int	exec_d(t_ast_d *d)
 	}
 	return (is_err);
 }
-
-void	ast_free_d(t_ast_d *d)
-{
-	t_ast_d	*prev_d;
-
-	while (d != NULL)
-	{
-		free(d->num);
-		free(d->word);
-		prev_d = d;
-		d = d->next;
-		free(prev_d);
-	}
-}
