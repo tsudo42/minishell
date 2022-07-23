@@ -11,19 +11,20 @@
 /* ************************************************************************** */
 
 #include "lr_def.h"
-#include <stdio.h>
+#include "libft.h"
 
 int	lr_parse_error(t_token_list *token)
 {
 	if (token->type == LR_NULL)
 	{
-		printf("syntax error: lexer error\n");
+		ft_putendl_fd("syntax error: lexer error", 2);
 		return (256 + 2);
 	}
-	printf("syntax error near unexpected token ");
+	ft_putstr_fd("syntax error near unexpected token `", 2);
 	if (token->type == LR_T_EOL)
-		printf("`%s\'\n", "newline");
+		ft_putstr_fd("newline", 2);
 	else
-		printf("`%s\'\n", token->str);
+		ft_putstr_fd(token->str, 2);
+	ft_putendl_fd("\'", 2);
 	return (256 + 2);
 }

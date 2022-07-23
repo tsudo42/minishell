@@ -37,91 +37,74 @@ D     : D RED WORD        (13
       ;
 */
 
-static t_ast_p	*ast_p_join(t_ast_p *head, t_ast_p *tail)
-{
-	t_ast_p	*middle;
-
-	if (head == NULL)
-		return (tail);
-	middle = head;
-	while (middle->next != NULL)
-		middle = middle->next;
-	middle->next = tail;
-	return (head);
-}
-
 /* P     : P PIPE S          (3 */
-void	lr_parse_reduce_3(t_lr_stack *stack)
+int	lr_parse_reduce_3(t_lr_stack *stack)
 {
 	t_ast_p	*p;
-	t_ast_p	*prev_p;
+	t_ast_s	*s;
 
-	p = ft_x_malloc(sizeof(t_ast_p), PARSER_ERRMSG);
-	\
-	p->s = lr_stack_pop(stack);
+	s = lr_stack_pop(stack);
 	free(lr_stack_pop(stack));
-	prev_p = lr_stack_pop(stack);
+	p = lr_stack_pop(stack);
 	\
-	p->type = AST_P_S;
-	p->c = NULL;
-	p->next = NULL;
-	prev_p = ast_p_join(prev_p, p);
+	p = ast_make_p(p, AST_P_S, s);
+	if (p == NULL)
+		return (1);
 	\
 	lr_stack_push(stack, \
-		LR_N_P, lr_goto(LR_N_P, lr_stack_peak(stack)->state), prev_p);
+		LR_N_P, lr_goto(LR_N_P, lr_stack_peak(stack)->state), p);
+	return (0);
 }
 
 /* P     | P PIPE C          (4 */
-void	lr_parse_reduce_4(t_lr_stack *stack)
+int	lr_parse_reduce_4(t_lr_stack *stack)
 {
 	t_ast_p	*p;
-	t_ast_p	*prev_p;
+	t_ast_c	*c;
 
-	p = ft_x_malloc(sizeof(t_ast_p), PARSER_ERRMSG);
-	\
-	p->c = lr_stack_pop(stack);
+	c = lr_stack_pop(stack);
 	free(lr_stack_pop(stack));
-	prev_p = lr_stack_pop(stack);
+	p = lr_stack_pop(stack);
 	\
-	p->type = AST_P_C;
-	p->s = NULL;
-	p->next = NULL;
-	prev_p = ast_p_join(prev_p, p);
+	p = ast_make_p(p, AST_P_C, c);
+	if (p == NULL)
+		return (1);
 	\
 	lr_stack_push(stack, \
-		LR_N_P, lr_goto(LR_N_P, lr_stack_peak(stack)->state), prev_p);
+		LR_N_P, lr_goto(LR_N_P, lr_stack_peak(stack)->state), p);
+	return (0);
 }
 
 /* P     |        S          (5 */
-void	lr_parse_reduce_5(t_lr_stack *stack)
+int	lr_parse_reduce_5(t_lr_stack *stack)
 {
 	t_ast_p	*p;
+	t_ast_s	*s;
 
-	p = ft_x_malloc(sizeof(t_ast_p), PARSER_ERRMSG);
+	s = lr_stack_pop(stack);
 	\
-	p->s = lr_stack_pop(stack);
-	\
-	p->type = AST_P_S;
-	p->c = NULL;
-	p->next = NULL;
+	p = ast_make_p(NULL, AST_P_S, s);
+	if (p == NULL)
+		return (1);
 	\
 	lr_stack_push(stack, \
 		LR_N_P, lr_goto(LR_N_P, lr_stack_peak(stack)->state), p);
+	return (0);
 }
 
 /* P     |        C          (6 */
-void	lr_parse_reduce_6(t_lr_stack *stack)
+int	lr_parse_reduce_6(t_lr_stack *stack)
 {
 	t_ast_p	*p;
+	t_ast_c	*c;
 
-	p = ft_x_malloc(sizeof(t_ast_p), PARSER_ERRMSG);
+	c = lr_stack_pop(stack);
 	\
-	p->c = lr_stack_pop(stack);
-	\
-	p->type = AST_P_C;
-	p->s = NULL;
-	p->next = NULL;
+	p = ast_make_p(NULL, AST_P_C, c);
+	if (p == NULL)
+		return (1);
 	\
 	lr_stack_push(stack, \
 		LR_N_P, lr_goto(LR_N_P, lr_stack_peak(stack)->state), p);
+	return (0);
 }

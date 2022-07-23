@@ -17,10 +17,11 @@ t_lr_stack	*lr_stack_init(void)
 {
 	t_lr_stack	*stack;
 
-	stack = ft_x_malloc(sizeof(t_lr_stack), "");
+	stack = ft_x_malloc(sizeof(t_lr_stack), PARSER_ERRMSG);
 	stack->size = 0;
 	stack->alloc_size = 16;
-	stack->c = ft_x_malloc(sizeof(t_lr_node) * stack->alloc_size, "");
+	stack->c = \
+		ft_x_malloc(sizeof(t_lr_node) * stack->alloc_size, PARSER_ERRMSG);
 	return (stack);
 }
 
@@ -32,7 +33,8 @@ void	lr_stack_push(t_lr_stack *stack, \
 	if (stack->size == stack->alloc_size)
 	{
 		stack->alloc_size *= 2;
-		new_stack_c = ft_x_malloc(sizeof(t_lr_node) * stack->alloc_size, "");
+		new_stack_c = \
+			ft_x_malloc(sizeof(t_lr_node) * stack->alloc_size, PARSER_ERRMSG);
 		ft_memmove(new_stack_c, stack->c, sizeof(t_lr_node) * stack->size);
 		free(stack->c);
 		stack->c = new_stack_c;

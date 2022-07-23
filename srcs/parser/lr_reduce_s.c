@@ -38,34 +38,41 @@ D     : D RED WORD        (13
 */
 
 /* S     : LBRACE L RBRACE D (7 */
-void	lr_parse_reduce_7(t_lr_stack *stack)
+int	lr_parse_reduce_7(t_lr_stack *stack)
 {
 	t_ast_s	*s;
+	t_ast_l	*l;
+	t_ast_d	*d;
 
-	s = ft_x_malloc(sizeof(t_ast_s), PARSER_ERRMSG);
+	d = lr_stack_pop(stack);
+	free(lr_stack_pop(stack));
+	l = lr_stack_pop(stack);
+	free(lr_stack_pop(stack));
 	\
-	s->d = lr_stack_pop(stack);
-	free(lr_stack_pop(stack));
-	s->l = lr_stack_pop(stack);
-	free(lr_stack_pop(stack));
+	s = ast_make_s(l, d);
+	if (s == NULL)
+		return (1);
 	\
 	lr_stack_push(stack, \
 		LR_N_S, lr_goto(LR_N_S, lr_stack_peak(stack)->state), s);
+	return (0);
 }
 
 /* S     | LBRACE L RBRACE   (8 */
-void	lr_parse_reduce_8(t_lr_stack *stack)
+int	lr_parse_reduce_8(t_lr_stack *stack)
 {
 	t_ast_s	*s;
+	t_ast_l	*l;
 
-	s = ft_x_malloc(sizeof(t_ast_s), PARSER_ERRMSG);
-	\
 	free(lr_stack_pop(stack));
-	s->l = lr_stack_pop(stack);
+	l = lr_stack_pop(stack);
 	free(lr_stack_pop(stack));
 	\
-	s->d = NULL;
+	s = ast_make_s(l, NULL);
+	if (s == NULL)
+		return (1);
 	\
 	lr_stack_push(stack, \
 		LR_N_S, lr_goto(LR_N_S, lr_stack_peak(stack)->state), s);
+	return (0);
 }

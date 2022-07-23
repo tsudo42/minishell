@@ -62,19 +62,19 @@ D     : D RED WORD        (13
       ;
 */
 
-void			lr_parse_reduce_1(t_lr_stack *stack);
-void			lr_parse_reduce_2(t_lr_stack *stack);
-void			lr_parse_reduce_3(t_lr_stack *stack);
-void			lr_parse_reduce_4(t_lr_stack *stack);
-void			lr_parse_reduce_5(t_lr_stack *stack);
-void			lr_parse_reduce_6(t_lr_stack *stack);
-void			lr_parse_reduce_7(t_lr_stack *stack);
-void			lr_parse_reduce_8(t_lr_stack *stack);
-void			lr_parse_reduce_9(t_lr_stack *stack);
-void			lr_parse_reduce_10(t_lr_stack *stack);
-void			lr_parse_reduce_11(t_lr_stack *stack);
-void			lr_parse_reduce_12(t_lr_stack *stack);
-void			lr_parse_reduce_13(t_lr_stack *stack);
-void			lr_parse_reduce_14(t_lr_stack *stack);
+int				lr_parse_reduce_1(t_lr_stack *stack);
+int				lr_parse_reduce_2(t_lr_stack *stack);
+int				lr_parse_reduce_3(t_lr_stack *stack);
+int				lr_parse_reduce_4(t_lr_stack *stack);
+int				lr_parse_reduce_5(t_lr_stack *stack);
+int				lr_parse_reduce_6(t_lr_stack *stack);
+int				lr_parse_reduce_7(t_lr_stack *stack);
+int				lr_parse_reduce_8(t_lr_stack *stack);
+int				lr_parse_reduce_9(t_lr_stack *stack);
+int				lr_parse_reduce_10(t_lr_stack *stack);
+int				lr_parse_reduce_11(t_lr_stack *stack);
+int				lr_parse_reduce_12(t_lr_stack *stack);
+int				lr_parse_reduce_13(t_lr_stack *stack);
+int				lr_parse_reduce_14(t_lr_stack *stack);
 
 #endif /* LR_INTERNAL_H */
