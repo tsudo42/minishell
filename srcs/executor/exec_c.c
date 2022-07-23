@@ -13,6 +13,7 @@
 #include "exec_internal.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/wait.h>
 
 static int	(*get_builtin_func(char	*name))(char **args)
 {
@@ -68,6 +69,7 @@ static int	exec_c_command(char **args, t_ast_d *d)
 			exit(0);
 		ft_x_execve(path, args, environ, EXEC_ERRMSG);
 	}
+	free(path);
 	if (waitpid(pid, &ret_val, 0) < 0)
 	{
 		perror(EXEC_ERRMSG ": waitpid");
@@ -81,6 +83,7 @@ int	exec_c(t_ast_c *c)
 {
 	char	**args;
 	int		(*builtin_func)(char **);
+	int		ret;
 
 	if (c == NULL)
 		exec_error("c is NULL");
@@ -92,6 +95,9 @@ int	exec_c(t_ast_c *c)
 	else
 		builtin_func = NULL;
 	if (builtin_func != NULL)
-		return (exec_c_builtin(builtin_func, args, c->d));
-	return (exec_c_command(args, c->d));
+		ret = exec_c_builtin(builtin_func, args, c->d);
+	else
+		ret = exec_c_command(args, c->d);
+	free(args);
+	return (ret);
 }

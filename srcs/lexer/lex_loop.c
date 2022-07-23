@@ -31,12 +31,12 @@ static size_t	redstr_len(char *str)
 	size_t	len;
 
 	len = ft_strspn(str, LEX_NUM);
-	if ((ft_strncmp(str + len, LEX_REDIN, 1) == 0) || \
-		(ft_strncmp(str + len, LEX_REDOUT, 1) == 0))
-		return (len + 1);
 	if ((ft_strncmp(str + len, LEX_REDAPP, 2) == 0) || \
 		(ft_strncmp(str + len, LEX_HERE, 2) == 0))
 		return (len + 2);
+	if ((ft_strncmp(str + len, LEX_REDIN, 1) == 0) || \
+		(ft_strncmp(str + len, LEX_REDOUT, 1) == 0))
+		return (len + 1);
 	return (0);
 }
 

@@ -10,7 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "expander.h"
+#include "libft.h"
+
 char	*execpath(char *name)
 {
-	return (name);
+	if (name == NULL)
+		return (ft_strdup(""));
+	return (ft_strdup(name));
 }

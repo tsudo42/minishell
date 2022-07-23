@@ -13,6 +13,7 @@
 #include "exec_internal.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/wait.h>
 
 typedef struct s_pipe_info {
 	pid_t	pid;
@@ -20,20 +21,38 @@ typedef struct s_pipe_info {
 	int		fd_out;
 }	t_pipe_info;
 
+static t_pipe_info	*infos_ready(size_t	len)
+{
+	t_pipe_info	*infos;
+	size_t		i;
+	int			fildes[2];
+
+	infos = ft_x_malloc(sizeof(t_pipe_info) * (len), EXEC_ERRMSG);
+	i = 0;
+	while (i < len - 1)
+	{
+		ft_x_pipe(fildes, EXEC_ERRMSG);
+		infos[i].fd_out = fildes[1];
+		infos[i + 1].fd_in = fildes[0];
+		i++;
+	}
+	infos[0].fd_in = 0;
+	infos[len - 1].fd_out = 1;
+	return (infos);
+}
+
 static void	close_fds(t_pipe_info *infos, size_t len)
 {
 	size_t	i;
 
 	errno = 0;
-	i = 1;
+	i = 0;
 	while (i < len - 1)
 	{
-		close(infos[i].fd_in);
 		close(infos[i].fd_out);
+		close(infos[i + 1].fd_in);
 		i++;
 	}
-	close(infos[0].fd_out);
-	close(infos[len - 1].fd_in);
 	if (errno != 0)
 	{
 		perror(EXEC_ERRMSG ": close");
@@ -80,26 +99,6 @@ static int	exec_p_wait(t_pipe_info *infos, size_t p_len)
 		ret = 1;
 	}
 	return (ret);
-}
-
-static t_pipe_info	*infos_ready(size_t	len)
-{
-	t_pipe_info	*infos;
-	size_t		i;
-	int			fildes[2];
-
-	infos = ft_x_malloc(sizeof(t_pipe_info) * (len), EXEC_ERRMSG);
-	i = 0;
-	while (i < len - 1)
-	{
-		ft_x_pipe(fildes, EXEC_ERRMSG);
-		infos[i].fd_out = fildes[1];
-		infos[i + 1].fd_in = fildes[0];
-		i++;
-	}
-	infos[0].fd_in = 0;
-	infos[len - 1].fd_out = 1;
-	return (infos);
 }
 
 int	exec_p_piped(t_ast_p *p, size_t p_len)
