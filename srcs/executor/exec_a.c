@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   exec_a.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "exec_internal.h"
+#include <stdlib.h>
 
-#endif /* MINISHELL_H */
+static size_t	count_args(t_ast_a *a)
+{
+	size_t	count;
+
+	count = 0;
+	while (a != NULL)
+	{
+		count++;
+		a = a->next;
+	}
+	return (count);
+}
+
+char	**exec_a(t_ast_a *a)
+{
+	char	**args;
+	size_t	i;
+
+	args = ft_x_malloc(sizeof(char *) * (count_args(a) + 1), EXEC_ERRMSG);
+	i = 0;
+	while (a != NULL)
+	{
+		args[i] = expander(a->word);
+		a = a->next;
+		i++;
+	}
+	args[i] = NULL;
+	return (args);
+}

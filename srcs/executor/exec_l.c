@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   exec_l.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "exec_internal.h"
+#include <stdlib.h>
 
-#endif /* MINISHELL_H */
+int	exec_l(t_ast_l *l)
+{
+	int	ret;
+
+	if (l == NULL)
+		exec_error("l is NULL");
+	ret = exec_p(l->p);
+	l = l->next;
+	while (l != NULL)
+	{
+		if (!(ret) ^ (l->op == AST_L_OR))
+			ret = exec_p(l->p);
+		l = l->next;
+	}
+	return (ret);
+}

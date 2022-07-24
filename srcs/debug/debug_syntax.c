@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   debug_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "debug.h"
+#include "lexer.h"
+#include "parser.h"
 
-#endif /* MINISHELL_H */
+int	debug_syntax(void)
+{
+	char			*line;
+	t_token_list	*token;
+	t_ast			*ast;
+
+	write(1, "> ", 2);
+	line = get_next_line_easy(0);
+	while (line != NULL)
+	{
+		token = lexer(line);
+		ast = parser(token);
+		print_ast(ast);
+		ast_free_l(ast);
+		write(1, "> ", 2);
+		line = get_next_line_easy(0);
+	}
+	return (0);
+}

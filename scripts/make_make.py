@@ -13,8 +13,11 @@
 from glob import glob
 from make_template import *
 
-def get_body(dirname):
-	acro = dirname[0].upper()
+def get_body(dirname, acro=None):
+	if acro is None:
+		acro = dirname[0].upper()
+	else:
+		acro = acro.upper()
 	lines = []
 	lines.append("\n")
 	lines.append("SRCS	+= $(" + acro + "_SRCS)\n")
@@ -26,12 +29,16 @@ def update_makefile():
 	with open("Makefile", mode='w') as fobj:
 		fobj.write(MAKEFILE_PART1)
 		fobj.writelines(get_body("minishell"))
-		fobj.writelines(get_body("executor"))
-		fobj.writelines(get_body("expander"))
+		fobj.writelines(get_body("ast"))
+		fobj.writelines(get_body("builtin"))
+		fobj.writelines(get_body("environ", "EV"))
+		fobj.writelines(get_body("executor", "EX"))
+		fobj.writelines(get_body("expander", "EP"))
 		fobj.writelines(get_body("input"))
 		fobj.writelines(get_body("lexer"))
 		fobj.writelines(get_body("parser"))
 		fobj.writelines(get_body("utils"))
+		fobj.writelines(get_body("debug"))
 		fobj.write(MAKEFILE_PART2)
 
 if __name__ == "__main__":
