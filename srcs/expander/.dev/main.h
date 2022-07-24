@@ -14,8 +14,8 @@
 #include <sys/wait.h>
 
 
-#define READ  (0)
-#define WRITE (1)
+//#define READ  (0)
+//#define WRITE (1)
 
 #define STATUS_FAILURE -1
 #define ARG_MAX_SIZE 4096
