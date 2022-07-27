@@ -13,6 +13,8 @@
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
+# include "../libft/includes/libft.h"
+
 int	builtin_echo(char **argv);
 int	builtin_cd(char **argv);
 int	builtin_pwd(char **argv);
