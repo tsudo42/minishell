@@ -12,8 +12,35 @@
 
 #include "builtin.h"
 
+static int	cd_to_home(char **argv)
+{
+	char	*home_dir;
+
+	home_dir = get_env("HOME");
+	if (home_dir == NULL)
+	{
+//		puterr(argv[0], "HOME not set");
+		perror("cd_to_home");
+		return (STATUS_FAILURE);
+	}
+	if (chdir(home_dir) == -1)
+	{
+		free(home_dir);
+		perror("cd_to_home2");
+		return (STATUS_FAILURE);
+	}
+	free(home_dir);
+	return (STATUS_SUCCESS);
+}
+
 int	builtin_cd(char **argv)
 {
-	(void)argv;
-	return (0);
+	if (argv[1] == NULL)
+		return (cd_to_home(argv));
+	if (chdir(argv[1]) == -1)
+	{
+		perror("builtin_cd");
+		return (STATUS_FAILURE);
+	}
+	return (STATUS_SUCCESS);
 }
