@@ -14,6 +14,7 @@
 # define BUILTIN_H
 
 # include "../libft/includes/libft.h"
+# include "main.h"
 
 int	builtin_echo(char **argv);
 int	builtin_cd(char **argv);
