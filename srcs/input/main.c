@@ -1,16 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
-#include <signal.h>
-#include <stdbool.h>
-
-#define STATUS_FAILURE -1
-#define ARG_MAX_SIZE 4096
-
-int	g_status;
+#include "main.h"
 
 size_t	ft_strlen(const char *s)
 {
