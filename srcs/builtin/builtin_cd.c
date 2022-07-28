@@ -19,7 +19,6 @@ static int	cd_to_home(char **argv)
 	home_dir = get_env("HOME");
 	if (home_dir == NULL)
 	{
-//		puterr(argv[0], "HOME not set");
 		perror("cd_to_home");
 		return (STATUS_FAILURE);
 	}
