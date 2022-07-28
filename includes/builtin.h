@@ -16,6 +16,13 @@
 # include "../libft/includes/libft.h"
 # include "main.h"
 
+typedef struct s_env
+{
+	char	*env_var;
+	char	*content;
+	struct s_env *next;
+} t_env;
+
 int	builtin_echo(char **argv);
 int	builtin_cd(char **argv);
 int	builtin_pwd(char **argv);
