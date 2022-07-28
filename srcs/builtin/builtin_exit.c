@@ -51,6 +51,7 @@ int	builtin_exit(char **argv)
 	exit(exit_status);
 }
 
+/*tester
 int main(void)
 {
 	char *argv[10];
@@ -70,3 +71,4 @@ int main(void)
 	builtin_exit(argv);
 	return (0);
 }
+*/
