@@ -13,10 +13,11 @@
 #ifndef ENVIRON_H
 # define ENVIRON_H
 
+# include "builtin.h"
+
 extern char	**environ;
 
 int		ft_init_environ(void);
-
 char	*ft_getenv(const char *name);
 int		ft_setenv(const char *name, const char *value, int overwrite);
 int		ft_putenv(const char *string);
