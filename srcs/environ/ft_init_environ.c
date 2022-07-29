@@ -13,11 +13,39 @@
 #include "environ.h"
 #include <stdlib.h>
 
-int	ft_init_environ(void)
+static void	allocate_env(void)
 {
-	static int	is_initialized = 0;
+	extern char	**environ;
+	char		**tmp;
+	char		*env_var;
+	char		*content;
 
-	if (is_initialized)
-		return (0);
-	return (0);
+	tmp = environ;
+	while (*tmp != NULL)
+	{
+		env_var = ft_strdup(*tmp);
+		content = ft_strchr(env_var, '=');
+		*content = '\0';
+		content++;
+		ft_setenv(env_var, content);
+		free(env_var);
+		tmp++;
+	}
+}
+
+t_env	**ft_init_environ(void)
+{
+	static t_env	**env;
+
+	if (env == NULL)
+	{
+		env = (t_list **)malloc(sizeof(t_env *) * 1);
+		if (!env)
+		{
+			perror("ft_init_environ");
+			exit(EXIT_FAILURE);
+		}
+		allocate_env();
+	}
+	return (env);
 }
