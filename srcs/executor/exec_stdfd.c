@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   exec_stdfd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "exec_internal.h"
 
-#endif /* MINISHELL_H */
+void	exec_stdfd_set(int *stdfds)
+{
+	stdfds[0] = ft_x_dup(0, EXEC_ERRMSG);
+	stdfds[1] = ft_x_dup(1, EXEC_ERRMSG);
+	stdfds[2] = ft_x_dup(2, EXEC_ERRMSG);
+}
+
+void	exec_stdfd_reset(int *stdfds)
+{
+	ft_x_dup2(stdfds[0], 0, EXEC_ERRMSG);
+	ft_x_dup2(stdfds[1], 1, EXEC_ERRMSG);
+	ft_x_dup2(stdfds[2], 2, EXEC_ERRMSG);
+	close(stdfds[0]);
+	close(stdfds[1]);
+	close(stdfds[2]);
+}

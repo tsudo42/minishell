@@ -26,8 +26,10 @@ MAKEFILE_PART1 = """\
 NAME	:= minishell
 CC		:= gcc
 CFLAGS	:= -Wall -Wextra -Werror -MMD -MP
+LDFLAGS	:= -lreadline
 RM		:= rm -f
 LIBFT	:= libft/libft.a
+UNAME	:= $(shell uname)
 
 ifeq ($(DEBUG), 1)
 CFLAGS	+= -g3 -fsanitize=address
@@ -39,7 +41,7 @@ endif
 MAKEFILE_PART2 = """
 INCS	:= \\
 	includes \\
-	libft/includes \\
+	$(dir $(LIBFT))/includes \\
 
 LIBS	:= \\
 	$(LIBFT) \\
@@ -53,8 +55,10 @@ CFLAGS	+= $(addprefix -I,$(INCS))
 LDFLAGS	+= $(addprefix -L,$(dir $(LIBS)))
 vpath %.c $(sort $(dir $(SRCS)))
 
-ifeq ($(MAKECMDGOALS),bonus)
-CFLAGS	+= -D PIPEX_BONUS
+ifeq ($(UNAME), Darwin)
+	# mac
+	CFLAGS	+= $(addprefix -I,$(shell brew --prefix readline)/include)
+	LDFLAGS	+= $(addprefix -L,$(shell brew --prefix readline)/lib)
 endif
 
 GR	= \\033[32;1m
@@ -70,7 +74,7 @@ all: $(NAME)
 $(NAME): $(LIBS) $(OBJDIR) $(OBJS)
 	@printf "\\n$(GR)=== Compiled [$(CC) $(CFLAGS)] ==="
 	@printf "\\n--- $(notdir $(SRCS))$(RC)\\n"
-	@$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(LIBS) $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBS) $(LDFLAGS) -o $@
 	@printf "$(YE)&&& Linked [$(CC) $(LDFLAGS)] &&&\\n--- $(NAME)$(RC)\\n"
 
 -include $(DEPS)

@@ -1,6 +1,9 @@
 ### minishell ###
 /minishell
 
+.vscode/**
+/tmp/**
+
 # Created by https://www.toptal.com/developers/gitignore/api/c,python,macos,linux
 # Edit at https://www.toptal.com/developers/gitignore?templates=c,python,macos,linux
 

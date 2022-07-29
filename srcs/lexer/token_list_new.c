@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   token_list_new.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "lexer_internal.h"
+#include <stdlib.h>
 
-#endif /* MINISHELL_H */
+t_token_list	*token_list_new(t_lr_token_type type, char *str)
+{
+	t_token_list	*token_list;
+
+	token_list = malloc(sizeof(t_token_list));
+	if (token_list == NULL)
+	{
+		free(str);
+		return (NULL);
+	}
+	token_list->type = type;
+	token_list->str = str;
+	token_list->next = NULL;
+	return (token_list);
+}

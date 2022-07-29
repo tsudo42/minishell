@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_x_malloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "utils.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-#endif /* MINISHELL_H */
+/* ************************************************************************** */
+/*  This function is an error checking version of malloc(3).                  */
+/*  This function prints an error message and terminates the process calling  */
+/*  exit(3) when malloc faces error.                                          */
+/* ************************************************************************** */
+void	*ft_x_malloc(size_t size, const char *errmsg)
+{
+	void	*ret;
+
+	ret = malloc(size);
+	if (ret != NULL)
+		return (ret);
+	perror(errmsg);
+	exit(INTERNAL_ERR_NUM);
+}

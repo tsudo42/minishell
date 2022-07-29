@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_setenv.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "environ.h"
+#include <stdlib.h>
 
-#endif /* MINISHELL_H */
+int	ft_setenv(const char *name, const char *value, int overwrite)
+{
+	if (ft_init_environ() != 0)
+		return (-1);
+	(void)name;
+	(void)value;
+	(void)overwrite;
+	return (0);
+}
