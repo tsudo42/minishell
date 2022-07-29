@@ -17,7 +17,7 @@ static int	print_contents(void)
 	t_env	**env;
 	t_env	*tmp_env;
 
-	env = ft_getenv(();
+	env = ft_init_environ();//change init to give the list of env.
 	tmp_env = *env;
 	while (tmp_env != NULL)
 	{
