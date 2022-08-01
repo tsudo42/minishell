@@ -11,34 +11,68 @@
 /* ************************************************************************** */
 
 #include "environ.h"
-#include <stdlib.h>
 
+/*
+static void	allocate_env(void)
+{
+	extern char	**environ;
+	char		**tmp;
+	char		*env_var;
+	char		*content;
+
+	tmp = environ;
+	while (*tmp != NULL)
+	{
+		env_var = ft_strdup(*tmp);
+		content = ft_strchr(env_var, '=');
+		*content = '\0';
+		content++;
+		ft_setenv(env_var, content);
+		free(env_var);
+		tmp++;
+	}
+}
+*/
+char *env_strjoin(const char *env_var, const char *content)
+{
+	char *res;
+	int len1;
+	int	len2;
+	int i;
+	
+	if (!env_var || !content)
+		return (NULL);
+	len1 = ft_strlen(env_var);
+	len2 = ft_strlen(content);
+	res = (char *)malloc(sizeof(char) * (len1 + len2 + 2));
+	while (*env_var)
+		res[i++] = *(env_var++);
+	res[i++] = '=';
+	while (*content)
+		res[i++] = *(content++);
+	res[i] = '\0';
+	return (res);
+}
 //return value can be void?
 int	ft_setenv(const char *env_var, const char *content, int overwrite)
 {
-	t_env	**env;
-	t_env	*tmp;
-	t_env	*tmp2;
+	extern char	**environ;
+	char	**tmp;
+	int i;
 
 	(void)overwrite;
-	env = ft_init_environ();
-	tmp = *env;
-	while (tmp != NULL)
+	tmp = ft_init_environ(1);
+	i = 0;
+	while (environ[i])
 	{
-		if (ft_strcmp(tmp->env_var, env_var) == 0)
-		{
-			free(tmp->content);
-			tmp->content = ft_strdup(content);
-			return (0);
-		}
-		if (tmp->next == NULL)
-			break ;
-		tmp = tmp->next;
+		tmp[i] = environ[i];
+		i++;
 	}
-	tmp2 = (t_env *)malloc(sizeof(t_env) * 1);
-	tmp2->env_var = ft_strdup(env_var);
-	tmp2->content = ft_strdup(content);
-	tmp->next = tmp2;
+	tmp[i] = env_strjoin(env_var, content);
+	if (!tmp[i++])
+		return (-1);
+	tmp[i] = NULL;
+//	free(environ);
+	environ = tmp;
 	return (0);
 }
-
