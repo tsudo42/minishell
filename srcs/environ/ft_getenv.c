@@ -63,6 +63,12 @@ int main(void)
 	env = ft_getenv("HOME");
 	printf("HOME=%s\n", env);
 	free (env);
+	ft_putenv("USER");
+	printf("\n");
+	ft_setenv("TEST", "test1", 1);
+	env = ft_getenv("TEST");
+	printf("TEST=%s\n", env);
+	free (env);
 	return (0);
 }
 
