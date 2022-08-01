@@ -11,12 +11,14 @@
 /* ************************************************************************** */
 
 #include "environ.h"
-#include <stdlib.h>
 
 int	ft_putenv(const char *string)
 {
-	if (ft_init_environ() != 0)
+	char	*content;
+
+	content = ft_getenv(string);
+	if (!content)
 		return (-1);
-	(void)string;
+	ft_putstr_fd(content, STDOUT_FILENO);
 	return (0);
 }
