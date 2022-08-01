@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "environ.h"
-#include "builtin.h"
-#include <stdlib.h>
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -30,20 +28,41 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
 
+
 char	*ft_getenv(const char *name)
 {
-	t_env	**env;
-	t_env	*tmp;
+	extern char	**environ;
+	char	**tmp;
+	char	*content;
+	int		len;
 
 	if (ft_strcmp("?", name) == 0)
 		return (ft_itoa(g_status));
-	env = ft_init_environ();
-	tmp = *env;
-	while (tmp != NULL)
+//	len = ft_envlen();
+	if (!name)
+		return (NULL);
+	tmp = environ;
+	len = ft_strlen(name);
+	while (*tmp)
 	{
-		if (tmp->env_var != NULL && ft_strcmp(tmp->env_var, name) == 0)
-			return (ft_strdup(tmp>content));
-		tmp = tmp->next;
+		if (ft_strncmp(*tmp, name, len) == 0)
+		{
+			content = ft_strchr(*tmp, '=');
+			content++;
+			return (ft_strdup(content));
+		}
+		tmp++;
 	}
 	return (NULL);
 }
+
+int main(void)
+{
+	char *env;
+
+	env = ft_getenv("HOME");
+	printf("HOME=%s\n", env);
+	free (env);
+	return (0);
+}
+
