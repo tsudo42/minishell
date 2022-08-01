@@ -31,15 +31,18 @@ static int	ft_envlen(void)
 
 char	**ft_init_environ(int plusminus)
 {
+//	extern char **environ;
 	char	**env_new;
 	int	len;
 
 	len = ft_envlen();
-	env_new = (char **)malloc(sizeof(char **) * len + plusminus);
+	env_new = (char **)malloc(sizeof(char **) * len + plusminus + 1);
 	if (!env_new)
 	{
 		perror("ft_init_environ");
 		exit(EXIT_FAILURE);
 	}
+//	free (environ)
+//	environ = env_new;
 	return (env_new);
 }
