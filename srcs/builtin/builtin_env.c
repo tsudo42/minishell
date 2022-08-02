@@ -14,23 +14,20 @@
 
 int	builtin_env(char **argv)
 {
-	t_env		**env;
-	t_env		*tmp_env;
+	extern char **environ;
+	int i;
 
 	(void)argv;
-	env = ft_getenv();
-	tmp_env = *env;
-	while (tmp_env != NULL)
+	i = 0;
+//	ft_init_environ();
+	while (environ[i])
 	{
-		ft_putstr_fd(tmp_env->env_var, STDOUT_FILENO);
-		ft_putstr_fd("=", STDOUT_FILENO);
-		ft_putstr_fd(tmp_env->content, STDOUT_FILENO);
+		ft_putstr_fd(environ[i++], STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
-		tmp_env = tmp_env->next;
 	}
 	return (STATUS_SUCCESS);
 }
-
+/*
 int main(void)
 {
 	char *argv[10];
@@ -50,3 +47,6 @@ int main(void)
 	builtin_env(argv);
 	return (0);
 }
+
+*/
+
