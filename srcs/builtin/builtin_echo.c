@@ -12,6 +12,13 @@
 
 #include "builtin.h"
 
+char *remove_dollormk(char *argv)
+{
+	if (!*argv)
+		return NULL;
+	return (++argv);
+}
+
 int	builtin_echo(char **argv)
 {
 	bool	print_newline;
@@ -25,7 +32,10 @@ int	builtin_echo(char **argv)
 	}
 	while (*argv != NULL)
 	{
-		ft_putstr_fd(*argv, STDOUT_FILENO);
+		if (ft_strncmp(*argv, "$", 1) == 0)
+			ft_putenv(remove_dollormk(*argv));
+		else 
+			ft_putstr_fd(*argv, STDOUT_FILENO);
 		argv++;
 		if (*argv != NULL)
 			ft_putchar_fd(' ', STDOUT_FILENO);
@@ -35,7 +45,8 @@ int	builtin_echo(char **argv)
 	return (STATUS_SUCCESS);
 }
 
-/* tester
+/*
+// tester
 int main(void)
 {
 	char *argv[10];
@@ -43,7 +54,7 @@ int main(void)
 //	char str1[10] = "-n";
 	char str1[10] = "str1";
 	char str2[10] = "str2";
-	char str3[10] = "str3";
+	char str3[10] = "$HOME";
 	char *str4;
 	
 	str4 = NULL;
