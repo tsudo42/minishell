@@ -38,7 +38,6 @@ void	ft_init_environ(void)
 
 	if (initialized != 0)
 		return ;
-	printf("initialized\n");
 	initialized = 1;
 	env_new = (char **)malloc(sizeof(char **) * (ft_envlen() + 1));
 	if (!env_new)
