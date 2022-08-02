@@ -28,7 +28,6 @@ int	ft_strcmp(const char *s1, const char *s2)
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
 
-
 char	*ft_getenv(const char *name)
 {
 	extern char	**environ;
@@ -38,7 +37,6 @@ char	*ft_getenv(const char *name)
 
 	if (ft_strcmp("?", name) == 0)
 		return (ft_itoa(g_status));
-//	len = ft_envlen();
 	if (!name)
 		return (NULL);
 	tmp = environ;
@@ -56,19 +54,28 @@ char	*ft_getenv(const char *name)
 	return (NULL);
 }
 
+/*tester
 int main(void)
 {
 	char *env;
+	extern char **environ;
+	char **tmp = environ;
 
 	env = ft_getenv("HOME");
 	printf("HOME=%s\n", env);
 	free (env);
 	ft_putenv("USER");
 	printf("\n");
-	ft_setenv("TEST", "test1", 1);
+	ft_setenv("TEST", "test", 1);
+	(void)tmp;
+	env = ft_getenv("TEST");
+	printf("TEST=%s\n", env);
+	free (env);
+	ft_unsetenv("TEST");
+	printf("TEST=%s\n", env);
 	env = ft_getenv("TEST");
 	printf("TEST=%s\n", env);
 	free (env);
 	return (0);
 }
-
+*/

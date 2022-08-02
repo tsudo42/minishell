@@ -12,7 +12,7 @@
 
 #include "environ.h"
 
-static int	ft_envlen(void)
+int	ft_envlen(void)
 {
 	extern char **environ;
 	char **tmp;
@@ -29,20 +29,29 @@ static int	ft_envlen(void)
 	return (i);
 }
 
-char	**ft_init_environ(int plusminus)
+void	ft_init_environ(void)
 {
-//	extern char **environ;
+	extern char **environ;
 	char	**env_new;
-	int	len;
+	static int initialized;
+	int i;
 
-	len = ft_envlen();
-	env_new = (char **)malloc(sizeof(char **) * len + plusminus + 1);
+	if (initialized != 0)
+		return ;
+	printf("initialized\n");
+	initialized = 1;
+	env_new = (char **)malloc(sizeof(char **) * (ft_envlen() + 1));
 	if (!env_new)
 	{
 		perror("ft_init_environ");
 		exit(EXIT_FAILURE);
 	}
-//	free (environ)
-//	environ = env_new;
-	return (env_new);
+	i = 0;
+	while (environ[i])
+	{
+		env_new[i] = environ[i];
+		i++;
+	}
+	env_new[i] = NULL;
+	environ = env_new;
 }

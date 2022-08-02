@@ -45,6 +45,9 @@ char *env_strjoin(const char *env_var, const char *content)
 	len1 = ft_strlen(env_var);
 	len2 = ft_strlen(content);
 	res = (char *)malloc(sizeof(char) * (len1 + len2 + 2));
+	if (!res)
+		return (NULL);
+	i = 0;
 	while (*env_var)
 		res[i++] = *(env_var++);
 	res[i++] = '=';
@@ -53,26 +56,34 @@ char *env_strjoin(const char *env_var, const char *content)
 	res[i] = '\0';
 	return (res);
 }
-//return value can be void?
+
 int	ft_setenv(const char *env_var, const char *content, int overwrite)
 {
 	extern char	**environ;
-	char	**tmp;
+	char **env_new;
 	int i;
+	int len;
 
 	(void)overwrite;
-	tmp = ft_init_environ(1);
+	ft_init_environ();
+	len = ft_envlen();
+	env_new = (char **)malloc(sizeof(char **) * len + 2);
+	if (!env_new)
+	{
+		perror("ft_init_environ");
+		exit(EXIT_FAILURE);
+	}
 	i = 0;
 	while (environ[i])
 	{
-		tmp[i] = environ[i];
+		env_new[i] = environ[i];
 		i++;
 	}
-	tmp[i] = env_strjoin(env_var, content);
-	if (!tmp[i++])
+	env_new[i] = env_strjoin(env_var, content);
+	if (!env_new[i++])
 		return (-1);
-	tmp[i] = NULL;
-//	free(environ);
-	environ = tmp;
+	env_new[i] = NULL;
+	free(environ);
+	environ = env_new;
 	return (0);
 }
