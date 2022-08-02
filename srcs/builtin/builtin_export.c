@@ -109,11 +109,30 @@ int main(void)
 	argv[3] = str3;
 	argv[4] = str4;
 	builtin_export(argv);
-	ft_putenv("TEST2");
-	printf("\n");
-	argv[1] = NULL;
+//	ft_putenv("TEST2");
+	builtin_env(argv);
+	printf("\n\n");
+
+	char *xargv[10];
+	char xstr[10] = "AAA";
+	//	char str1[10] = "-n";
+	char xstr1[15] = "TEST";
+	char xstr2[15] = "TEST2";
+	char xstr3[15] = "TEST3";
+	char *xstr4;
+
+	xstr4 = NULL;
+	xargv[0] = xstr;
+	xargv[1] = xstr1;
+	xargv[2] = xstr2;
+	xargv[3] = xstr3;
+	xargv[4] = xstr4;
+	builtin_unset(xargv);
+/*	argv[1] = NULL;
 	argv[2] = NULL;
 	argv[3] = NULL;
-	builtin_export(argv);
+*/
+	builtin_env(xargv);
+	//	builtin_export(argv);
 	return (0);
 }
