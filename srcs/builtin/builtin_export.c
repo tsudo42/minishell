@@ -12,23 +12,45 @@
 
 #include "builtin.h"
 
+static void ft_putstrlen_fd(const char *s, size_t len, int fd)
+{
+	size_t i;
+
+	if (s == NULL)
+	{
+		write(fd, "(null)", 6);
+		return ;
+	}
+	i = 0;
+	while (s[i] != '\0' && i < len) 
+	 	i++;
+	if (i != 0)
+		write(fd, s, i);
+}
+
 static int	print_contents(void)
 {
-	t_env	**env;
-	t_env	*tmp_env;
+	extern char	**environ;
+	int i;
+	char *str;
+	char *content;
 
-	env = ft_init_environ();//change init to give the list of env.
-	tmp_env = *env;
-	while (tmp_env != NULL)
+	//ft_init_environ();
+	i = 0;
+	while (environ[i])
 	{
-		printf("%s=\"%s\"\n", tmp_env->env_var, tmp_env->content);
-/*
-		ft_putstr_fd(tmp_env->env_var, STDOUT_FILENO);
+		if (environ[i][0] == '_')
+		{
+			i++;
+			continue ;
+		}
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		str = ft_strdup(environ[i++]);
+		content = ft_strchr(str, '=');
+		ft_putstrlen_fd(str, content - str, STDOUT_FILENO);
 		ft_putstr_fd("=\"", STDOUT_FILENO);
-		ft_putstr_fd(tmp_env->content, STDOUT_FILENO);
+		ft_putstr_fd(++content, STDOUT_FILENO);
 		ft_putstr_fd("\"\n", STDOUT_FILENO);
-		tmp_env = tmp_env->next;
-*/
 	}
 	return (STATUS_SUCCESS);
 }
@@ -47,7 +69,7 @@ static int	export_contents(char **argv)
 		if (!ft_isalpha(env_var[0]))
 		{
 			status = STATUS_FAILURE;
-			printf("export: '%s", *argv);
+			printf("export: '%s", *argv); // has to change this to ft_putstr?
 			ft_putstr_fd("': not a valid identifier", STDERR_FILENO);
 			free(env_var);
 			continue;
@@ -75,9 +97,9 @@ int main(void)
 	char *argv[10];
 	char str[10] = "export";
 	//	char str1[10] = "-n";
-	char str1[10] = "TEST=\"test\"";
-	char str2[10] = "TEST2=\"test2\"";
-	char str3[10] = "TEST3=\"test3\"";
+	char str1[15] = "TEST=test";
+	char str2[15] = "TEST2=test2";
+	char str3[15] = "TEST3=test3";
 	char *str4;
 
 	str4 = NULL;
@@ -86,6 +108,12 @@ int main(void)
 	argv[2] = str2;
 	argv[3] = str3;
 	argv[4] = str4;
+	builtin_export(argv);
+	ft_putenv("TEST2");
+	printf("\n");
+	argv[1] = NULL;
+	argv[2] = NULL;
+	argv[3] = NULL;
 	builtin_export(argv);
 	return (0);
 }
