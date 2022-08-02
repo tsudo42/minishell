@@ -15,7 +15,9 @@
 
 # include "../libft/includes/libft.h"
 # include "main.h"
+# include "environ.h"
 
+char *remove_dollormk(char *argv);
 int	builtin_echo(char **argv);
 int	builtin_cd(char **argv);
 int	builtin_pwd(char **argv);
