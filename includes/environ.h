@@ -13,11 +13,18 @@
 #ifndef ENVIRON_H
 # define ENVIRON_H
 
+# include "../libft/includes/libft.h"
 # include "builtin.h"
+# include "main.h"
+//# include "../libft/includes/ft_string.h"
+//char	*ft_strdup(const char *s1);
+//char			*ft_itoa(int n);
 
-extern char	**environ;
+//extern char	**environ;
 
-int		ft_init_environ(void);
+//char	**ft_init_environ(int plusminus);
+void	ft_init_environ(void);
+int	ft_envlen(void);
 char	*ft_getenv(const char *name);
 int		ft_setenv(const char *name, const char *value, int overwrite);
 int		ft_putenv(const char *string);
