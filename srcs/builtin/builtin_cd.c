@@ -12,8 +12,7 @@
 
 #include "builtin.h"
 
-
-static int	cd_to_home(char **argv)
+static int	cd_to_home(void)
 {
 	char	*home_dir;
 
@@ -36,31 +35,11 @@ static int	cd_to_home(char **argv)
 int	builtin_cd(char **argv)
 {
 	if (argv[1] == NULL)
-		return (cd_to_home(argv));
+		return (cd_to_home());
 	if (chdir(argv[1]) == -1)
 	{
 		perror("builtin_cd");
 		return (STATUS_FAILURE);
 	}
 	return (STATUS_SUCCESS);
-}
-
-int main(void)
-{
-	char *argv[10];
-	char str[10] = "echo";
-	//	char str1[10] = "-n";
-	char str1[10] = "str1";
-	char str2[10] = "str2";
-	char str3[10] = "str3";
-	char *str4;
-
-	str4 = NULL;
-	argv[0] = str;
-	argv[1] = str1;
-	argv[2] = str2;
-	argv[3] = str3;
-	argv[4] = str4;
-	builtin_cd(argv);
-	return (0);
 }
