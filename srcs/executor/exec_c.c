@@ -89,7 +89,7 @@ int	exec_c(t_ast_c *c)
 		exec_error("c is NULL");
 	args = exec_a(c->a);
 	if (args == NULL)
-		exec_error("args is NULL");
+		return (1);
 	if (args[0] != NULL)
 		builtin_func = get_builtin_func(args[0]);
 	else

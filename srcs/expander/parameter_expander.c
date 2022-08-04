@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_a.c                                           :+:      :+:    :+:   */
+/*   parameter_expander.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,55 +10,64 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec_internal.h"
+#include "expander.h"
+#include "environ.h"
 #include "libft.h"
+#include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-static char	**lst_to_strs(t_list *lst)
+static char	*lst_to_str(t_list *lst)
 {
-	char	**strs;
-	size_t	i;
-	t_list	*tmp;
+	char	*str;
+	size_t	len;
+	t_list	*lst_head;
 
-	strs = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
-	if (strs == NULL)
-	{
-		perror("malloc");
-		ft_lstclear(&lst, free);
-		return (NULL);
-	}
-	i = 0;
+	lst_head = lst;
+	len = 0;
 	while (lst != NULL)
 	{
-		strs[i] = lst->content;
-		tmp = lst->next;
-		free(lst);
-		lst = tmp;
-		i++;
+		len += ft_strlen(lst->content);
+		lst = lst->next;
 	}
-	strs[i] = NULL;
-	return (strs);
+	str = malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	str[0] = '\0';
+	lst = lst_head;
+	while (lst != NULL)
+	{
+		ft_strlcat(str, lst->content, len + 1);
+		lst = lst->next;
+	}
+	return (str);
 }
 
-char	**exec_a(t_ast_a *a)
+/* Errno can be set as ENOMEM by malloc or EINVAL as bad substitution. */
+char	*parameter_expander(char *word)
 {
 	t_list	*lst;
 	t_list	*lst_node;
+	char	*word_to_free;
+	char	*str;
 
 	errno = 0;
+	word_to_free = word;
 	lst = NULL;
-	while (a != NULL)
+	while (*word != '\0' && errno == 0)
 	{
-		lst_node = expander(a->word);
-		a->word = NULL;
-		if (lst_node == NULL && errno != 0)
-		{
-			ft_lstclear(&lst, free);
-			return (NULL);
-		}
+		lst_node = next_parameter_token(&word);
+		if (lst_node == NULL)
+			perror("malloc");
 		ft_lstadd_back(&lst, lst_node);
-		a = a->next;
 	}
-	return (lst_to_strs(lst));
+	str = NULL;
+	if (errno == 0)
+		str = lst_to_str(lst);
+	ft_lstclear(&lst, NULL);
+	free(word_to_free);
+	return (str);
 }

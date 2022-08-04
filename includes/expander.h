@@ -13,7 +13,18 @@
 #ifndef EXPANDER_H
 # define EXPANDER_H
 
-char	*expander(char *word);
+# include "ft_list.h"
+
 char	*execpath(char *name);
+
+int		is_match_globstar(const char *pattern, const char *filename);
+t_list	*next_parameter_token(char **word);
+
+char	*parameter_expander(char *word);
+t_list	*word_splitter(char *words);
+t_list	*filename_expander(const char *str);
+t_list	*quote_remover(char *word);
+
+t_list	*expander(char *word);
 
 #endif /* EXPANDER_H */

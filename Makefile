@@ -74,6 +74,12 @@ EX_SRCS	:= \
 SRCS	+= $(EP_SRCS)
 EP_SRCS	:= \
 	srcs/expander/expander.c \
+	srcs/expander/filename_expander.c \
+	srcs/expander/parameter_expander2.c \
+	srcs/expander/quote_remover.c \
+	srcs/expander/word_splitter.c \
+	srcs/expander/is_match_globstar.c \
+	srcs/expander/parameter_expander.c \
 	srcs/expander/execpath.c \
 
 SRCS	+= $(I_SRCS)
@@ -112,6 +118,7 @@ U_SRCS	:= \
 
 SRCS	+= $(D_SRCS)
 D_SRCS	:= \
+	srcs/debug/debug_expander.c \
 	srcs/debug/debug_syntax.c \
 	srcs/debug/debug_lexer.c \
 

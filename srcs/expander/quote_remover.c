@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   quote_remover.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,23 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUG_H
-# define DEBUG_H
+#include "expander.h"
+#include <stdio.h>
 
-/**
- * Function to debug lexer().
- * Input via stdin and print the token list.
- * Always returns 0.
- */
-int		debug_lexer(void);
+void	quote_remover_helper(char *dst, char *src)
+{
+	char	q;
 
-int		debug_syntax(void);
+	while (*src != '\0')
+	{
+		if (*src == '\'' || *src == '\"')
+		{
+			q = *src++;
+			while (*src != '\0' && *src != q)
+				*dst++ = *src++;
+			if (*src == '\0')
+				break ;
+		}
+		else
+			*dst++ = *src;
+		src++;
+	}
+	*dst = '\0';
+}
 
-/**
- * Function to debug expander().
- * Input via stdin and print the str list.
- * Always returns 0.
- */
-int		debug_expander(void);
+t_list	*quote_remover(char *word)
+{
+	t_list	*lst;
 
-#endif /* DEBUG_H*/
+	lst = ft_lstnew(NULL);
+	if (lst == NULL)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	lst->content = word;
+	quote_remover_helper(word, word);
+	return (lst);
+}
