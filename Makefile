@@ -63,6 +63,7 @@ EX_SRCS	:= \
 	srcs/executor/exec_c.c \
 	srcs/executor/exec_p_piped.c \
 	srcs/executor/exec_d.c \
+	srcs/executor/exec_calc_retval.c \
 	srcs/executor/exec_s.c \
 	srcs/executor/exec_stdfd.c \
 	srcs/executor/exec_a.c \
