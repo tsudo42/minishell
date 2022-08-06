@@ -15,6 +15,21 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
+static void	free_strs(char **str)
+{
+	char	**str_to_free;
+
+	if (str == NULL)
+		return ;
+	str_to_free = str;
+	while (*str != NULL)
+	{
+		free(*str);
+		str++;
+	}
+	free(str_to_free);
+}
+
 static int	(*get_builtin_func(char	*name))(char **args)
 {
 	if (ft_strncmp("echo", name, sizeof("echo")) == 0)
@@ -98,6 +113,6 @@ int	exec_c(t_ast_c *c)
 		ret = exec_c_builtin(builtin_func, args, c->d);
 	else
 		ret = exec_c_command(args, c->d);
-	free(args);
+	free_strs(args);
 	return (ret);
 }

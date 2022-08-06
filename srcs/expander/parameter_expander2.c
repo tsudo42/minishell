@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parameter_expander.c                               :+:      :+:    :+:   */
+/*   parameter_expander2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -68,6 +68,7 @@ static size_t	sep_len(char *str)
 	i = sep_var_len(str);
 	if (i > 0)
 		return (0);
+	q = '\0';
 	while (str[i] != '\0')
 	{
 		if (str[i] == '\'' || str[i] == '\"')

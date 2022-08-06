@@ -85,5 +85,6 @@ void	lr_stack_terminate(t_lr_stack **stack_ptr)
 			free(stack->c[stack->size].content);
 	}
 	free(stack->c);
+	free(stack);
 	*stack_ptr = NULL;
 }
