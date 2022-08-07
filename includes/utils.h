@@ -17,12 +17,6 @@
 # define INTERNAL_ERR_NUM 1
 
 /* ************************************************************************** */
-/*  This function duplicates s with allocating memory with malloc(3),         */
-/*  at most len length.                                                       */
-/* ************************************************************************** */
-char	*ft_strndup(const char *s, size_t len);
-
-/* ************************************************************************** */
 /*  This function is an error checking version of dup(2).                     */
 /*  This function prints an error message and terminates the process calling  */
 /*  exit(3) when dup faces error.                                             */

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   exec_calc_retval.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,30 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUG_H
-# define DEBUG_H
+#include "exec_internal.h"
+#include <sys/wait.h>
 
-/**
- * Function to debug lexer().
- * Input via stdin and print the token list.
- * Always returns 0.
- */
-int		debug_lexer(void);
-
-int		debug_syntax(void);
-
-/**
- * Function to debug execpath().
- * Input via stdin and print the result of execpath.
- * Always returns 0.
- */
-int		debug_execpath(void);
-
-/**
- * Function to debug expander().
- * Input via stdin and print the str list.
- * Always returns 0.
- */
-int		debug_expander(void);
-
-#endif /* DEBUG_H*/
+int	exec_calc_retval(int stat)
+{
+	if (WIFEXITED(stat))
+		return (WEXITSTATUS(stat));
+	if (WIFSIGNALED(stat))
+		return (WTERMSIG(stat) + 128);
+	return (WSTOPSIG(stat) + 128);
+}

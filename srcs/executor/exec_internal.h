@@ -19,6 +19,7 @@
 # include "libft.h"
 
 void	exec_error(const char *name);
+int		exec_calc_retval(int stat);
 
 int		exec_l(t_ast_l *l);
 int		exec_p(t_ast_p *p);

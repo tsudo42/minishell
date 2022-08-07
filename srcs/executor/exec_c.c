@@ -15,6 +15,21 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
+static void	free_strs(char **str)
+{
+	char	**str_to_free;
+
+	if (str == NULL)
+		return ;
+	str_to_free = str;
+	while (*str != NULL)
+	{
+		free(*str);
+		str++;
+	}
+	free(str_to_free);
+}
+
 static int	(*get_builtin_func(char	*name))(char **args)
 {
 	if (ft_strncmp("echo", name, sizeof("echo")) == 0)
@@ -54,7 +69,7 @@ static int	exec_c_builtin(\
 static int	exec_c_command(char **args, t_ast_d *d)
 {
 	pid_t	pid;
-	int		ret_val;
+	int		stat;
 	char	*path;
 
 	path = execpath(args[0]);
@@ -70,13 +85,13 @@ static int	exec_c_command(char **args, t_ast_d *d)
 		ft_x_execve(path, args, environ, EXEC_ERRMSG);
 	}
 	free(path);
-	if (waitpid(pid, &ret_val, 0) < 0)
+	if (waitpid(pid, &stat, 0) < 0)
 	{
 		perror(EXEC_ERRMSG ": waitpid");
 		errno = 0;
-		ret_val = 1;
+		return (1);
 	}
-	return (ret_val);
+	return (exec_calc_retval(stat));
 }
 
 int	exec_c(t_ast_c *c)
@@ -89,7 +104,7 @@ int	exec_c(t_ast_c *c)
 		exec_error("c is NULL");
 	args = exec_a(c->a);
 	if (args == NULL)
-		exec_error("args is NULL");
+		return (1);
 	if (args[0] != NULL)
 		builtin_func = get_builtin_func(args[0]);
 	else
@@ -98,6 +113,6 @@ int	exec_c(t_ast_c *c)
 		ret = exec_c_builtin(builtin_func, args, c->d);
 	else
 		ret = exec_c_command(args, c->d);
-	free(args);
+	free_strs(args);
 	return (ret);
 }
