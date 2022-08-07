@@ -11,26 +11,48 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "lexer.h"
-#include "parser.h"
-#include "exec.h"
-#include "libft.h"
-#include <stdlib.h>
-#include <stdio.h>
+
+bool	ft_is_continue(char	*line)
+{
+	if (ft_strlen(line) >= ARG_MAX_SIZE)
+	{
+		printf("line too long\n");
+		return (true);
+	}
+	return (false);
+}
+
+void	ft_signal_handler(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	g_status = STATUS_FAILURE;
+}
 
 int	main(void)
 {
-	char	*line;
+	char *line;
 	int		ret;
 
-	ret = 0;
-	write(1, "> ", 2);
-	line = get_next_line(0);
-	while (line != NULL)
+	line = NULL;
+	while (1)
 	{
+		signal(SIGINT, ft_signal_handler);
+		signal(SIGQUIT, SIG_IGN);
+		g_status = 0;
+		line = readline("minishell> ");
+		if (ft_is_continue(line))
+			continue;
+		if (line == NULL)
+			break ;
 		ret = executor(parser(lexer(line)));
-		write(1, "> ", 2);
-		line = get_next_line(0);
+		add_history(line);
+//		free(line); // has to be deleted when the compilation with lexer.
 	}
+//	free(line); // has to be deleted when the compilation with lexer.
+	printf("exit\n");
 	return (ret);
 }
