@@ -64,7 +64,7 @@ char	*execpath_from_env(char *name, char **path_env)
 		if (access(exec_path, X_OK) == 0 || \
 			access(exec_path, R_OK | X_OK) == 0)
 			break ;
-		free(exec_path);
+		ft_free_set((void **)&exec_path, NULL);
 		path_env++;
 	}
 	return (exec_path);
