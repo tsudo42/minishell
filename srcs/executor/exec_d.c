@@ -14,6 +14,9 @@
 #include "libft.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 static int	exec_d_redin(const char *word, int fd)
 {
@@ -33,10 +36,11 @@ static int	exec_d_redout(const char *word, int fd, int is_append)
 {
 	int open_fd;
 	
+	(void)fd;
 	if (is_append == 0)
-		open_fd = open(word, O_WRONLY | O_CREAT | O_TRUNC, FILE_MODE));
+		open_fd = open(word, O_WRONLY | O_CREAT | O_TRUNC, FILE_MODE);
 	else if (is_append == 1)
-		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, FILE_MODE));
+		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, FILE_MODE);
 	else
 		return (-1);
 	return (0);

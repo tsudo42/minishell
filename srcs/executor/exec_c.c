@@ -56,6 +56,7 @@ static int	exec_c_command(char **args, t_ast_d *d)
 	pid_t	pid;
 	int		ret_val;
 	char	*path;
+	extern char **environ;
 
 	path = execpath(args[0]);
 	if (path == NULL)
