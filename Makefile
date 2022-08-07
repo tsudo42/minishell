@@ -74,6 +74,7 @@ SRCS	+= $(EP_SRCS)
 EP_SRCS	:= \
 	srcs/expander/expander.c \
 	srcs/expander/execpath.c \
+	srcs/expander/heredoc.c \
 
 SRCS	+= $(I_SRCS)
 I_SRCS	:= \
