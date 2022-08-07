@@ -24,10 +24,10 @@ static t_ast_d_type	extract_ast_d_type(char *red_str)
 		red_str++;
 	if (ft_strncmp("<", red_str, sizeof("<")) == 0)
 		type = AST_D_REDIN;
-	else if (ft_strncmp(">", red_str, sizeof(">")) == 0)
-		type = AST_D_REDOUT;
 	else if (ft_strncmp(">>", red_str, sizeof(">>")) == 0)
 		type = AST_D_REDAPP;
+	else if (ft_strncmp(">", red_str, sizeof(">")) == 0)
+		type = AST_D_REDOUT;
 	else
 		type = AST_D_HEREDOC;
 	*red_str = '\0';
