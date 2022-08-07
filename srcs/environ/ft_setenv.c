@@ -65,12 +65,12 @@ int	ft_setenv(const char *env_var, const char *content, int overwrite)
 	int len;
 
 	(void)overwrite;
-	ft_init_environ();
-	len = ft_envlen();
+	init_environ();
+	len = envlen();
 	env_new = (char **)malloc(sizeof(char **) * len + 2);
 	if (!env_new)
 	{
-		perror("ft_init_environ");
+		perror("ft_setenv");
 		exit(EXIT_FAILURE);
 	}
 	i = 0;

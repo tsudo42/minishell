@@ -53,29 +53,3 @@ char	*ft_getenv(const char *name)
 	}
 	return (NULL);
 }
-
-/*tester
-int main(void)
-{
-	char *env;
-	extern char **environ;
-	char **tmp = environ;
-
-	env = ft_getenv("HOME");
-	printf("HOME=%s\n", env);
-	free (env);
-	ft_putenv("USER");
-	printf("\n");
-	ft_setenv("TEST", "test", 1);
-	(void)tmp;
-	env = ft_getenv("TEST");
-	printf("TEST=%s\n", env);
-	free (env);
-	ft_unsetenv("TEST");
-	printf("TEST=%s\n", env);
-	env = ft_getenv("TEST");
-	printf("TEST=%s\n", env);
-	free (env);
-	return (0);
-}
-*/

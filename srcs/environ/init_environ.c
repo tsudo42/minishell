@@ -1,9 +1,7 @@
-<<<<<<< HEAD
-=======
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unsetenv.c                                      :+:      :+:    :+:   */
+/*      init_environ.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,51 +10,47 @@
 /*                                                                            */
 /* ************************************************************************** */
 
->>>>>>> origin/main
 #include "environ.h"
 
-static int find_name(const char *name)
-{
-	extern char **environ;
-	int i;
-	int len;
-
-	i = 0;
-	len = ft_strlen(name);
-	while (environ[i])
-	{
-		if (ft_strncmp(environ[i], name, len) == 0)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-int	ft_unsetenv(const char *name)
+int	envlen(void)
 {
 	extern char **environ;
 	char **tmp;
-	int skip;
-	int i;
-	int j;
 
-	init_environ();
-	if ((skip = find_name(name)) == -1)
-		return (-1);
-	tmp = (char **)malloc(sizeof(char **) * envlen());
-	if (!tmp)
-		return (-1);
+	int i;
+
+	tmp = environ;
 	i = 0;
-	j = 0;
-	while (environ[j])
+	while (*tmp)
 	{
-		if (i == skip)
-			j++;
-		if (environ[j])
-			tmp[i++] = environ[j++];
+		tmp++;
+		i++;
 	}
-	tmp[i] = NULL;
-	free (environ);
-	environ = tmp;
-	return (0);
+	return (i);
+}
+
+void	init_environ(void)
+{
+	extern char **environ;
+	char	**env_new;
+	static int initialized;
+	int i;
+
+	if (initialized != 0)
+		return ;
+	initialized = 1;
+	env_new = (char **)malloc(sizeof(char **) * (envlen() + 1));
+	if (!env_new)
+	{
+		perror("init_environ");
+		exit(EXIT_FAILURE);
+	}
+	i = 0;
+	while (environ[i])
+	{
+		env_new[i] = environ[i];
+		i++;
+	}
+	env_new[i] = NULL;
+	environ = env_new;
 }
