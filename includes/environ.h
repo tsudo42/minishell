@@ -23,8 +23,8 @@
 //extern char	**environ;
 
 //char	**ft_init_environ(int plusminus);
-void	ft_init_environ(void);
-int	ft_envlen(void);
+void	init_environ(void);
+int	envlen(void);
 char	*ft_getenv(const char *name);
 int		ft_setenv(const char *name, const char *value, int overwrite);
 int		ft_putenv(const char *string);
