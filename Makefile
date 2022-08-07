@@ -63,6 +63,7 @@ EX_SRCS	:= \
 	srcs/executor/exec_c.c \
 	srcs/executor/exec_p_piped.c \
 	srcs/executor/exec_d.c \
+	srcs/executor/exec_calc_retval.c \
 	srcs/executor/exec_s.c \
 	srcs/executor/exec_stdfd.c \
 	srcs/executor/exec_a.c \
@@ -73,6 +74,12 @@ EX_SRCS	:= \
 SRCS	+= $(EP_SRCS)
 EP_SRCS	:= \
 	srcs/expander/expander.c \
+	srcs/expander/filename_expander.c \
+	srcs/expander/parameter_expander2.c \
+	srcs/expander/quote_remover.c \
+	srcs/expander/word_splitter.c \
+	srcs/expander/is_match_globstar.c \
+	srcs/expander/parameter_expander.c \
 	srcs/expander/execpath.c \
 	srcs/expander/heredoc.c \
 
@@ -106,13 +113,14 @@ U_SRCS	:= \
 	srcs/utils/ft_x_malloc.c \
 	srcs/utils/ft_x_dup2.c \
 	srcs/utils/ft_x_execve.c \
-	srcs/utils/ft_strndup.c \
 	srcs/utils/ft_x_dup.c \
 	srcs/utils/ft_x_pipe.c \
 	srcs/utils/ft_x_fork.c \
 
 SRCS	+= $(D_SRCS)
 D_SRCS	:= \
+	srcs/debug/debug_expander.c \
+	srcs/debug/debug_execpath.c \
 	srcs/debug/debug_syntax.c \
 	srcs/debug/debug_lexer.c \
 

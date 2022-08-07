@@ -79,26 +79,26 @@ static void	exec_p_piped_child(t_ast_p *p, t_pipe_info *infos, size_t len)
 
 static int	exec_p_wait(t_pipe_info *infos, size_t p_len)
 {
-	int		ret;
+	int		stat;
 	size_t	i;
 
 	i = 0;
 	while (i < p_len - 1)
 	{
-		if (waitpid(infos[i].pid, &ret, WNOHANG) < 0)
+		if (waitpid(infos[i].pid, &stat, WNOHANG) < 0)
 		{
 			perror(EXEC_ERRMSG ": waitpid");
 			errno = 0;
 		}
 		i++;
 	}
-	if (waitpid(infos[i].pid, &ret, 0) < 0)
+	if (waitpid(infos[i].pid, &stat, 0) < 0)
 	{
 		perror(EXEC_ERRMSG ": waitpid");
 		errno = 0;
-		ret = 1;
+		return (1);
 	}
-	return (ret);
+	return (exec_calc_retval(stat));
 }
 
 int	exec_p_piped(t_ast_p *p, size_t p_len)

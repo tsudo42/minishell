@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "lexer_internal.h"
+#include "libft.h"
 #include <stdio.h>
 
 static t_token_list	*loop_return(char **input, size_t len, t_lr_token_type type)

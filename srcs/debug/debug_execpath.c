@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   debug_execpath.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,30 +10,40 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUG_H
-# define DEBUG_H
-
-/**
- * Function to debug lexer().
- * Input via stdin and print the token list.
- * Always returns 0.
- */
-int		debug_lexer(void);
-
-int		debug_syntax(void);
+#include "expander.h"
+#include "debug.h"
+#include "libft.h"
+#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 /**
  * Function to debug execpath().
  * Input via stdin and print the result of execpath.
  * Always returns 0.
  */
-int		debug_execpath(void);
+int	debug_execpath(void)
+{
+	char	*input;
+	char	*path;
+	int		save_errno;
 
-/**
- * Function to debug expander().
- * Input via stdin and print the str list.
- * Always returns 0.
- */
-int		debug_expander(void);
-
-#endif /* DEBUG_H*/
+	write(1, "> ", 2);
+	input = get_next_line_easy(0);
+	while (input != NULL)
+	{
+		errno = 0;
+		path = execpath(ft_trimnl(input));
+		save_errno = errno;
+		printf("execpath: %s\n", path);
+		if (save_errno != 0)
+			printf("(%s)\n", strerror(save_errno));
+		free(path);
+		free(input);
+		write(1, "> ", 2);
+		input = get_next_line_easy(0);
+	}
+	return (0);
+}
