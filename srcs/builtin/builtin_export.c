@@ -92,6 +92,7 @@ int	builtin_export(char **argv)
 		return (export_contents(argv));
 }
 
+/*
 int main(void)
 {
 	char *argv[10];
@@ -128,11 +129,12 @@ int main(void)
 	xargv[3] = xstr3;
 	xargv[4] = xstr4;
 	builtin_unset(xargv);
-/*	argv[1] = NULL;
+	argv[1] = NULL;
 	argv[2] = NULL;
 	argv[3] = NULL;
-*/
+
 	builtin_env(xargv);
 	//	builtin_export(argv);
 	return (0);
 }
+*/
