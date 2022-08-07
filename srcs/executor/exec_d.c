@@ -15,33 +15,36 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/* NOTIMPLEMENTED */
 static int	exec_d_redin(const char *word, int fd)
 {
+	int open_fd;
+
 	if (0)
 	{
 		perror(word);
 		return (1);
 	}
-	(void)word;
+	open_fd = open(word, O_RDONLY);
 	(void)fd;
 	return (0);
 }
 
-/* NOTIMPLEMENTED */
 static int	exec_d_redout(const char *word, int fd, int is_append)
 {
-	(void)word;
-	(void)fd;
-	(void)is_append;
+	int open_fd;
+	
+	if (is_append == 0)
+		open_fd = open(word, O_WRONLY | O_CREAT | O_TRUNC, FILE_MODE));
+	else if (is_append == 1)
+		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, FILE_MODE));
+	else
+		return (-1);
 	return (0);
 }
 
-/* NOTIMPLEMENTED */
 static int	exec_d_heredoc(const char *word, int fd)
 {
-	(void)word;
-	(void)fd;
+	ft_heredoc(word, fd);
 	return (0);
 }
 
