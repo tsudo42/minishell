@@ -13,8 +13,8 @@
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include "../libft/includes/libft.h"
-# include "main.h"
+# include "libft.h"
+# include "minishell.h"
 # include "environ.h"
 
 char *remove_dollormk(char *argv);

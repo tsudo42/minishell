@@ -14,7 +14,7 @@
 # define PARSER_H
 
 # include "ast.h"
-# include "exec.h"
+//# include "exec.h"
 
 typedef enum e_lr_token_type {
 	LR_NULL,

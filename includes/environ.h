@@ -13,9 +13,9 @@
 #ifndef ENVIRON_H
 # define ENVIRON_H
 
-# include "../libft/includes/libft.h"
+# include "libft.h"
 # include "builtin.h"
-# include "main.h"
+# include "minishell.h"
 //# include "../libft/includes/ft_string.h"
 //char	*ft_strdup(const char *s1);
 //char			*ft_itoa(int n);

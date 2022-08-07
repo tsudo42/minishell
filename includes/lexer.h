@@ -13,9 +13,9 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-# include "parser.h"
 # include "libft.h"
 # include "utils.h"
+# include "parser.h"
 
 /**
  * Tokenize the input line and generate the token list.
