@@ -96,16 +96,17 @@ void	ft_signal_handler_heredoc(int sig)
 //	g_status·=·STATUS_FAILURE;
 }
 
-int	ft_heredoc(char *delimi)
+int	ft_heredoc(char *delimi, int fd)
 {
 	char	*line;
-	int	pipefd[2];
+/*	int	pipefd[2];
 	
 	if (pipe(pipefd) == -1)
 	{
 		perror("heredoc");
 		exit(EXIT_FAILURE);
 	}
+*/
 	line = NULL;
 	while (1)
 	{
@@ -118,12 +119,15 @@ int	ft_heredoc(char *delimi)
 			break ;
 		}
 		if (ft_is_quote(delimi))
-			ft_putendl_fd(line, pipefd[WRITE]);
+			ft_putendl_fd(line, fd);
+		//	ft_putendl_fd(line, pipefd[WRITE]);
 		else
-			ft_putendl_fd(ft_expand_env(line), pipefd[WRITE]);
+			ft_putendl_fd(ft_expand_env(line), fd);
+	//		ft_putendl_fd(ft_expand_env(line), pipefd[WRITE]);
 		free(line);
 	}	
-	close(pipefd[WRITE]);
+//	close(pipefd[WRITE]);
 //	printf("pipefd[READ])\n");
-	return (pipefd[READ]);
+	return (0);
+//	return (pipefd[READ]);
 }

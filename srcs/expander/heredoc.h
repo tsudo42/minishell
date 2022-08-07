@@ -16,7 +16,6 @@
 # include ".dev/libft.h" //has to be changed
 # include ".dev/main.h" 
 
-
 typedef struct s_cmd {
 	pid_t		     pid; // waitpidのため
 	const char	 *raw_str; // 入力それ自体
@@ -34,7 +33,6 @@ typedef struct s_cmd_list{
 	int	ret_val; // 返り値
 	struct s_cmd_list *next;
 } t_cmd_list;
-
 
 int	ft_strcmp(const char *s1, const char *s2);
 
