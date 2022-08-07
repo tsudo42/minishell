@@ -119,6 +119,7 @@ U_SRCS	:= \
 SRCS	+= $(D_SRCS)
 D_SRCS	:= \
 	srcs/debug/debug_expander.c \
+	srcs/debug/debug_execpath.c \
 	srcs/debug/debug_syntax.c \
 	srcs/debug/debug_lexer.c \
 
