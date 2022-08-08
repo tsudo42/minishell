@@ -1,6 +1,6 @@
-#include "heredoc.h"
+#include "exec.h"
 
-static bool	ft_is_env(char c)
+static bool	is_env(char c)
 {
 	return (ft_isalpha(c) || c == '_');
 }
@@ -23,7 +23,7 @@ static char	*ft_str_c_join(char *str, char c)
 	return (res);
 }
 
-char	*ft_expand_env(char *line)
+char	*expand_env(char *line)
 {
 	char	*env_name;
 	char	*res;
@@ -35,7 +35,7 @@ char	*ft_expand_env(char *line)
 		{
 			line++;
 			env_name = ft_strdup("");
-			while (ft_is_env(*line))
+			while (is_env(*line))
 			{
 				env_name = ft_str_c_join(env_name, *line);
 				line++;
@@ -51,7 +51,7 @@ char	*ft_expand_env(char *line)
 	return (res);
 }
 
-bool	ft_is_quote(char *delimi)
+bool	is_quote(const char *delimi)
 {
 	char	*s;
 
@@ -64,7 +64,7 @@ bool	ft_is_quote(char *delimi)
 	return (false);
 }
 
-char	*ft_extract_quote(char *delimi)
+char	*extract_quote(const char *delimi)
 {
 	char	*res;
 	char	*temp;
@@ -88,7 +88,7 @@ char	*ft_extract_quote(char *delimi)
 	return (res);
 }
 
-void	ft_signal_handler_heredoc(int sig)
+void	signal_handler_heredoc(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
@@ -96,7 +96,7 @@ void	ft_signal_handler_heredoc(int sig)
 //	g_status·=·STATUS_FAILURE;
 }
 
-int	ft_heredoc(char *delimi, int fd)
+int	heredoc(const char *delimi, int fd)
 {
 	char	*line;
 /*	int	pipefd[2];
@@ -110,19 +110,19 @@ int	ft_heredoc(char *delimi, int fd)
 	line = NULL;
 	while (1)
 	{
-		signal(SIGINT, ft_signal_handler_heredoc);
+		signal(SIGINT, signal_handler_heredoc);
 		signal(SIGQUIT, SIG_IGN);
 		line = readline("hd> ");
-		if (line == NULL || !ft_strcmp(line, ft_extract_quote(delimi)))
+		if (line == NULL || !ft_strcmp(line, extract_quote(delimi)))
 		{
 			free(line);
 			break ;
 		}
-		if (ft_is_quote(delimi))
+		if (is_quote(delimi))
 			ft_putendl_fd(line, fd);
 		//	ft_putendl_fd(line, pipefd[WRITE]);
 		else
-			ft_putendl_fd(ft_expand_env(line), fd);
+			ft_putendl_fd(expand_env(line), fd);
 	//		ft_putendl_fd(ft_expand_env(line), pipefd[WRITE]);
 		free(line);
 	}	
