@@ -26,10 +26,12 @@
 # include "lexer.h"
 # include "exec.h"
 
-# define STATUS_FAILURE 0
+# define STATUS_FAILURE -1
 # define STATUS_SUCCESS 1
 # define ARG_MAX_SIZE 4096
 
-int	g_status;
+volatile sig_atomic_t	g_sig;
+
+int *exit_status(void);
 
 #endif /* MINISHELL_H */
