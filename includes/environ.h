@@ -22,7 +22,6 @@
 
 //extern char	**environ;
 
-//char	**ft_init_environ(int plusminus);
 void	init_environ(void);
 int	envlen(void);
 char	*ft_getenv(const char *name);
