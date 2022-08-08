@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-bool	ft_is_continue(char	*line)
+static bool	is_continue(char	*line)
 {
 	if (ft_strlen(line) >= ARG_MAX_SIZE)
 	{
@@ -22,7 +22,7 @@ bool	ft_is_continue(char	*line)
 	return (false);
 }
 
-void	ft_signal_handler(int sig)
+void	signal_handler(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
@@ -40,19 +40,17 @@ int	main(void)
 	line = NULL;
 	while (1)
 	{
-		signal(SIGINT, ft_signal_handler);
+		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, SIG_IGN);
 		g_status = 0;
 		line = readline("minishell> ");
-		if (ft_is_continue(line))
+		if (is_continue(line))
 			continue;
 		if (line == NULL)
 			break ;
-		ret = executor(parser(lexer(line)));
 		add_history(line);
-//		free(line); // has to be deleted when the compilation with lexer.
+		ret = executor(parser(lexer(line)));
 	}
-//	free(line); // has to be deleted when the compilation with lexer.
 	printf("exit\n");
 	return (ret);
 }
