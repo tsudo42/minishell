@@ -12,6 +12,7 @@
 
 #include "exec_internal.h"
 #include "libft.h"
+#include "exec.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -22,25 +23,37 @@ static int	exec_d_redin(const char *word, int fd)
 {
 	int open_fd;
 
-	if (0)
-	{
-		perror(word);
-		return (1);
-	}
+//	if (0)
+//	{
+//		perror(word);
+//		return (1);
+//	}
 	open_fd = open(word, O_RDONLY);
+	(void)open_fd;
 	(void)fd;
 	return (0);
 }
 
 static int	exec_d_redout(const char *word, int fd, int is_append)
 {
-	int open_fd;
+//	int open_fd;
 	
-	(void)fd;
+//	(void)fd;
+//	(void)open_fd;
 	if (is_append == 0)
-		open_fd = open(word, O_WRONLY | O_CREAT | O_TRUNC, FILE_MODE);
+	{
+//		open_fd = open(word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		ft_putendl_fd(word, fd);
+		//		ft_putendl_fd(word, open_fd);
+//		close(open_fd);
+	}
 	else if (is_append == 1)
-		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, FILE_MODE);
+	{
+//		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, 0644);
+//		ft_putendl_fd(word, open_fd);
+		ft_putendl_fd(word, fd);
+		//		close(open_fd);
+	}
 	else
 		return (-1);
 	return (0);
@@ -48,7 +61,7 @@ static int	exec_d_redout(const char *word, int fd, int is_append)
 
 static int	exec_d_heredoc(const char *word, int fd)
 {
-	ft_heredoc(word, fd);
+	heredoc(word, fd);
 	return (0);
 }
 
