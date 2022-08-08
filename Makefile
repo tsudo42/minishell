@@ -22,6 +22,10 @@ ifeq ($(DEBUG), 1)
 CFLAGS	+= -g3 -fsanitize=address
 endif
 
+ifeq ($(DEBUG), 2)
+CFLAGS	+= -g
+endif
+
 # **************************************************************************** #
 
 SRCS	+= $(M_SRCS)
@@ -54,7 +58,7 @@ EV_SRCS	:= \
 	srcs/environ/ft_putenv.c \
 	srcs/environ/ft_setenv.c \
 	srcs/environ/ft_getenv.c \
-	srcs/environ/ft_init_environ.c \
+	srcs/environ/init_environ.c \
 	srcs/environ/ft_unsetenv.c \
 
 SRCS	+= $(EX_SRCS)
@@ -70,6 +74,7 @@ EX_SRCS	:= \
 	srcs/executor/exec_p.c \
 	srcs/executor/exec_l.c \
 	srcs/executor/exec_error.c \
+	srcs/executor/heredoc.c \
 
 SRCS	+= $(EP_SRCS)
 EP_SRCS	:= \
@@ -81,7 +86,6 @@ EP_SRCS	:= \
 	srcs/expander/is_match_globstar.c \
 	srcs/expander/parameter_expander.c \
 	srcs/expander/execpath.c \
-	srcs/expander/heredoc.c \
 
 SRCS	+= $(I_SRCS)
 I_SRCS	:= \
