@@ -17,6 +17,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+t_list	*next_parameter_token(char **word);
+
 static char	*lst_to_str(t_list *lst)
 {
 	char	*str;
