@@ -39,10 +39,14 @@ D     : D RED WORD        (13
 
 static t_ast_l_type	get_ast_l_type(char *op)
 {
+	t_ast_l_type	op_type;
+
 	if (ft_strncmp("&&", op, sizeof("&&")) == 0)
-		return (AST_L_AND);
+		op_type = AST_L_AND;
 	else
-		return (AST_L_OR);
+		op_type = AST_L_OR;
+	free(op);
+	return (op_type);
 }
 
 /* L     : L OP P            (1 */
