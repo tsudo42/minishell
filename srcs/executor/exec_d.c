@@ -19,38 +19,47 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-static int	exec_d_redin(const char *word, int fd)
+#define BUFSIZE 2048
+
+int	exec_d_redin(const char *word, int fd)
 {
 	int open_fd;
+	int len;
+	char	buf[BUFSIZE]; // should I avoid this and use malloc instead?
+	
+//	printf("word:%s\n", word);
+//	printf("fd:%d\n", fd);
 
-//	if (0)
-//	{
-//		perror(word);
-//		return (1);
-//	}
+	//	if (0)
+	//	{
+	//		perror(word);
+	//		return (1);
+	//	}
 	open_fd = open(word, O_RDONLY);
-	(void)open_fd;
-	(void)fd;
-	return (0);
+	while ((len = read(open_fd, buf, BUFSIZE)) > 0) // should I take care of the error case of read?
+		write(fd, buf, len);
+	close(open_fd);
+	close(fd);
+	exit (0);
 }
 
 static int	exec_d_redout(const char *word, int fd, int is_append)
 {
-//	int open_fd;
-	
-//	(void)fd;
-//	(void)open_fd;
+	//	int open_fd;
+
+	//	(void)fd;
+	//	(void)open_fd;
 	if (is_append == 0)
 	{
-//		open_fd = open(word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+
 		ft_putendl_fd(word, fd);
 		//		ft_putendl_fd(word, open_fd);
-//		close(open_fd);
+		//		close(open_fd);
 	}
 	else if (is_append == 1)
 	{
-//		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, 0644);
-//		ft_putendl_fd(word, open_fd);
+		//		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		//		ft_putendl_fd(word, open_fd);
 		ft_putendl_fd(word, fd);
 		//		close(open_fd);
 	}
@@ -70,15 +79,19 @@ int	exec_d(t_ast_d *d)
 	int		is_err;
 	long	fd;
 
-	is_err = 0;
+	printf("exec_d\n");
+	printf("d: %p\n", d);
+	is_err = 1;
 	while (d != NULL && is_err)
 	{
 		fd = ft_strtol(d->num, NULL, 10);
+		printf("fd: %ld\n", fd);
 		if (fd > 3)
 		{
 			perror("minishell: file descriptor out of range");
 			return (1);
 		}
+		printf("d->type: %d\n", d->type);
 		if (d->type == AST_D_REDIN)
 			is_err = exec_d_redin(d->word, fd);
 		else if (d->type == AST_D_REDOUT)
@@ -91,5 +104,6 @@ int	exec_d(t_ast_d *d)
 			exec_error("undefined d type");
 		d = d->next;
 	}
+	printf("exec_d2\n");
 	return (is_err);
 }
