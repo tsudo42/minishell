@@ -82,8 +82,6 @@ char	*extract_quote(const char *delimi)
 		else
 			*temp++ = *delimi++;
 	}
-//	printf("res: %s\n", res);
-//	printf("temp: %s\n", temp - 1);
 	*temp = *delimi;
 	return (res);
 }
@@ -93,20 +91,12 @@ void	signal_handler_heredoc(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	exit (1);
-//	g_status·=·STATUS_FAILURE;
 }
 
-int	heredoc(const char *delimi, int fd)
+int	exec_d_heredoc(const char *delimi, int fd)
 {
 	char	*line;
-/*	int	pipefd[2];
-	
-	if (pipe(pipefd) == -1)
-	{
-		perror("heredoc");
-		exit(EXIT_FAILURE);
-	}
-*/
+
 	line = NULL;
 	while (1)
 	{
@@ -120,14 +110,9 @@ int	heredoc(const char *delimi, int fd)
 		}
 		if (is_quote(delimi))
 			ft_putendl_fd(line, fd);
-		//	ft_putendl_fd(line, pipefd[WRITE]);
 		else
 			ft_putendl_fd(expand_env(line), fd);
-	//		ft_putendl_fd(ft_expand_env(line), pipefd[WRITE]);
 		free(line);
 	}	
-//	close(pipefd[WRITE]);
-//	printf("pipefd[READ])\n");
-	return (0);
-//	return (pipefd[READ]);
+	exit (0);
 }
