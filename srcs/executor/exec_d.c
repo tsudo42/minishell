@@ -56,11 +56,15 @@ static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
 		return (1);
 	}
 	fd = ft_strtol(num, NULL, 10);
-	if (fd < 0 || INT_MAX < fd)
+	if (fd != STDIN_FILENO && fd != STDOUT_FILENO && fd != STDERR_FILENO)
 	{
 		errno = EBADF;
 		*is_err = 1;
-		perror("minishell: file descriptor out of range");
+		ft_putstr_fd(EXEC_ERRMSG ": ", STDERR_FILENO);
+		if (fd < 0 || INT_MAX < fd)
+			perror("file descriptor out of range");
+		else
+			perror(num);
 		return (-1);
 	}
 	return (fd);

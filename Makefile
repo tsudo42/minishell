@@ -91,6 +91,7 @@ L_SRCS	:= \
 	srcs/lexer/lexer.c \
 	srcs/lexer/lex_loop.c \
 	srcs/lexer/token_list_join.c \
+	srcs/lexer/lex_error_token.c \
 	srcs/lexer/token_list_new.c \
 	srcs/lexer/token_list_free.c \
 

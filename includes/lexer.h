@@ -17,6 +17,8 @@
 # include "libft.h"
 # include "utils.h"
 
+# define LEXER_ERRMSG "minishell"
+
 /**
  * Tokenize the input line and generate the token list.
  * input should be end with the newline.

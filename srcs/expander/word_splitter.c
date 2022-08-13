@@ -56,7 +56,7 @@ t_list	*word_splitter(char *word)
 		lst_node = ft_lstnew(str);
 		if (str == NULL || lst_node == NULL)
 		{
-			perror("malloc");
+			perror(EXPANDER_ERRMSG ": malloc");
 			free(str);
 			free(lst_node);
 			ft_lstclear(&lst, NULL);

@@ -35,7 +35,7 @@ static char	*lst_to_str(t_list *lst)
 	str = malloc(sizeof(char) * (len + 1));
 	if (str == NULL)
 	{
-		perror("malloc");
+		perror(EXPANDER_ERRMSG ": malloc");
 		return (NULL);
 	}
 	str[0] = '\0';
@@ -50,7 +50,7 @@ static char	*lst_to_str(t_list *lst)
 
 static void	*print_error(void *to_free)
 {
-	perror("minishell");
+	perror(EXPANDER_ERRMSG ": malloc");
 	free(to_free);
 	return (NULL);
 }
@@ -73,7 +73,7 @@ char	*parameter_expander(char *word)
 	{
 		lst_node = next_parameter_token(&word, to_free[1]);
 		if (lst_node == NULL)
-			perror("malloc");
+			perror(EXPANDER_ERRMSG ": malloc");
 		ft_lstadd_back(&lst, lst_node);
 	}
 	str = NULL;

@@ -43,7 +43,7 @@ t_list	*quote_remover(char *word)
 	if (lst == NULL)
 	{
 		free(word);
-		perror("malloc");
+		perror(EXPANDER_ERRMSG ": malloc");
 		return (NULL);
 	}
 	lst->content = word;

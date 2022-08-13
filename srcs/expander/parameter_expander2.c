@@ -23,7 +23,7 @@ static void	bad_substitution(const char *str)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": bad substitution", 2);
+		ft_putendl_fd(": bad substitution", 2);
 		errno = EINVAL;
 	}
 }

@@ -20,7 +20,10 @@
 static int	if_continue_lex(t_token_list *token)
 {
 	if (token == NULL)
+	{
+		perror(LEXER_ERRMSG ": malloc");
 		return (0);
+	}
 	if (token->type == LR_NULL || token->type == LR_T_EOL)
 		return (0);
 	else

@@ -15,6 +15,8 @@
 
 # include "ft_list.h"
 
+# define EXPANDER_ERRMSG "minishell"
+
 /**
  * This function generates full path of executable file searched using PATH
  * environment variable using ft_getenv() and malloc(3).
