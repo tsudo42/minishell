@@ -24,62 +24,32 @@
 static int	exec_d_redin(const char *word, int fd)
 {
 	int open_fd;
-	int len;
-	char	buf[BUFSIZE]; // should I avoid this and use malloc instead?
 
 	open_fd = open(word, O_RDONLY);
-	while ((len = read(open_fd, buf, BUFSIZE)) > 0)
-		write(fd, buf, len);
-	close(open_fd);
-	if (len < 0)
+	if (open_fd < 0)
 	{
-		perror("exec_d_redin");
-		return (0);
+		perror("exex_d_redin: open");
+		return (1);
 	}
-	exit (0);
-	//	return (0);
+	dup2(open_fd, fd);
+	close(open_fd);
+	return (0);
 }
 
 static int	exec_d_redout(const char *word, int fd, int is_append)
 {
 	int open_fd;
-	int len;
-	char	buf[BUFSIZE]; // should I avoid this and use malloc instead?
 	int option;
 
-	(void)fd;
-	printf("word:%s\n", word);
-	printf("fd:%d\n", fd);
-	printf("options:%d, %d\n", O_TRUNC, O_APPEND);
-	len = 1;
-	if (is_append == 0 || is_append == 1)
-	{
-		if (is_append == 0)
-			option = O_TRUNC;
-		else
-			option = O_APPEND;
-		//		open_fd = open(word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		open_fd = open(word, O_WRONLY | O_CREAT | option, 0644);
-		while ((len = read(fd, buf, BUFSIZE)) > 0) 
-			write(open_fd, buf, len);
-		close(open_fd);
-	}
-	/*	else if (is_append == 1)
-			{
-			open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			while ((len = read(open_fd, buf, BUFSIZE)) > 0) 
-			write(fd, buf, len);
-			close(open_fd);
-			}
-			*/
+	if (is_append == 0)
+		option = O_TRUNC;
 	else
-		return (0);
-	if (len < 0)
-	{
-		perror("exec_d_redout");
-		return (0);
-	}
-	exit (0);
+		option = O_APPEND;
+	open_fd = open(word, O_WRONLY | O_CREAT | option, 0644);
+	dup2(open_fd, fd);
+	close(open_fd);
+	exec_d_redin(word, 0);
+	return (0);
 }
 
 static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
