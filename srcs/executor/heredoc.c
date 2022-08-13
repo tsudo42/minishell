@@ -1,5 +1,5 @@
 #include "exec.h"
-
+/*
 static bool	is_env(char c)
 {
 	return (ft_isalpha(c) || c == '_');
@@ -50,6 +50,7 @@ char	*expand_env(char *line)
 	}
 	return (res);
 }
+*/
 
 bool	is_quote(const char *delimi)
 {
@@ -63,7 +64,6 @@ bool	is_quote(const char *delimi)
 		return (true);
 	return (false);
 }
-
 char	*extract_quote(const char *delimi)
 {
 	char	*res;
@@ -93,11 +93,28 @@ void	signal_handler_heredoc(int sig)
 	exit (1);
 }
 
+void child_put(const char *delimi, int fd, char *line)
+{
+	int	open_fd;
+
+	open_fd = open("./heredoc.txt", O_CREAT | O_APPEND | O_WRONLY, 0644);
+	dup2(open_fd, fd);
+	close(open_fd);
+	if (is_quote(delimi))
+		ft_putendl_fd(line, fd);
+	else
+//		ft_putendl_fd(expand_env(line), fd);
+		ft_putendl_fd(parameter_expander(line), fd);
+	exit (0);
+}
+
 int	exec_d_heredoc(const char *delimi, int fd)
 {
 	char	*line;
+//	extern char **environ;
+	pid_t pid;
+	int	status;
 
-	line = NULL;
 	while (1)
 	{
 		signal(SIGINT, signal_handler_heredoc);
@@ -108,11 +125,23 @@ int	exec_d_heredoc(const char *delimi, int fd)
 			free(line);
 			break ;
 		}
-		if (is_quote(delimi))
-			ft_putendl_fd(line, fd);
+		pid = fork();
+		if (pid < 0)
+		{
+			perror("fork()");
+			break;
+		}
+		if (pid == 0)
+			child_put(delimi, fd, line);
 		else
-			ft_putendl_fd(expand_env(line), fd);
+			waitpid(pid, &status, 0);
 		free(line);
-	}	
-	exit (0);
+	}
+//	char *args[2];
+//	args[0] = "./heredoc";
+//	args[1] = NULL;
+//	execve("/bin/cat", args, environ);
+//	execve("/bin/rm", "./heredoc", environ);
+	return (0);
+	//exit (0);
 }
