@@ -12,7 +12,7 @@
 
 #include "environ.h"
 
-static int find_name(const char *name)
+int find_name(const char *name)
 {
 	extern char **environ;
 	int i;

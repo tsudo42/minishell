@@ -36,7 +36,7 @@ char	*ft_getenv(const char *name)
 	int		len;
 
 	if (ft_strcmp("?", name) == 0)
-		return (ft_itoa(g_status));
+		return (ft_itoa(*exit_status()));
 	if (!name)
 		return (NULL);
 	tmp = environ;

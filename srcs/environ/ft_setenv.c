@@ -57,6 +57,16 @@ char *env_strjoin(const char *env_var, const char *content)
 	return (res);
 }
 
+int change_content(const char *content, int len)
+{
+	extern char **environ;
+	
+	free(environ[len]);
+	environ[len] = NULL;
+	environ[len] = ft_strdup(content);
+	return (0);
+}
+
 int	ft_setenv(const char *env_var, const char *content, int overwrite)
 {
 	extern char	**environ;
@@ -66,6 +76,8 @@ int	ft_setenv(const char *env_var, const char *content, int overwrite)
 
 	(void)overwrite;
 	init_environ();
+	if ((len = find_name(env_var)) != -1)
+		return (change_content(content, len));
 	len = envlen();
 	env_new = (char **)malloc(sizeof(char **) * len + 2);
 	if (!env_new)
