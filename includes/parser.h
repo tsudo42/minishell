@@ -14,7 +14,6 @@
 # define PARSER_H
 
 # include "ast.h"
-# include "exec.h"
 
 # define PARSER_ERRMSG "minishell"
 

@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "lexer.h"
 #include "parser.h"
 #include "exec.h"
 #include "libft.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 int	main(void)
 {

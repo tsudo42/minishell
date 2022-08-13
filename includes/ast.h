@@ -13,8 +13,6 @@
 #ifndef AST_H
 # define AST_H
 
-# include <stdio.h>
-
 /**
  * Type definitions for AST - Abstruct Syntax Tree
  *

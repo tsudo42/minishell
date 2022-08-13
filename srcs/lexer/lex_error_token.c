@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "lexer_internal.h"
+#include "libft.h"
+#include <unistd.h>
 
 t_token_list	*lex_error_token(char token)
 {

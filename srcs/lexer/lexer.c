@@ -12,6 +12,7 @@
 
 #include "lexer.h"
 #include "lexer_internal.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 /**

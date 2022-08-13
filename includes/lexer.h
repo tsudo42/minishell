@@ -14,8 +14,6 @@
 # define LEXER_H
 
 # include "parser.h"
-# include "libft.h"
-# include "utils.h"
 
 # define LEXER_ERRMSG "minishell"
 

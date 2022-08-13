@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "lexer_internal.h"
+#include <stddef.h>
 
 t_token_list	*token_list_join(t_token_list *head, t_token_list *to_append)
 {
