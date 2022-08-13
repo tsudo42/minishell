@@ -27,6 +27,7 @@ int	envlen(void);
 char	*ft_getenv(const char *name);
 int		ft_setenv(const char *name, const char *value, int overwrite);
 int		ft_putenv(const char *string);
+int find_name(const char *name);
 int		ft_unsetenv(const char *name);
 
 #endif /* ENVIRON_H */
