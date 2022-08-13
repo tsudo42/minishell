@@ -39,13 +39,16 @@ static int	exec_d_redin(const char *word, int fd)
 static int	exec_d_redout(const char *word, int fd, int is_append)
 {
 	int open_fd;
-	int option;
 
 	if (is_append == 0)
-		option = O_TRUNC;
+		open_fd = open(word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
-		option = O_APPEND;
-	open_fd = open(word, O_WRONLY | O_CREAT | option, 0644);
+		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (open_fd < 0)
+	{
+		perror("exex_d_redin: open");
+		return (1);
+	}
 	dup2(open_fd, fd);
 	close(open_fd);
 	exec_d_redin(word, 0);
@@ -84,9 +87,6 @@ int	exec_d(t_ast_d *d)
 		fd = calc_fd(d->type, d->num, &is_err);
 		if (fd < 0)
 			return (1);
-//		printf("fd: %ld\n", fd);
-//		printf("d->type: %d\n", d->type);
-//		printf("d->num: %d\n", d->type);
 		if (d->type == AST_D_REDIN)
 			is_err = exec_d_redin(d->word, fd);
 		else if (d->type == AST_D_REDOUT)
@@ -99,6 +99,5 @@ int	exec_d(t_ast_d *d)
 			exec_error("undefined d type");
 		d = d->next;
 	}
-//	printf("parent\n");
 	return (is_err);
 }
