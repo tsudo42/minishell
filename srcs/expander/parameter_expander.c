@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-t_list	*next_parameter_token(char **word);
+t_list	*next_parameter_token(char **word, char *exit_status_str);
 
 static char	*lst_to_str(t_list *lst)
 {
@@ -48,20 +48,30 @@ static char	*lst_to_str(t_list *lst)
 	return (str);
 }
 
+static void	*print_error(void *to_free)
+{
+	perror("minishell");
+	free(to_free);
+	return (NULL);
+}
+
 /* Errno can be set as ENOMEM by malloc or EINVAL as bad substitution. */
 char	*parameter_expander(char *word)
 {
 	t_list	*lst;
 	t_list	*lst_node;
-	char	*word_to_free;
+	char	*to_free[2];
 	char	*str;
 
 	errno = 0;
-	word_to_free = word;
+	to_free[0] = word;
+	to_free[1] = ft_itoa(0);
+	if (to_free[1] == NULL)
+		return (print_error(to_free[0]));
 	lst = NULL;
 	while (*word != '\0' && errno == 0)
 	{
-		lst_node = next_parameter_token(&word);
+		lst_node = next_parameter_token(&word, to_free[1]);
 		if (lst_node == NULL)
 			perror("malloc");
 		ft_lstadd_back(&lst, lst_node);
@@ -70,6 +80,7 @@ char	*parameter_expander(char *word)
 	if (errno == 0)
 		str = lst_to_str(lst);
 	ft_lstclear(&lst, NULL);
-	free(word_to_free);
+	free(to_free[0]);
+	free(to_free[1]);
 	return (str);
 }

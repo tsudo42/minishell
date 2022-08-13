@@ -33,7 +33,7 @@ static size_t	sep_var_len(char *str)
 {
 	size_t	i;
 
-	if (ft_isdigit(str[1]) || str[1] == '$' || str[1] == '?')
+	if (ft_isdigit(str[1]) || str[1] == '?')
 		return (2);
 	i = 2;
 	if (ft_isalpha(str[1]) || str[1] == '_')
@@ -85,7 +85,7 @@ static size_t	sep_len(char *str)
 	return (i);
 }
 
-static char	*get_env_helper(char *param)
+static char	*get_env_helper(char *param, char *exit_status_str)
 {
 	char	*param_head;
 	char	*env_var;
@@ -101,18 +101,22 @@ static char	*get_env_helper(char *param)
 	else
 	{
 		param_head = param;
-		if (ft_isdigit(*param) || *param == '$' || *param == '@')
-		{
+		if (ft_isdigit(*param) || *param == '?')
 			*(param + 1) = '\0';
-		}
 	}
-	env_var = ft_getenv(param_head);
+	if (ft_strcmp(param_head, "?") == 0)
+		env_var = exit_status_str;
+	else
+		env_var = ft_getenv(param_head);
 	if (env_var == NULL)
 		return ("");
 	return (env_var);
 }
 
-t_list	*next_parameter_token(char **word)
+/* returns the ft_list node of parameter token.                              */
+/* (*word)[0] should not be '\0'.                                            */
+/* error message of malloc error should be printed outside of this function. */
+t_list	*next_parameter_token(char **word, char *exit_status_str)
 {
 	t_list	*lst;
 	char	*word_head;
@@ -132,7 +136,7 @@ t_list	*next_parameter_token(char **word)
 		return (NULL);
 	tmp = (**word);
 	(**word) = '\0';
-	lst = ft_lstnew(get_env_helper(word_head));
+	lst = ft_lstnew(get_env_helper(word_head, exit_status_str));
 	(**word) = tmp;
 	*word_head = '\0';
 	return (lst);
