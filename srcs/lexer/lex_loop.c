@@ -76,13 +76,6 @@ static t_token_list	*lex_word(char **input, t_lr_token_type type)
 			break ;
 		else if (**input == '\'' || **input == '\"')
 			type = lex_quote(input);
-		else if (ft_isdigit(**input))
-		{
-			if (redstr_len(*input) > 0)
-				break ;
-			else
-				(*input) += ft_strspn(*input, LEX_NUM);
-		}
 		else
 			(*input)++;
 	}
