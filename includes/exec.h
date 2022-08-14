@@ -18,6 +18,11 @@
 # include "builtin.h"
 # include "environ.h"
 # include "expander.h"
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <wait.h>
+
 //# include "libft.h"
 
 /*# include <stdio.h>
@@ -39,5 +44,5 @@
 
 int		executor(t_ast *ast_root);
 int	ft_strcmp(const char *s1, const char *s2);
-int	heredoc(const char *delimi, int fd);
+int	exec_d_heredoc(const char *delimi, int fd);
 #endif /* EXEC_H */
