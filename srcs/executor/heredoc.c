@@ -93,33 +93,22 @@ void	signal_handler_heredoc(int sig)
 	exit (1);
 }
 
-/*
-void child_put(const char *delimi, int fd, char *line)
+static void put_line(const char *delimi, char *line, int *pipe_fd)
 {
-	int	open_fd;
+	char *tmp;
 
-	open_fd = open("./heredoc.txt", O_CREAT | O_APPEND | O_WRONLY, 0644);
-	// we need to pick the randam .
-	dup2(open_fd, fd);
-	close(open_fd);
 	if (is_quote(delimi))
-		ft_putendl_fd(line, fd);
+		ft_putendl_fd(line, pipe_fd[1]);
 	else
-		//		ft_putendl_fd(expand_env(line), fd);
-		ft_putendl_fd(parameter_expander(line), fd);
-//	exit (0);
+	{
+		tmp = ft_strdup(line);
+		ft_putendl_fd(parameter_expander(tmp), pipe_fd[1]);
+	}
 }
-*/
 
 int	exec_d_heredoc(const char *delimi, int fd)
 {
 	char	*line;
-	//	extern char **environ;
-//	pid_t pid;
-	//int	status;
-//	-> there is a limit in the buffer of the pipe.
-//	-> better to make the function to check if the number of input is greater than the limit.
-//	-> if the number is bigger, return the error.
 	int pipe_fd[2];
 
 	if (pipe(pipe_fd) < 0)
@@ -131,31 +120,18 @@ int	exec_d_heredoc(const char *delimi, int fd)
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		line = readline("hd> ");
+		line = readline("> ");
 		if (line == NULL || !ft_strcmp(line, extract_quote(delimi)))
 		{
 			free(line);
 			break ;
 		}
-/*		pid = fork();
-		if (pid < 0)
-		{
-			perror("fork()");
-			break;
-		}
-		if (pid == 0)
-*/
-		dup2(pipe_fd[0], fd);
-	  close(pipe_fd[0]);
-			if (is_quote(delimi))
-		ft_putendl_fd(line, fd);
-			else
-		ft_putendl_fd(parameter_expander(line), fd);
-//		else
-//			waitpid(pid, &status, 0);
+		put_line(delimi, line, pipe_fd);
 		free(line);
 	}
-	dup2(pipe_fd[1], 0);
+	dup2(pipe_fd[0], 0);
+	(void)fd;
 	close(pipe_fd[1]);
+	close(pipe_fd[0]);
 	return (0);
 }
