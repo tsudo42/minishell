@@ -51,8 +51,8 @@ static int	exec_d_redout(const char *word, int fd, int is_append)
 	ret = ft_r_dup2(open_fd, fd, "exed_d_redout: dup2");
 	close(open_fd);
 	exec_d_redin(word, 0);
-	if (ret <= 0)
-		return (-1)
+	if (ret < 0)
+		return (-1);
 	return (0);
 }
 

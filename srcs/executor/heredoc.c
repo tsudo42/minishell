@@ -94,7 +94,7 @@ void	signal_handler_heredoc(int sig)
 	exit (1);
 }
 
-static void put_line(const char *delimi, char *line, int *pipe_fd, int *len)
+static int put_line(const char *delimi, char *line, int *pipe_fd, int *len)
 {
 	char *tmp;
 
@@ -102,9 +102,11 @@ static void put_line(const char *delimi, char *line, int *pipe_fd, int *len)
 		*len += ft_putendl_len_fd(line, pipe_fd[1]);
 	else
 	{
-		tmp = ft_strdup(line);
+		if ((tmp = ft_strdup(line)) == NULL)
+			return (-1);
 		*len += ft_putendl_len_fd(parameter_expander(tmp), pipe_fd[1]);
 	}
+	return (0);
 }
 
 static int close_pipe(int *pipe_fd, int len)
@@ -121,7 +123,7 @@ static int close_pipe(int *pipe_fd, int len)
 	ret = ft_r_dup2(pipe_fd[0], 0, "close_pipe: dup2");
 	close(pipe_fd[1]);
 	close(pipe_fd[0]);
-	if (ret <= 0)
+	if (ret < 0)
 		return (-1);
 	return (0);
 }
@@ -149,7 +151,11 @@ int	exec_d_heredoc(const char *delimi, int fd)
 			free(line);
 			break ;
 		}
-		put_line(delimi, line, pipe_fd, &len);
+		if ((put_line(delimi, line, pipe_fd, &len)) == -1)
+		{
+			free(line);
+			return (-1);
+		}
 		free(line);
 	}
 	return (close_pipe(pipe_fd, len));
