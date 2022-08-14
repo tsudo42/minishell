@@ -64,6 +64,7 @@ bool	is_quote(const char *delimi)
 		return (true);
 	return (false);
 }
+
 char	*extract_quote(const char *delimi)
 {
 	char	*res;
@@ -93,29 +94,51 @@ void	signal_handler_heredoc(int sig)
 	exit (1);
 }
 
-static void put_line(const char *delimi, char *line, int *pipe_fd)
+static void put_line(const char *delimi, char *line, int *pipe_fd, int *len)
 {
 	char *tmp;
 
 	if (is_quote(delimi))
-		ft_putendl_fd(line, pipe_fd[1]);
+		*len += ft_putendl_len_fd(line, pipe_fd[1]);
 	else
 	{
 		tmp = ft_strdup(line);
-		ft_putendl_fd(parameter_expander(tmp), pipe_fd[1]);
+		*len += ft_putendl_len_fd(parameter_expander(tmp), pipe_fd[1]);
 	}
+}
+
+static int close_pipe(int *pipe_fd, int len)
+{
+	int ret;
+
+	if (len > 15873)
+	{
+		close(pipe_fd[1]);
+		close(pipe_fd[0]);
+		perror("exec_d_heredoc: over pipe buf");
+		return (-1);
+	}
+	ret = ft_r_dup2(pipe_fd[0], 0, "close_pipe: dup2");
+	close(pipe_fd[1]);
+	close(pipe_fd[0]);
+	if (ret <= 0)
+		return (-1);
+	return (0);
 }
 
 int	exec_d_heredoc(const char *delimi, int fd)
 {
 	char	*line;
 	int pipe_fd[2];
+	int len;
 
+	(void)fd;
 	if (pipe(pipe_fd) < 0)
 	{
 		perror("exec_d_heredoc: pipe");
 		return (-1);
 	}
+	len = 0;
 	signal(SIGINT, signal_handler_heredoc);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
@@ -126,12 +149,8 @@ int	exec_d_heredoc(const char *delimi, int fd)
 			free(line);
 			break ;
 		}
-		put_line(delimi, line, pipe_fd);
+		put_line(delimi, line, pipe_fd, &len);
 		free(line);
 	}
-	dup2(pipe_fd[0], 0);
-	(void)fd;
-	close(pipe_fd[1]);
-	close(pipe_fd[0]);
-	return (0);
+	return (close_pipe(pipe_fd, len));
 }
