@@ -116,10 +116,12 @@ SRCS	+= $(U_SRCS)
 U_SRCS	:= \
 	srcs/utils/ft_x_malloc.c \
 	srcs/utils/ft_x_dup2.c \
+	srcs/utils/ft_r_dup2.c \
 	srcs/utils/ft_x_execve.c \
 	srcs/utils/ft_x_dup.c \
 	srcs/utils/ft_x_pipe.c \
 	srcs/utils/ft_x_fork.c \
+	srcs/utils/ft_putendl_len_fd.c \
 
 SRCS	+= $(D_SRCS)
 D_SRCS	:= \
