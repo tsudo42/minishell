@@ -55,6 +55,9 @@ static int	print_contents(void)
 	return (STATUS_SUCCESS);
 }
 
+//add the function to check if the parameter is valid or not.
+
+
 static int	export_contents(char **argv)
 {
 	char	*env_var;

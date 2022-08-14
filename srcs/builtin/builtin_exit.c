@@ -29,7 +29,7 @@ int get_exit_status(char *str)
 	else if (exit_status < 0)
 		exit_status = 0;
 //		exit_status = exit_status 
-return (exit_status);
+return (exit_status);//change this
 }
 
 int	builtin_exit(char **argv)
@@ -37,7 +37,7 @@ int	builtin_exit(char **argv)
 	int	exit_status;
 
 	if (argv[1] == NULL)
-		exit (g_status);
+		exit (0);
 	if (argv[2] != NULL)
 	{
 		ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO);
@@ -48,7 +48,7 @@ int	builtin_exit(char **argv)
 		ft_putstr_fd("exit: numeric argument required\n", STDERR_FILENO);
 		exit (255);
 	}
-	exit(exit_status);
+	exit(exit_status); //change this
 }
 
 /*tester
