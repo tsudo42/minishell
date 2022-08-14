@@ -35,8 +35,8 @@ char	*ft_getenv(const char *name)
 	char	*content;
 	int		len;
 
-	if (ft_strcmp("?", name) == 0)
-		return (ft_itoa(*exit_status()));
+//	if (ft_strcmp("?", name) == 0)
+//		return (ft_itoa(*exit_status()));
 	if (!name)
 		return (NULL);
 	tmp = environ;
@@ -47,7 +47,7 @@ char	*ft_getenv(const char *name)
 		{
 			content = ft_strchr(*tmp, '=');
 			content++;
-			return (ft_strdup(content));
+			return (content);
 		}
 		tmp++;
 	}
