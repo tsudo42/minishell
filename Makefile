@@ -58,8 +58,11 @@ EV_SRCS	:= \
 	srcs/environ/ft_putenv.c \
 	srcs/environ/ft_setenv.c \
 	srcs/environ/ft_getenv.c \
-	srcs/environ/init_environ.c \
 	srcs/environ/ft_unsetenv.c \
+	srcs/environ/add_environ.c \
+	srcs/environ/init_environ.c \
+	srcs/environ/print_env.c \
+	srcs/environ/free_environ.c \
 
 SRCS	+= $(EX_SRCS)
 EX_SRCS	:= \
