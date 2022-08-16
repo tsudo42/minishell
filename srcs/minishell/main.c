@@ -47,6 +47,7 @@ int	main(void)
 	int		ret;
 
 	line = NULL;
+//	init_environ();
 	while (1)
 	{
 		g_sig = 0;
@@ -64,5 +65,6 @@ int	main(void)
 		ret = executor(parser(lexer(line)));
 	}
 	printf("exit\n");
+//	free_environ();
 	return (ret);
 }
