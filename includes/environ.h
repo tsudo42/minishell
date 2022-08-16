@@ -22,12 +22,15 @@
 
 //extern char	**environ;
 
+int envlen(void);
 void	init_environ(void);
-int	envlen(void);
 char	*ft_getenv(const char *name);
 int		ft_setenv(const char *name, const char *value, int overwrite);
 int		ft_putenv(const char *string);
 int find_name(const char *name);
 int		ft_unsetenv(const char *name);
+void	free_environ(void);
+int	print_env(const char *string);
+char **add_environ(const char *string);
 
 #endif /* ENVIRON_H */
