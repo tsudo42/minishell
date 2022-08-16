@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unsetenv.c                                      :+:      :+:    :+:   */
+/*       add_environ.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,50 +12,30 @@
 
 #include "environ.h"
 
-static char **del_one_environ(int skip)
+char **add_environ(const char *string)
 {
-	extern char **environ;
 	char	**env_new;
 	int i;
-	int j;
-
-	env_new = (char **)malloc(sizeof(char *) * (envlen()));
+	extern char **environ;
+	
+	env_new = (char **)malloc(sizeof(char *) * (envlen() + 2));
 	if (!env_new)
 	{
 		free_environ();
 		perror("add_environ");
 		exit(EXIT_FAILURE);
-	}
+	}	
+	i = 0;
 	if (!environ)
 		return NULL;
-	i = 0;
-	j = 0;
-	while (environ[j])
+	while (environ[i])
 	{
-		if (j == skip)
-			j++;
-		env_new[i] = ft_strdup(environ[j]);
+		env_new[i] = ft_strdup(environ[i]);
 		i++;
-		j++;
 	}
+	env_new[i++] = ft_strdup(string);
 	env_new[i] = ft_strdup("");
 	free_environ();
 	environ = NULL;
 	return (env_new);
-}
-
-int	ft_unsetenv(const char *name)
-{
-	extern char **environ;
-	char **env_new;
-	int skip;
-
-	if ((skip = find_name(name)) == -1)
-		return (0);
-	env_new = del_one_environ(skip);
-	if (!env_new)
-		return (-1);
-	free (environ);
-	environ = env_new;
-	return (0);
 }

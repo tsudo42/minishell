@@ -12,89 +12,81 @@
 
 #include "environ.h"
 
-/*
-static void	allocate_env(void)
-{
-	extern char	**environ;
-	char		**tmp;
-	char		*env_var;
-	char		*content;
-
-	tmp = environ;
-	while (*tmp != NULL)
-	{
-		env_var = ft_strdup(*tmp);
-		content = ft_strchr(env_var, '=');
-		*content = '\0';
-		content++;
-		ft_setenv(env_var, content);
-		free(env_var);
-		tmp++;
-	}
-}
-*/
-char *env_strjoin(const char *env_var, const char *content)
+char *env_strjoin(const char *name, const char *value)
 {
 	char *res;
 	int len1;
 	int	len2;
 	int i;
 	
-	if (!env_var || !content)
+	if (!name || !value)
 		return (NULL);
-	len1 = ft_strlen(env_var);
-	len2 = ft_strlen(content);
+	len1 = ft_strlen(name);
+	len2 = ft_strlen(value);
 	res = (char *)malloc(sizeof(char) * (len1 + len2 + 2));
 	if (!res)
 		return (NULL);
 	i = 0;
-	while (*env_var)
-		res[i++] = *(env_var++);
+	while (*name)
+		res[i++] = *(name++);
 	res[i++] = '=';
-	while (*content)
-		res[i++] = *(content++);
+	while (*value)
+		res[i++] = *(value++);
 	res[i] = '\0';
 	return (res);
 }
 
-int change_content(const char *content, int len)
+int find_name(const char *name)
 {
 	extern char **environ;
-	
-	free(environ[len]);
-	environ[len] = NULL;
-	environ[len] = ft_strdup(content);
-	return (0);
-}
-
-int	ft_setenv(const char *env_var, const char *content, int overwrite)
-{
-	extern char	**environ;
-	char **env_new;
 	int i;
 	int len;
 
-	(void)overwrite;
+	i = 0;
+	len = ft_strlen(name);
+	while (environ[i])
+	{
+		if (ft_strncmp(environ[i], name, len) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+int setenv_overwrite(const char *name, const char *value, int len)
+{
+	extern char **environ;
+
+	free (environ[len]);
+	environ[len] = NULL;
+	environ[len] = env_strjoin(name, value);
+	if (!environ[len])
+		return (-1);
+	return (0);
+}
+
+int	ft_setenv(const char *name, const char *value, int overwrite)
+{
+	extern char	**environ;
+	char **env_new;
+	char *str;
+	int len;
+
 	init_environ();
-	if ((len = find_name(env_var)) != -1)
-		return (change_content(content, len));
-	len = envlen();
-	env_new = (char **)malloc(sizeof(char **) * len + 2);
+	if ((len = find_name(name)) != -1)
+	{
+		if (overwrite != 0)
+			return (setenv_overwrite(name, value, len));
+		return (0);
+	}
+	str = env_strjoin(name, value);
+	env_new = add_environ(str);
 	if (!env_new)
 	{
 		perror("ft_setenv");
 		exit(EXIT_FAILURE);
 	}
-	i = 0;
-	while (environ[i])
-	{
-		env_new[i] = environ[i];
-		i++;
-	}
-	env_new[i] = env_strjoin(env_var, content);
-	if (!env_new[i++])
-		return (-1);
-	env_new[i] = NULL;
+	free(str);
 	free(environ);
 	environ = env_new;
 	return (0);

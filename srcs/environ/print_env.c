@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unsetenv.c                                      :+:      :+:    :+:   */
+/*   print_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,50 +12,13 @@
 
 #include "environ.h"
 
-static char **del_one_environ(int skip)
+int	print_env(const char *string)
 {
-	extern char **environ;
-	char	**env_new;
-	int i;
-	int j;
+	char	*content;
 
-	env_new = (char **)malloc(sizeof(char *) * (envlen()));
-	if (!env_new)
-	{
-		free_environ();
-		perror("add_environ");
-		exit(EXIT_FAILURE);
-	}
-	if (!environ)
-		return NULL;
-	i = 0;
-	j = 0;
-	while (environ[j])
-	{
-		if (j == skip)
-			j++;
-		env_new[i] = ft_strdup(environ[j]);
-		i++;
-		j++;
-	}
-	env_new[i] = ft_strdup("");
-	free_environ();
-	environ = NULL;
-	return (env_new);
-}
-
-int	ft_unsetenv(const char *name)
-{
-	extern char **environ;
-	char **env_new;
-	int skip;
-
-	if ((skip = find_name(name)) == -1)
-		return (0);
-	env_new = del_one_environ(skip);
-	if (!env_new)
+	content = ft_getenv(string);
+	if (!content)
 		return (-1);
-	free (environ);
-	environ = env_new;
+	ft_putstr_fd(content, STDOUT_FILENO);
 	return (0);
 }

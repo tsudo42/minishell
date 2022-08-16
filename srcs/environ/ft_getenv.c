@@ -12,22 +12,6 @@
 
 #include "environ.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	if (!s1 || !s2)
-			return (-1);
-	while (*s1 == *s2)
-	{
-		if (*s1 == '\0')
-			break ;
-		s1++;
-		s2++;
-		if (!s1 || !s2)
-			return (-1);
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
-
 char	*ft_getenv(const char *name)
 {
 	extern char	**environ;
@@ -35,8 +19,6 @@ char	*ft_getenv(const char *name)
 	char	*content;
 	int		len;
 
-//	if (ft_strcmp("?", name) == 0)
-//		return (ft_itoa(*exit_status()));
 	if (!name)
 		return (NULL);
 	tmp = environ;

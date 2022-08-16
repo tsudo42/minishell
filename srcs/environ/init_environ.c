@@ -16,30 +16,25 @@ int	envlen(void)
 {
 	extern char **environ;
 	char **tmp;
-
-	int i;
+	int len;
 
 	tmp = environ;
-	i = 0;
+	len = 0;
 	while (*tmp)
 	{
 		tmp++;
-		i++;
+		len++;
 	}
-	return (i);
+	return (len);
 }
 
 void	init_environ(void)
 {
-	extern char **environ;
 	char	**env_new;
-	static int initialized;
+	extern char **environ;
 	int i;
 
-	if (initialized != 0)
-		return ;
-	initialized = 1;
-	env_new = (char **)malloc(sizeof(char **) * (envlen() + 1));
+	env_new = (char **)malloc(sizeof(char *) * (envlen() + 1));
 	if (!env_new)
 	{
 		perror("init_environ");
@@ -48,9 +43,10 @@ void	init_environ(void)
 	i = 0;
 	while (environ[i])
 	{
-		env_new[i] = environ[i];
+		env_new[i] = ft_strdup(environ[i]);
 		i++;
 	}
-	env_new[i] = NULL;
+	env_new[i] = ft_strdup("");
 	environ = env_new;
+	return ;
 }

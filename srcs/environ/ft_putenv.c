@@ -12,15 +12,44 @@
 
 #include "environ.h"
 
+static int find_string(const char *string)
+{
+	extern char **environ;
+	int i;
+	int len;
+
+	len = ft_strchr(string, '=') - string;
+	i = 0;
+	while (environ[i])
+	{
+		if (ft_strncmp(environ[i], string, len) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+int change_content(const char *string, int location)
+{
+	extern char **environ;
+
+	free(environ[location]);
+	environ[location] = NULL;
+	environ[location] = ft_strdup(string);
+	return (0);
+}
+
 int	ft_putenv(const char *string)
 {
-	char	*content;
+	extern char	**environ;
+	char **env_new;
+	int location;
 
-	//	if (ft_strcmp("?", name) == 0)
-//		return (ft_itoa(*exit_status()));
-	content = ft_getenv(string);
-	if (!content)
+	if ((location = find_string(string)) != -1)
+		return (change_content(string, location));
+	env_new = add_environ(string);
+	if (!env_new)
 		return (-1);
-	ft_putstr_fd(content, STDOUT_FILENO);
+	environ = env_new;
 	return (0);
 }
