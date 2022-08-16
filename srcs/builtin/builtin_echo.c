@@ -15,7 +15,7 @@
 char *remove_dollormk(char *argv)
 {
 	if (!*argv)
-		return NULL;
+		return (NULL);
 	return (++argv);
 }
 

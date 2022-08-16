@@ -12,7 +12,7 @@
 
 #include "builtin.h"
 
-static void ft_putstrlen_fd(const char *s, size_t len, int fd)
+static void putstrlen_fd(const char *s, size_t len, int fd)
 {
 	size_t i;
 
@@ -23,66 +23,92 @@ static void ft_putstrlen_fd(const char *s, size_t len, int fd)
 	}
 	i = 0;
 	while (s[i] != '\0' && i < len) 
-	 	i++;
+		i++;
 	if (i != 0)
 		write(fd, s, i);
 }
 
-static int	print_contents(void)
+static int	is_printable(char *s)
+{
+	if (ft_strncmp(s, "LINES=", 6) == 0)
+		return (-1);
+	else if (ft_strncmp(s, "COLUMNS=", 8) == 0)
+		return (-1);
+	return (0);
+}
+
+static int	print_values(void)
 {
 	extern char	**environ;
 	int i;
 	char *str;
-	char *content;
+	char *value;
 
-	//ft_init_environ();
 	i = 0;
 	while (environ[i])
 	{
-		if (environ[i][0] == '_')
+		if (environ[i][0] == '_' || is_printable(environ[i]) == -1)
 		{
 			i++;
 			continue ;
 		}
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		str = ft_strdup(environ[i++]);
-		content = ft_strchr(str, '=');
-		ft_putstrlen_fd(str, content - str, STDOUT_FILENO);
+		value = ft_strchr(str, '=');
+		putstrlen_fd(str, value - str, STDOUT_FILENO);
 		ft_putstr_fd("=\"", STDOUT_FILENO);
-		ft_putstr_fd(++content, STDOUT_FILENO);
+		ft_putstr_fd(++value, STDOUT_FILENO);
 		ft_putstr_fd("\"\n", STDOUT_FILENO);
 	}
 	return (STATUS_SUCCESS);
 }
-
 //add the function to check if the parameter is valid or not.
 
-
-static int	export_contents(char **argv)
+static int	export_value_checker(char *name, int len, char **argv)
 {
-	char	*env_var;
-	char	*content;
+	int i;
+
+	i = 1;
+	while (i < len)
+	{
+		if (!ft_isalpha(name[0]))
+			break ;
+		if (!ft_isalpha(name[i]) || !ft_isdigit(name[i]))
+			break ;
+		i++;
+	}
+	if (i == len)
+		return (STATUS_SUCCESS);
+//	printf("export: '%s", *argv);
+	ft_putstr_fd("export: '", STDERR_FILENO);
+	ft_putstr_fd(*argv, STDERR_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+	free(name);
+	return(STATUS_FAILURE);
+}
+
+static int	export_values(char **argv)
+{
+	char	*name;
+	char	*value;
 	int		status;
 
 	status = STATUS_SUCCESS;
 	while (*(++argv) != NULL)
 	{
-		env_var = ft_strdup(*argv);
-		content = ft_strchr(env_var, '=');
-		if (!ft_isalpha(env_var[0]))
-		{
-			status = STATUS_FAILURE;
-			printf("export: '%s", *argv); // has to change this to ft_putstr?
-			ft_putstr_fd("': not a valid identifier", STDERR_FILENO);
-			free(env_var);
-			continue;
-		}
-		if (content != NULL)
-		{
-			*content = '\0';
-			ft_setenv(env_var, ++content, 0); // change the 3rd argument later
-		}
-		free (env_var);
+		name = ft_strdup(*argv);
+		value = ft_strchr(name, '=');
+		if ((status = export_value_checker(name, value - name, argv)) \
+			== STATUS_FAILURE)
+			break;
+		//	}
+
+		if (value != NULL)
+			//	{
+			//	*value = '\0';
+			ft_setenv(name, ++value, 1);
+		//	}
+		free (name);
 	}
 	return (status);
 }
@@ -90,54 +116,8 @@ static int	export_contents(char **argv)
 int	builtin_export(char **argv)
 {
 	if (argv[1] == NULL)
-		return (print_contents());
+		return (print_values());
 	else
-		return (export_contents(argv));
+		return (export_values(argv));
 }
 
-/*
-int main(void)
-{
-	char *argv[10];
-	char str[10] = "export";
-	//	char str1[10] = "-n";
-	char str1[15] = "TEST=test";
-	char str2[15] = "TEST2=test2";
-	char str3[15] = "TEST3=test3";
-	char *str4;
-
-	str4 = NULL;
-	argv[0] = str;
-	argv[1] = str1;
-	argv[2] = str2;
-	argv[3] = str3;
-	argv[4] = str4;
-	builtin_export(argv);
-//	ft_putenv("TEST2");
-	builtin_env(argv);
-	printf("\n\n");
-
-	char *xargv[10];
-	char xstr[10] = "AAA";
-	//	char str1[10] = "-n";
-	char xstr1[15] = "TEST";
-	char xstr2[15] = "TEST2";
-	char xstr3[15] = "TEST3";
-	char *xstr4;
-
-	xstr4 = NULL;
-	xargv[0] = xstr;
-	xargv[1] = xstr1;
-	xargv[2] = xstr2;
-	xargv[3] = xstr3;
-	xargv[4] = xstr4;
-	builtin_unset(xargv);
-	argv[1] = NULL;
-	argv[2] = NULL;
-	argv[3] = NULL;
-
-	builtin_env(xargv);
-	//	builtin_export(argv);
-	return (0);
-}
-*/

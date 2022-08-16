@@ -19,34 +19,20 @@ int	builtin_env(char **argv)
 
 	(void)argv;
 	i = 0;
-//	ft_init_environ();
 	while (environ[i])
 	{
+		if (ft_strncmp(environ[i], "LINES=", 6) == 0)
+		{
+			i++;
+			continue;
+		}
+		else if (ft_strncmp(environ[i], "COLUMNS=", 8) == 0)
+		{
+			i++;
+			continue;
+		}
 		ft_putstr_fd(environ[i++], STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 	return (STATUS_SUCCESS);
 }
-/*
-int main(void)
-{
-	char *argv[10];
-	char str[10] = "echo";
-	//	char str1[10] = "-n";
-	char str1[10] = "str1";
-	char str2[10] = "str2";
-	char str3[10] = "str3";
-	char *str4;
-
-	str4 = NULL;
-	argv[0] = str;
-	argv[1] = str1;
-	argv[2] = str2;
-	argv[3] = str3;
-	argv[4] = str4;
-	builtin_env(argv);
-	return (0);
-}
-
-*/
-

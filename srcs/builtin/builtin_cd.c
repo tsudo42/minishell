@@ -28,7 +28,7 @@ static int	cd_to_home(void)
 		perror("cd_to_home2");
 		return (STATUS_FAILURE);
 	}
-	free(home_dir);
+//	free(home_dir);
 	return (STATUS_SUCCESS);
 }
 
