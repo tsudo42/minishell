@@ -73,7 +73,7 @@ static int	export_value_checker(char *name, int len, char **argv)
 	{
 		if (!ft_isalpha(name[0]))
 			break ;
-		if (!ft_isalpha(name[i]) || !ft_isdigit(name[i]))
+		if (!ft_isalpha(name[i]) && !ft_isdigit(name[i]))
 			break ;
 		i++;
 	}
@@ -89,26 +89,30 @@ static int	export_value_checker(char *name, int len, char **argv)
 
 static int	export_values(char **argv)
 {
-	char	*name;
+	char	*string;
+//	char	*name;
 	char	*value;
 	int		status;
 
 	status = STATUS_SUCCESS;
 	while (*(++argv) != NULL)
 	{
-		name = ft_strdup(*argv);
-		value = ft_strchr(name, '=');
-		if ((status = export_value_checker(name, value - name, argv)) \
+		string = ft_strdup(*argv);
+		value = ft_strchr(string, '=');
+		if ((status = export_value_checker(string, value - string, argv)) \
 			== STATUS_FAILURE)
 			break;
 		//	}
 
+		*value = '\0';
+//		name = ft_strndup(string, value - string);
 		if (value != NULL)
+			ft_setenv(string, ++value, 1);
 			//	{
-			//	*value = '\0';
-			ft_setenv(name, ++value, 1);
+			//	
 		//	}
-		free (name);
+//		free (name);
+		free (string);
 	}
 	return (status);
 }
