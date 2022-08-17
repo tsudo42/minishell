@@ -32,7 +32,12 @@ void	init_environ(void)
 {
 	char	**env_new;
 	extern char **environ;
+	static int initialized;
 	int i;
+
+	if (initialized == 1)
+		return ;
+	initialized = 1;
 
 	env_new = (char **)malloc(sizeof(char *) * (envlen() + 1));
 	if (!env_new)
@@ -46,7 +51,8 @@ void	init_environ(void)
 		env_new[i] = ft_strdup(environ[i]);
 		i++;
 	}
-	env_new[i] = ft_strdup("");
+//	env_new[i] = ft_strdup("");
+	env_new[i] = NULL;
 	environ = env_new;
 	return ;
 }

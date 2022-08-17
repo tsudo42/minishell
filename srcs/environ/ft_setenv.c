@@ -41,11 +41,18 @@ int find_name(const char *name)
 	extern char **environ;
 	int i;
 	int len;
+	int len_env;
 
 	i = 0;
 	len = ft_strlen(name);
 	while (environ[i])
 	{
+		len_env = ft_strlen(environ[i]);
+		if (len_env < len)
+		{
+			i++;
+			continue ;
+		}
 		if (ft_strncmp(environ[i], name, len) == 0)
 			return (i);
 		i++;
@@ -68,7 +75,7 @@ int setenv_overwrite(const char *name, const char *value, int len)
 int	ft_setenv(const char *name, const char *value, int overwrite)
 {
 	extern char	**environ;
-	char **env_new;
+//	char **env_new;
 	char *str;
 	int len;
 
@@ -80,14 +87,15 @@ int	ft_setenv(const char *name, const char *value, int overwrite)
 		return (0);
 	}
 	str = env_strjoin(name, value);
-	env_new = add_environ(str);
-	if (!env_new)
+	environ = add_environ(str);
+/*	if (!env_new)
 	{
 		perror("ft_setenv");
 		exit(EXIT_FAILURE);
 	}
+*/
 	free(str);
-	free(environ);
-	environ = env_new;
+//	free(environ);
+//	environ = env_new;
 	return (0);
 }

@@ -17,7 +17,7 @@ char **add_environ(const char *string)
 	char	**env_new;
 	int i;
 	extern char **environ;
-	
+
 	env_new = (char **)malloc(sizeof(char *) * (envlen() + 2));
 	if (!env_new)
 	{
@@ -34,7 +34,8 @@ char **add_environ(const char *string)
 		i++;
 	}
 	env_new[i++] = ft_strdup(string);
-	env_new[i] = ft_strdup("");
+//	env_new[i] = ft_strdup("");
+	env_new[i] = NULL;
 	free_environ();
 	environ = NULL;
 	return (env_new);
