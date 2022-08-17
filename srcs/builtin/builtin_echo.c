@@ -33,7 +33,7 @@ int	builtin_echo(char **argv)
 	while (*argv != NULL)
 	{
 		if (ft_strncmp(*argv, "$", 1) == 0)
-			ft_putenv(remove_dollormk(*argv));
+			print_env(parameter_expander(remove_dollormk(*argv)));
 		else 
 			ft_putstr_fd(*argv, STDOUT_FILENO);
 		argv++;
