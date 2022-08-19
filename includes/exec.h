@@ -21,7 +21,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-# include <wait.h>
+# include <sys/wait.h>
 
 # define READ 0
 # define WRITE 1

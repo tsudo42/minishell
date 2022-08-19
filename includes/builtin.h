@@ -17,6 +17,10 @@
 # include "minishell.h"
 # include "environ.h"
 
+# define BUILT_ERRMSG "minishell"
+//# define BUILT_INTERNAL_ERRMSG "builtin internal error"
+//# define BUILT_INTERNAL_ERRNUM -1
+
 char *remove_dollormk(char *argv);
 int	builtin_echo(char **argv);
 int	builtin_cd(char **argv);
