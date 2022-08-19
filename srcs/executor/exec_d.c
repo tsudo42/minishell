@@ -28,10 +28,10 @@ static int	exec_d_redin(const char *word, int fd)
 	open_fd = open(word, O_RDONLY);
 	if (open_fd < 0)
 	{
-		perror("exex_d_redin: open");
+		perror(EXEX_ERRMSG ": open_fd");
 		return (-1);
 	}
-	return (ft_r_dup2(open_fd, fd, "exec_d_redin: dup2"));
+	return (ft_r_dup2(open_fd, fd, EXEC_ERRRMSG));
 }
 
 static int	exec_d_redout(const char *word, int fd, int is_append)
@@ -45,10 +45,10 @@ static int	exec_d_redout(const char *word, int fd, int is_append)
 		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (open_fd < 0)
 	{
-		perror("exex_d_redin: open");
+		perror(EXEX_ERRMSG ": open_fd");
 		return (-1);
 	}
-	ret = ft_r_dup2(open_fd, fd, "exed_d_redout: dup2");
+	ret = ft_r_dup2(open_fd, fd, EXEC_ERRMSG);
 	close(open_fd);
 	exec_d_redin(word, 0);
 	if (ret < 0)
@@ -71,7 +71,7 @@ static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
 	{
 		errno = EBADF;
 		*is_err = 1;
-		perror("minishell: file descriptor out of range");
+		perror(EXEC_ERRMSG ": file descriptor out of range");
 		return (-1);
 	}
 	return (fd);
