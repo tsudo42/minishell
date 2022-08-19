@@ -12,12 +12,14 @@
 
 #include "builtin.h"
 
-char *remove_dollormk(char *argv)
+/*
+ char *remove_dollormk(char *argv)
 {
 	if (!*argv)
 		return (NULL);
 	return (++argv);
 }
+*/
 
 int	builtin_echo(char **argv)
 {
@@ -33,7 +35,7 @@ int	builtin_echo(char **argv)
 	while (*argv != NULL)
 	{
 		if (ft_strncmp(*argv, "$", 1) == 0)
-			print_env(parameter_expander(remove_dollormk(*argv)));
+			print_env(parameter_expander(*argv));
 		else 
 			ft_putstr_fd(*argv, STDOUT_FILENO);
 		argv++;
