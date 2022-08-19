@@ -1,5 +1,7 @@
 #include "exec.h"
 
+#define PIPE_BUFF_MAX 8192
+
 bool	is_quote(const char *delimi)
 {
 	char	*s;
@@ -54,7 +56,7 @@ static int close_pipe(int *pipe_fd, int len)
 {
 	int ret;
 
-	if (len > 8192)
+	if (len > PIPE_BUFF_MAX)
 	{
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
