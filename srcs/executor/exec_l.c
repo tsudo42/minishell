@@ -20,11 +20,15 @@ int	exec_l(t_ast_l *l)
 	if (l == NULL)
 		exec_error("l is NULL");
 	ret = exec_p(l->p);
+	set_exit_status(ret);
 	l = l->next;
 	while (l != NULL)
 	{
 		if (!(ret) ^ (l->op == AST_L_OR))
+		{
 			ret = exec_p(l->p);
+			set_exit_status(ret);
+		}
 		l = l->next;
 	}
 	return (ret);

@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "environ.h"
 #include "lexer.h"
 #include "parser.h"
 #include "exec.h"
@@ -24,6 +25,7 @@ int	main(void)
 	int		ret;
 
 	ret = 0;
+	set_exit_status(0);
 	write(1, "> ", 2);
 	line = get_next_line(0);
 	while (line != NULL)
