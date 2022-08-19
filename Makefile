@@ -31,6 +31,7 @@ endif
 SRCS	+= $(M_SRCS)
 M_SRCS	:= \
 	srcs/minishell/main.c \
+	srcs/minishell/signal.c \
 
 SRCS	+= $(A_SRCS)
 A_SRCS	:= \
