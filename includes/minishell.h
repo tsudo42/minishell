@@ -32,6 +32,9 @@
 
 volatile sig_atomic_t	g_sig;
 
+void activate_signal(void);
+void deactivate_signal(void);
+void activate_signal_heredoc(void);
 int *exit_status(void);
 
 #endif /* MINISHELL_H */
