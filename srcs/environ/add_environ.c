@@ -22,7 +22,7 @@ char **add_environ(const char *string)
 	if (!env_new)
 	{
 		free_environ();
-		perror("add_environ");
+		perror(ENV_ERRMSG": malloc");
 		exit(EXIT_FAILURE);
 	}	
 	i = 0;
@@ -34,7 +34,6 @@ char **add_environ(const char *string)
 		i++;
 	}
 	env_new[i++] = ft_strdup(string);
-//	env_new[i] = ft_strdup("");
 	env_new[i] = NULL;
 	free_environ();
 	environ = NULL;
