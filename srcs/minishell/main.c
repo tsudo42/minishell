@@ -23,6 +23,8 @@ static bool	is_continue(char	*line)
 {
 	if (!line)
 		return (false);
+	if (ft_strncmp(line, "\0", 1) == 0)
+		return (true);
 	if (ft_strlen(line) >= ARG_MAX_SIZE)
 	{
 		printf("line too long\n");
@@ -37,9 +39,9 @@ int	main(void)
 	int		ret;
 
 	line = NULL;
-	activate_signal();
 	while (1)
 	{
+		activate_signal();
 		g_sig = 0;
 		line = readline("minishell> ");
 		if (line == NULL)
@@ -50,6 +52,7 @@ int	main(void)
 			continue ;
 		}
 		add_history(line);
+		deactivate_signal();
 		ret = executor(parser(lexer(line)));
 	}
 	printf("exit\n");
