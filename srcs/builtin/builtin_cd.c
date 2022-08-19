@@ -19,16 +19,14 @@ static int	cd_to_home(void)
 	home_dir = ft_getenv("HOME");
 	if (home_dir == NULL)
 	{
-		perror("cd_to_home");
+		perror(BUILT_ERRMSG": home_dir");
 		return (STATUS_FAILURE);
 	}
 	if (chdir(home_dir) == -1)
 	{
-		free(home_dir);
-		perror("cd_to_home2");
+		perror(BUILT_ERRMSG": chdir");
 		return (STATUS_FAILURE);
 	}
-//	free(home_dir);
 	return (STATUS_SUCCESS);
 }
 
