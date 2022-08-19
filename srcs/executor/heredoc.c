@@ -54,7 +54,7 @@ static int close_pipe(int *pipe_fd, int len)
 {
 	int ret;
 
-	if (len > 15873)
+	if (len > 8192)
 	{
 		close(pipe_fd[1]);
 		close(pipe_fd[0]);
