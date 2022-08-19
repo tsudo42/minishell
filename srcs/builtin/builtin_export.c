@@ -34,6 +34,8 @@ static int	is_printable(char *s)
 		return (-1);
 	else if (ft_strncmp(s, "COLUMNS=", 8) == 0)
 		return (-1);
+	else if (ft_strncmp(s, "_=", 2) == 0)
+		return (-1);
 	return (0);
 }
 
@@ -47,7 +49,7 @@ static int	print_values(void)
 	i = 0;
 	while (environ[i])
 	{
-		if (environ[i][0] == '_' || is_printable(environ[i]) == -1)
+		if (is_printable(environ[i]) == -1)
 		{
 			i++;
 			continue ;
@@ -64,6 +66,13 @@ static int	print_values(void)
 }
 //add the function to check if the parameter is valid or not.
 
+static bool is_underbar(char c)
+{
+	if ((int)c == '_')
+		return (true);
+	return (false);
+}
+
 static int	export_value_checker(char *name, int len, char **argv)
 {
 	int i;
@@ -71,9 +80,10 @@ static int	export_value_checker(char *name, int len, char **argv)
 	i = 1;
 	while (i < len)
 	{
-		if (!ft_isalpha(name[0]))
+		if (!ft_isalpha(name[0]) && !is_underbar(name[0]))
 			break ;
-		if (!ft_isalpha(name[i]) && !ft_isdigit(name[i]))
+		if (!ft_isalpha(name[i]) && !ft_isdigit(name[i]) \
+			&& !is_underbar(name[i]))
 			break ;
 		i++;
 	}
