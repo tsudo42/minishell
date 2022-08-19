@@ -27,7 +27,7 @@ static bool	is_continue(char	*line)
 		return (true);
 	if (ft_strlen(line) >= ARG_MAX_SIZE)
 	{
-		printf("line too long\n");
+		ft_putendl("line too long", STDERR_FILENO);
 		return (true);
 	}
 	return (false);
