@@ -64,7 +64,6 @@ static int	print_values(void)
 	}
 	return (STATUS_SUCCESS);
 }
-//add the function to check if the parameter is valid or not.
 
 static bool is_underbar(char c)
 {
@@ -89,7 +88,6 @@ static int	export_value_checker(char *name, int len, char **argv)
 	}
 	if (i == len)
 		return (STATUS_SUCCESS);
-//	printf("export: '%s", *argv);
 	ft_putstr_fd("export: '", STDERR_FILENO);
 	ft_putstr_fd(*argv, STDERR_FILENO);
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
@@ -100,7 +98,6 @@ static int	export_value_checker(char *name, int len, char **argv)
 static int	export_values(char **argv)
 {
 	char	*string;
-//	char	*name;
 	char	*value;
 	int		status;
 
@@ -112,16 +109,9 @@ static int	export_values(char **argv)
 		if ((status = export_value_checker(string, value - string, argv)) \
 			== STATUS_FAILURE)
 			break;
-		//	}
-
 		*value = '\0';
-//		name = ft_strndup(string, value - string);
 		if (value != NULL)
 			ft_setenv(string, ++value, 1);
-			//	{
-			//	
-		//	}
-//		free (name);
 		free (string);
 	}
 	return (status);
