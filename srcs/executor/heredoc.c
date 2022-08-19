@@ -35,13 +35,6 @@ char	*extract_quote(const char *delimi)
 	return (res);
 }
 
-void	signal_handler_heredoc(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	exit (1);
-}
-
 static int put_line(const char *delimi, char *line, int *pipe_fd, int *len)
 {
 	char *tmp;
@@ -89,8 +82,7 @@ int	exec_d_heredoc(const char *delimi, int fd)
 		return (-1);
 	}
 	len = 0;
-	signal(SIGINT, signal_handler_heredoc);
-	signal(SIGQUIT, SIG_IGN);
+	activate_signal_heredoc();
 	while (1)
 	{
 		line = readline("> ");
