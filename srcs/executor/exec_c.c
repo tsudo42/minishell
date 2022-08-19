@@ -77,7 +77,6 @@ static int	exec_c_command(char **args, t_ast_d *d)
 	if (path == NULL)
 		exec_error("execpath");
 	pid = ft_x_fork(EXEC_ERRMSG);
-	deactivate_signal();
 	if (pid == 0)
 	{
 		if (exec_d(d) != 0)
@@ -93,7 +92,6 @@ static int	exec_c_command(char **args, t_ast_d *d)
 		errno = 0;
 		return (1);
 	}
-	activate_signal();
 	return (exec_calc_retval(stat));
 }
 
