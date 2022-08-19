@@ -31,28 +31,16 @@ static bool	is_continue(char	*line)
 	return (false);
 }
 
-void	signal_handler(int sig)
-{
-	g_sig = sig;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-//	g_status = STATUS_FAILURE;
-}
-
 int	main(void)
 {
 	char *line;
 	int		ret;
 
 	line = NULL;
-//	init_environ();
+	activate_signal();
 	while (1)
 	{
 		g_sig = 0;
-		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, SIG_IGN);
 		line = readline("minishell> ");
 		if (line == NULL)
 			break ;
@@ -65,6 +53,5 @@ int	main(void)
 		ret = executor(parser(lexer(line)));
 	}
 	printf("exit\n");
-//	free_environ();
 	return (ret);
 }
