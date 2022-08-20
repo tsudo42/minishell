@@ -126,6 +126,7 @@ U_SRCS	:= \
 	srcs/utils/ft_x_pipe.c \
 	srcs/utils/ft_x_fork.c \
 	srcs/utils/ft_putendl_len_fd.c \
+	srcs/utils/ft_perror_exit.c \
 
 SRCS	+= $(D_SRCS)
 D_SRCS	:= \
