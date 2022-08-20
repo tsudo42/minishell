@@ -15,6 +15,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+static int	clear_redir_list(t_redir_list *list)
+{
+	t_redir_list	*node;
+
+	while (list != NULL)
+	{
+		node = list;
+		list = node->next;
+		close(node->from_fd);
+		free(node);
+	}
+	return (1);
+}
+
 static int	join_redir_list(t_redir_list **list_ptr, int to_fd, int from_fd)
 {
 	t_redir_list	*node;
@@ -22,13 +36,9 @@ static int	join_redir_list(t_redir_list **list_ptr, int to_fd, int from_fd)
 	node = malloc(sizeof(t_redir_list));
 	if (node == NULL)
 	{
-		while (*list_ptr != NULL)
-		{
-			close((*list_ptr)->from_fd);
-			node = (*list_ptr)->next;
-			free(*list_ptr);
-			*list_ptr = node;
-		}
+		perror(EXEC_ERRMSG ": malloc");
+		clear_redir_list(*list_ptr);
+		*list_ptr = NULL;
 		return (-1);
 	}
 	node->to_fd = to_fd;
@@ -40,7 +50,8 @@ static int	join_redir_list(t_redir_list **list_ptr, int to_fd, int from_fd)
 		return (0);
 	}
 	while ((*list_ptr)->next != NULL)
-		(*list_ptr)->next = node;
+		(*list_ptr) = (*list_ptr)->next;
+	(*list_ptr)->next = node;
 	return (0);
 }
 
@@ -94,7 +105,7 @@ int	exec_d(t_ast_d *d)
 	{
 		to_fd = calc_fd(d->type, d->num);
 		if (to_fd < 0)
-			break ;
+			return (clear_redir_list(redir_list));
 		if (d->type == AST_D_REDIN)
 			from_fd = exec_d_redin(d->word);
 		else if (d->type == AST_D_REDOUT)
@@ -104,10 +115,8 @@ int	exec_d(t_ast_d *d)
 		else
 			from_fd = exec_d_heredoc(d->word);
 		if (from_fd < 0 || join_redir_list(&redir_list, to_fd, from_fd) < 0)
-			break ;
+			return (clear_redir_list(redir_list));
 		d = d->next;
 	}
-	if (d != NULL)
-		return (1);
 	return (apply_redir_list(redir_list));
 }
