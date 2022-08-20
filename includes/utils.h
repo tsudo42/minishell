@@ -14,6 +14,8 @@
 # define UTILS_H
 
 # include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
 # define INTERNAL_ERR_NUM 1
 
 /* ************************************************************************** */
