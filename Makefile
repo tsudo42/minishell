@@ -61,6 +61,7 @@ EV_SRCS	:= \
 SRCS	+= $(EX_SRCS)
 EX_SRCS	:= \
 	srcs/executor/executor.c \
+	srcs/executor/exec_d_red.c \
 	srcs/executor/exec_c.c \
 	srcs/executor/exec_p_piped.c \
 	srcs/executor/exec_d.c \

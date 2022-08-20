@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exec_d_red.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,47 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ.h"
-#include "lexer.h"
-#include "parser.h"
-#include "exec.h"
+#include "exec_internal.h"
 #include "libft.h"
-#include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <fcntl.h>
 
 #define MINISHELL_HEREDOC_FILENO 3
 
-static void	init(void)
+int	exec_d_redin(const char *word)
 {
-	set_exit_status(0);
-	if (ft_init_environ() < 0)
-		exit(2);
-	if (dup2(STDERR_FILENO, MINISHELL_HEREDOC_FILENO) < 0)
-	{
-		perror("minishell: init: dup2");
-		exit(2);
-	}
+	int	fd;
+
+	(void)word;
+	(void)fd;
+	return (0);
 }
 
-static char	*input(void)
+int	exec_d_redout(const char *word, int is_append)
 {
-	write(1, "> ", 2);
-	return (get_next_line(0));
+	int	fd;
+
+	(void)word;
+	(void)is_append;
+	(void)fd;
+	return (0);
 }
 
-int	main(void)
+int	exec_d_heredoc(const char *word)
 {
-	char	*line;
-	int		ret;
+	int	tmp_fd;
 
-	init();
-	ret = 0;
-	line = input();
-	while (line != NULL)
-	{
-		ret = executor(parser(lexer(line)));
-		line = input();
-	}
-	return (ret);
+	(void)word;
+	tmp_fd = ft_x_dup(STDERR_FILENO, EXEC_ERRMSG ": dup");
+	ft_x_dup2(MINISHELL_HEREDOC_FILENO, STDERR_FILENO, EXEC_ERRMSG ": dup2");
+	write(STDERR_FILENO, "heredoc > \n", 11);
+	ft_x_dup2(tmp_fd, STDERR_FILENO, EXEC_ERRMSG ": dup2");
+	close(tmp_fd);
+	return (0);
 }

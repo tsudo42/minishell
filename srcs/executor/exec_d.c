@@ -15,37 +15,51 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/* NOTIMPLEMENTED */
-static int	exec_d_redin(const char *word, int fd)
+static int	join_redir_list(t_redir_list **list_ptr, int to_fd, int from_fd)
 {
-	if (0)
+	t_redir_list	*node;
+
+	node = malloc(sizeof(t_redir_list));
+	if (node == NULL)
 	{
-		perror(word);
-		return (1);
+		while (*list_ptr != NULL)
+		{
+			close((*list_ptr)->from_fd);
+			node = (*list_ptr)->next;
+			free(*list_ptr);
+			*list_ptr = node;
+		}
+		return (-1);
 	}
-	(void)word;
-	(void)fd;
+	node->to_fd = to_fd;
+	node->from_fd = from_fd;
+	node->next = NULL;
+	if (*list_ptr == NULL)
+	{
+		*list_ptr = node;
+		return (0);
+	}
+	while ((*list_ptr)->next != NULL)
+		(*list_ptr)->next = node;
 	return (0);
 }
 
-/* NOTIMPLEMENTED */
-static int	exec_d_redout(const char *word, int fd, int is_append)
+static int	apply_redir_list(t_redir_list *list)
 {
-	(void)word;
-	(void)fd;
-	(void)is_append;
+	t_redir_list	*node;
+
+	while (list != NULL)
+	{
+		node = list;
+		ft_x_dup2(node->from_fd, node->to_fd, EXEC_ERRMSG);
+		close(node->from_fd);
+		list = node->next;
+		free(node);
+	}
 	return (0);
 }
 
-/* NOTIMPLEMENTED */
-static int	exec_d_heredoc(const char *word, int fd)
-{
-	(void)word;
-	(void)fd;
-	return (0);
-}
-
-static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
+static int	calc_fd(t_ast_d_type type, char *num)
 {
 	long	fd;
 
@@ -59,7 +73,6 @@ static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
 	if (fd != STDIN_FILENO && fd != STDOUT_FILENO && fd != STDERR_FILENO)
 	{
 		errno = EBADF;
-		*is_err = 1;
 		ft_putstr_fd(EXEC_ERRMSG ": ", STDERR_FILENO);
 		if (fd < 0 || INT_MAX < fd)
 			perror("file descriptor out of range");
@@ -72,26 +85,29 @@ static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
 
 int	exec_d(t_ast_d *d)
 {
-	int		is_err;
-	long	fd;
+	t_redir_list	*redir_list;
+	int				to_fd;
+	int				from_fd;
 
-	is_err = 0;
-	while (d != NULL && is_err == 0)
+	redir_list = NULL;
+	while (d != NULL)
 	{
-		fd = calc_fd(d->type, d->num, &is_err);
-		if (fd < 0)
-			return (1);
+		to_fd = calc_fd(d->type, d->num);
+		if (to_fd < 0)
+			break ;
 		if (d->type == AST_D_REDIN)
-			is_err = exec_d_redin(d->word, fd);
+			from_fd = exec_d_redin(d->word);
 		else if (d->type == AST_D_REDOUT)
-			is_err = exec_d_redout(d->word, fd, 0);
+			from_fd = exec_d_redout(d->word, 0);
 		else if (d->type == AST_D_REDAPP)
-			is_err = exec_d_redout(d->word, fd, 1);
-		else if (d->type == AST_D_HEREDOC)
-			is_err = exec_d_heredoc(d->word, fd);
+			from_fd = exec_d_redout(d->word, 1);
 		else
-			exec_error("undefined d type");
+			from_fd = exec_d_heredoc(d->word);
+		if (from_fd < 0 || join_redir_list(&redir_list, to_fd, from_fd) < 0)
+			break ;
 		d = d->next;
 	}
-	return (is_err);
+	if (d != NULL)
+		return (1);
+	return (apply_redir_list(redir_list));
 }
