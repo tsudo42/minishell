@@ -13,6 +13,8 @@
 #ifndef ENVIRON_H
 # define ENVIRON_H
 
+# define ENVIRON_ERRMSG "minishell"
+
 extern char	**environ;
 
 int			ft_init_environ(void);

@@ -58,7 +58,7 @@ const char	*get_exit_status_str(void)
 		alloced_str = malloc(sizeof(char) * 16);
 		if (alloced_str == NULL)
 		{
-			perror("minishell: malloc");
+			perror(ENVIRON_ERRMSG ": malloc");
 			return (NULL);
 		}
 	}

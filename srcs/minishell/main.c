@@ -20,6 +20,7 @@
 #include <unistd.h>
 
 #define MINISHELL_HEREDOC_FILENO 3
+#define MAIN_ERRMSG "minishell"
 
 static void	init(void)
 {
@@ -28,7 +29,7 @@ static void	init(void)
 		exit(2);
 	if (dup2(STDERR_FILENO, MINISHELL_HEREDOC_FILENO) < 0)
 	{
-		perror("minishell: init: dup2");
+		perror(MAIN_ERRMSG ": init: dup2");
 		exit(2);
 	}
 }
