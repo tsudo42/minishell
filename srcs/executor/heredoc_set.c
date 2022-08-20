@@ -20,7 +20,7 @@ static int	heredoc_set_d(t_ast_d *d, int *count)
 	{
 		if (d->type == AST_D_HEREDOC)
 		{
-			fd = ready_heredoc(d->word, *count);
+			fd = heredoc_ready(d->word, *count);
 			if (fd < 0)
 				return (-1);
 			(*count)++;
