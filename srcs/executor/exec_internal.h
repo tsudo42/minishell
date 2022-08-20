@@ -18,6 +18,12 @@
 # include "utils.h"
 # include "libft.h"
 
+typedef struct s_pipe_info {
+	pid_t	pid;
+	int		fd_in;
+	int		fd_out;
+}	t_pipe_info;
+
 void	exec_error(const char *name);
 int		exec_calc_retval(int stat);
 
