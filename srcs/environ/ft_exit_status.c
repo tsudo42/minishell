@@ -27,7 +27,6 @@ static int	*stored_status(void)
  */
 void	set_exit_status(int status)
 {
-	status = (unsigned char)status;
 	(*stored_status()) = status;
 }
 
