@@ -29,27 +29,31 @@ static int find_string(const char *string)
 	return (-1);
 }
 
-int change_content(const char *string, int location)
+static int change_content(const char *string, int location)
 {
 	extern char **environ;
 
-	free(environ[location]);
+	free (environ[location]);
 	environ[location] = NULL;
 	environ[location] = ft_strdup(string);
+	if (environ[location] == NULL)
+		ft_perror_exit(EXIT_FAILURE, ENV_ERMSG ": malloc");
 	return (0);
 }
 
 int	ft_putenv(const char *string)
 {
 	extern char	**environ;
-	char **env_new;
 	int location;
 
+	init_environ();
 	if ((location = find_string(string)) != -1)
 		return (change_content(string, location));
-	env_new = add_environ(string);
-	if (!env_new)
-		return (-1);
-	environ = env_new;
+	environ = add_environ(string);
+	if (!environ)
+	{
+		free_environ;
+		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc");
+	}
 	return (0);
 }

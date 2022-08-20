@@ -14,28 +14,26 @@
 
 char **add_environ(const char *string)
 {
+	extern char **environ;
 	char	**env_new;
 	int i;
-	extern char **environ;
 
+	if (!environ)
+		return (NULL);
 	env_new = (char **)malloc(sizeof(char *) * (envlen() + 2));
 	if (!env_new)
-	{
-		free_environ();
-		perror(ENV_ERRMSG": malloc");
-		exit(EXIT_FAILURE);
-	}	
+		return (NULL);
 	i = 0;
-	if (!environ)
-		return NULL;
 	while (environ[i])
 	{
 		env_new[i] = ft_strdup(environ[i]);
-		i++;
+		if (env_new[i++] == NULL)
+			return (NULL);
 	}
-	env_new[i++] = ft_strdup(string);
+	env_new[i] = ft_strdup(string);
+	if (env_new[i++] == NULL)
+		return (NULL);
 	env_new[i] = NULL;
 	free_environ();
-	environ = NULL;
 	return (env_new);
 }

@@ -68,14 +68,16 @@ int setenv_overwrite(const char *name, const char *value, int len)
 	environ[len] = NULL;
 	environ[len] = env_strjoin(name, value);
 	if (!environ[len])
-		return (-1);
+	{
+		free_environ();
+		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc")
+	}
 	return (0);
 }
 
 int	ft_setenv(const char *name, const char *value, int overwrite)
 {
 	extern char	**environ;
-//	char **env_new;
 	char *str;
 	int len;
 
@@ -87,15 +89,17 @@ int	ft_setenv(const char *name, const char *value, int overwrite)
 		return (0);
 	}
 	str = env_strjoin(name, value);
-	environ = add_environ(str);
-/*	if (!env_new)
+	if (!str)
 	{
-		perror("ft_setenv");
-		exit(EXIT_FAILURE);
+		free_environ();
+		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc")
 	}
-*/
+	environ = add_environ(str);
+	if (!environ)
+	{
+		free_environ();
+		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": environ");
+	}
 	free(str);
-//	free(environ);
-//	environ = env_new;
 	return (0);
 }

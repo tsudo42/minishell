@@ -28,31 +28,38 @@ int	envlen(void)
 	return (len);
 }
 
+char **envdup_init(char **env_new)
+{
+	extern char **environ;
+	int i;
+
+	if (!environ)
+		return (NULL);
+	i = 0;
+	while (environ[i])
+	{
+		env_new[i] = ft_strdup(environ[i]);
+		if (env_new[i++] == NULL)
+			return (NULL);
+	}
+	env_new[i] = NULL;
+	return (env_new);
+}
+
 void	init_environ(void)
 {
 	char	**env_new;
 	extern char **environ;
 	static int initialized;
-	int i;
 
 	if (initialized == 1)
 		return ;
 	initialized = 1;
-
 	env_new = (char **)malloc(sizeof(char *) * (envlen() + 1));
 	if (!env_new)
-	{
-		perror("init_environ");
-		exit(EXIT_FAILURE);
-	}
-	i = 0;
-	while (environ[i])
-	{
-		env_new[i] = ft_strdup(environ[i]);
-		i++;
-	}
-//	env_new[i] = ft_strdup("");
-	env_new[i] = NULL;
-	environ = env_new;
+		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc");
+	environ = envdup_init(env_new);
+	if (!environ)
+		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc");
 	return ;
 }

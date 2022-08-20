@@ -17,12 +17,13 @@ void free_environ(void)
 	extern char **environ;
 	int i;
 
-	if (!environ || !*environ)
+	if (!environ || !(*environ))
 		return ;
 	i = 0;
 	while (environ[i] != NULL)
 		free (environ[i++]);
 	free (environ[i]);
 	free (environ);
+	environ = NULL;
 	return ;
 }
