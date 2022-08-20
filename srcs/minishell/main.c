@@ -45,13 +45,15 @@ int	main(void)
 	char	*line;
 	int		ret;
 
-	init();
 	ret = 0;
-	line = input();
+	set_exit_status(0);
+	write(1, "> ", 2);
+	line = get_next_line(0);
 	while (line != NULL)
 	{
 		ret = executor(parser(lexer(line)));
-		line = input();
+		write(1, "> ", 2);
+		line = get_next_line(0);
 	}
 	return (ret);
 }
