@@ -27,8 +27,8 @@
 # define WRITE 1
 
 # define EXEC_ERRMSG "minishell"
-# define EXEC_INTERNAL_ERRMSG "exec internal error"
-# define EXEC_INTERNAL_ERRNUM -1
+//# define EXEC_INTERNAL_ERRMSG "exec internal error"
+//# define EXEC_INTERNAL_ERRNUM -1
 
 int		executor(t_ast *ast_root);
 int	ft_strcmp(const char *s1, const char *s2);

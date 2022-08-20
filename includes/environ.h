@@ -23,8 +23,8 @@
 //extern char	**environ;
 
 # define ENV_ERRMSG "minishell"
-# define ENV_INTERNAL_ERRMSG "environ internal error"
-# define ENV_INTERNAL_ERRNUM -1
+//# define ENV_INTERNAL_ERRMSG "environ internal error"
+//# define ENV_INTERNAL_ERRNUM -1
 
 int envlen(void);
 void	init_environ(void);

@@ -72,4 +72,6 @@ void	ft_x_pipe(int fildes[2], const char *errmsg);
 /* ************************************************************************** */
 int	ft_putendl_len_fd(const char *s, int fd);
 
+void ft_perror_exit(int exit_no, const char *errmsg);
+
 #endif /* UTILS_H */
