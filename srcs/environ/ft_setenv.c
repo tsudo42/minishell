@@ -70,7 +70,7 @@ int setenv_overwrite(const char *name, const char *value, int len)
 	if (!environ[len])
 	{
 		free_environ();
-		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc")
+		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc");
 	}
 	return (0);
 }
@@ -92,7 +92,7 @@ int	ft_setenv(const char *name, const char *value, int overwrite)
 	if (!str)
 	{
 		free_environ();
-		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc")
+		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc");
 	}
 	environ = add_environ(str);
 	if (!environ)

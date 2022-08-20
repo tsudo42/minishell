@@ -12,7 +12,7 @@
 
 #include "environ.h"
 
-static int envdup_unset(char **env_new)
+static int envdup_unset(char **env_new, int skip)
 {
 	extern char **environ;
 	int i;
@@ -48,7 +48,7 @@ static char **del_one_environ(int skip)
 		free_environ();
 		return (NULL);
 	}
-	if (envdup_unset(env_new) == -1);
+	if (envdup_unset(env_new, skip) == -1)
 	{
 		free_environ();
 		return (NULL);

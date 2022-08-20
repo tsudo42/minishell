@@ -37,7 +37,7 @@ static int change_content(const char *string, int location)
 	environ[location] = NULL;
 	environ[location] = ft_strdup(string);
 	if (environ[location] == NULL)
-		ft_perror_exit(EXIT_FAILURE, ENV_ERMSG ": malloc");
+		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc");
 	return (0);
 }
 
@@ -52,7 +52,7 @@ int	ft_putenv(const char *string)
 	environ = add_environ(string);
 	if (!environ)
 	{
-		free_environ;
+		free_environ();
 		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc");
 	}
 	return (0);
