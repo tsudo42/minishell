@@ -53,6 +53,7 @@ t_ast_d	*ast_convert_a_to_d(t_ast_a *a)
 	d->num = a->red;
 	d->word = a->word;
 	d->type = extract_ast_d_type(d->num);
+	d->heredoc_fd = -1;
 	d->next = ast_convert_a_to_d(a->next);
 	a->next = NULL;
 	if (d->next == NULL && errno != 0)
@@ -90,6 +91,7 @@ t_ast_d	*ast_make_d(t_ast_d *prev_d, char *red, char *word)
 	d->num = red;
 	d->word = word;
 	d->type = extract_ast_d_type(d->num);
+	d->heredoc_fd = -1;
 	d->next = NULL;
 	if (prev_d == NULL)
 		return (d);
@@ -104,6 +106,9 @@ void	ast_free_d(t_ast_d *d)
 	{
 		free(d->num);
 		free(d->word);
+		if (d->heredoc_fd >= 0)
+			close(d->heredoc_fd);
+		d->heredoc_fd = -1;
 		prev_d = d;
 		d = d->next;
 		free(prev_d);

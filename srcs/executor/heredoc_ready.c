@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   heredoc_ready.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,19 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
 #include "exec_internal.h"
 
-int	executor(t_ast *ast_root)
+int	heredoc_ready(const char *word, int count)
 {
-	int	ret;
-
-	if (ast_root == NULL)
-		return (1);
-	if (heredoc_set(ast_root) == 0)
-		ret = exec_l(ast_root);
-	else
-		ret = 1;
-	ast_free_l(ast_root);
-	return (ret);
+	(void)word;
+	(void)count;
+	return (0);
 }

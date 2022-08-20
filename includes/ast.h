@@ -55,10 +55,12 @@ typedef enum e_ast_d_type {
 	AST_D_HEREDOC
 }	t_ast_d_type;
 
+/* heredoc_fd is set -1 when unused. */
 typedef struct s_ast_d {
 	t_ast_d_type	type;
 	char			*num;
 	char			*word;
+	int				heredoc_fd;
 	struct s_ast_d	*next;
 }	t_ast_d;
 

@@ -38,10 +38,10 @@ static int	exec_d_redout(const char *word, int fd, int is_append)
 }
 
 /* NOTIMPLEMENTED */
-static int	exec_d_heredoc(const char *word, int fd)
+static int	exec_d_heredoc(int from_fd, int to_fd)
 {
-	(void)word;
-	(void)fd;
+	(void)from_fd;
+	(void)to_fd;
 	return (0);
 }
 
@@ -88,7 +88,7 @@ int	exec_d(t_ast_d *d)
 		else if (d->type == AST_D_REDAPP)
 			is_err = exec_d_redout(d->word, fd, 1);
 		else if (d->type == AST_D_HEREDOC)
-			is_err = exec_d_heredoc(d->word, fd);
+			is_err = exec_d_heredoc(d->heredoc_fd, fd);
 		else
 			exec_error("undefined d type");
 		d = d->next;
