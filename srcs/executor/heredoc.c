@@ -14,6 +14,7 @@
 
 #define PIPE_BUFF_MAX 8192
 
+/*
 bool	is_quote(const char *delimi)
 {
 	char	*s;
@@ -114,3 +115,5 @@ int	exec_d_heredoc(const char *delimi, int fd)
 	}
 	return (close_pipe(pipe_fd, len));
 }
+
+*/
