@@ -12,7 +12,7 @@
 
 #include "builtin.h"
 
-int get_exit_status(char *str)
+static int builtin_get_exit_status(char *str)
 {
 	int exit_status;
 
@@ -42,7 +42,7 @@ int	builtin_exit(char **argv)
 		ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO);
 		return (STATUS_FAILURE);// has to return 1
 	}
-	if ((exit_status = get_exit_status(argv[1])) == -1)
+	if ((exit_status = builtin_get_exit_status(argv[1])) == -1)
 	{
 		ft_putstr_fd("exit: numeric argument required\n", STDERR_FILENO);
 		exit (255);
