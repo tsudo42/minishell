@@ -56,13 +56,26 @@ static int	exec_d_redout(const char *word, int fd, int is_append)
 	return (0);
 }
 
+static int	exec_d_heredoc(int from_fd, int to_fd)
+{
+	int	fd;
+
+	fd = dup2(from_fd, to_fd);
+	if (fd < 0)
+		perror(EXEC_ERRMSG ": dup2");
+	close(from_fd);
+	if (fd < 0)
+		return (-1);
+	return (0);
+}
+
 static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
 {
 	long	fd;
 
 	if (num == NULL || *num == '\0')
 	{
-		if (type == AST_D_REDIN)
+		if (type == AST_D_REDIN || type == AST_D_HEREDOC)
 			return (0);
 		return (1);
 	}
@@ -99,8 +112,8 @@ int	exec_d(t_ast_d *d)
 		else if (d->type == AST_D_REDAPP)
 			is_err = exec_d_redout(d->word, fd, 1);
 		else if (d->type == AST_D_HEREDOC)
-//			is_err = exec_d_heredoc(d->heredoc_fd, fd);
-			is_err = exec_d_heredoc(d->word, fd);
+			is_err = exec_d_heredoc(d->heredoc_fd, fd);
+//			is_err = exec_d_heredoc(d->word, fd);
 		else
 			exec_error("undefined d type");
 		d = d->next;

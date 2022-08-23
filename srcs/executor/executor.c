@@ -23,7 +23,7 @@ int	executor(t_ast *ast_root)
 		set_exit_status(ret);
 		return (ret);
 	}
-	if (heredoc_set(ast_root) == 0)
+	if (heredoc_ready(ast_root) == 0)
 		ret = exec_l(ast_root);
 	else
 		ret = 1;
