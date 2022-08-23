@@ -14,8 +14,10 @@
 # define UTILS_H
 
 # include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
+//# include <stdlib.h>
+//# include <stdio.h>
+
+# define UTILS_ERRMSG "minishell"
 # define INTERNAL_ERR_NUM 1
 
 /* ************************************************************************** */

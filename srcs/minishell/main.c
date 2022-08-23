@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
 #include "minishell.h"
 
 int *exit_status(void)
@@ -31,6 +32,38 @@ static bool	is_continue(char	*line)
 		return (true);
 	}
 	return (false);
+=======
+*/
+
+#include "environ.h"
+#include "lexer.h"
+#include "parser.h"
+#include "exec.h"
+#include "libft.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+
+#define MINISHELL_HEREDOC_FILENO 3
+#define MAIN_ERRMSG "minishell"
+
+static int	init(void)
+{
+	set_exit_status(0);
+	if (ft_init_environ() < 0)
+		exit(2);
+	if (dup2(STDERR_FILENO, MINISHELL_HEREDOC_FILENO) < 0)
+	{
+		perror(MAIN_ERRMSG ": init: dup2");
+		exit(2);
+	}
+	return (0);
+}
+
+static char	*input(void)
+{
+	write(STDERR_FILENO, "> ", 2);
+	return (get_next_line(0));
 }
 
 int	main(void)
@@ -38,8 +71,9 @@ int	main(void)
 	char *line;
 	int		ret;
 
-	line = NULL;
-	while (1)
+	ret = init();
+	line = input();
+	while (line != NULL)
 	{
 		activate_signal();
 		g_sig = 0;
@@ -54,6 +88,7 @@ int	main(void)
 		add_history(line);
 		deactivate_signal();
 		ret = executor(parser(lexer(line)));
+		line = input();
 	}
 	printf("exit\n");
 	return (ret);

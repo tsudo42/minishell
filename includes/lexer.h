@@ -13,9 +13,11 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-# include "libft.h"
-# include "utils.h"
+//# include "libft.h"
+//# include "utils.h"
 # include "parser.h"
+
+# define LEXER_ERRMSG "minishell"
 
 /**
  * Tokenize the input line and generate the token list.

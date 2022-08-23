@@ -31,6 +31,9 @@
 /* lex_loop.c */
 t_token_list	*lex_loop(char **input);
 
+/* lex_error_token.c */
+t_token_list	*lex_error_token(char token);
+
 /* token_list_utils.c */
 t_token_list	*token_list_new(t_lr_token_type type, char *str);
 /* token_list_utils.c */

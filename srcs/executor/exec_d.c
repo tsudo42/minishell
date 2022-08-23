@@ -56,6 +56,15 @@ static int	exec_d_redout(const char *word, int fd, int is_append)
 	return (0);
 }
 
+
+/* NOTIMPLEMENTED */
+static int	exec_d_heredoc(int from_fd, int to_fd)
+{
+	(void)from_fd;
+	(void)to_fd;
+	return (0);
+}
+
 static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
 {
 	long	fd;
@@ -67,11 +76,15 @@ static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
 		return (1);
 	}
 	fd = ft_strtol(num, NULL, 10);
-	if (fd < 0 || INT_MAX < fd)
+	if (fd != STDIN_FILENO && fd != STDOUT_FILENO && fd != STDERR_FILENO)
 	{
 		errno = EBADF;
 		*is_err = 1;
-		perror(EXEC_ERRMSG ": file descriptor out of range");
+		ft_putstr_fd(EXEC_ERRMSG ": ", STDERR_FILENO);
+		if (fd < 0 || INT_MAX < fd)
+			perror("file descriptor out of range");
+		else
+			perror(num);
 		return (-1);
 	}
 	return (fd);
@@ -95,7 +108,7 @@ int	exec_d(t_ast_d *d)
 		else if (d->type == AST_D_REDAPP)
 			is_err = exec_d_redout(d->word, fd, 1);
 		else if (d->type == AST_D_HEREDOC)
-			is_err = exec_d_heredoc(d->word, fd);
+			is_err = exec_d_heredoc(d->heredoc_fd, fd);
 		else
 			exec_error("undefined d type");
 		d = d->next;

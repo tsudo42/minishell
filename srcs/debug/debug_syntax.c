@@ -13,6 +13,8 @@
 #include "debug.h"
 #include "lexer.h"
 #include "parser.h"
+#include "libft.h"
+#include <unistd.h>
 
 int	debug_syntax(void)
 {

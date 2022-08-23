@@ -12,6 +12,7 @@
 
 #include "expander.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void	quote_remover_helper(char *dst, char *src)
 {
@@ -41,7 +42,8 @@ t_list	*quote_remover(char *word)
 	lst = ft_lstnew(NULL);
 	if (lst == NULL)
 	{
-		perror("malloc");
+		free(word);
+		perror(EXPANDER_ERRMSG ": malloc");
 		return (NULL);
 	}
 	lst->content = word;

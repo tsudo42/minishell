@@ -12,7 +12,7 @@
 
 #include "lexer_internal.h"
 #include "libft.h"
-#include <stdio.h>
+#include <unistd.h>
 
 static t_token_list	*loop_return(char **input, size_t len, t_lr_token_type type)
 {
@@ -56,8 +56,10 @@ static t_lr_token_type	lex_quote(char **input)
 	}
 	else
 	{
-		printf("error: unexpected EOF ");
-		printf("while looking for matching `%c\'\n", quote[0]);
+		ft_putstr_fd(LEXER_ERRMSG ": unexpected EOF", STDERR_FILENO);
+		ft_putstr_fd("while looking for matching `", STDERR_FILENO);
+		ft_putchar_fd(quote[0], STDERR_FILENO);
+		ft_putendl_fd("\'", STDERR_FILENO);
 		return (LR_NULL);
 	}
 }
@@ -75,13 +77,6 @@ static t_token_list	*lex_word(char **input, t_lr_token_type type)
 			break ;
 		else if (**input == '\'' || **input == '\"')
 			type = lex_quote(input);
-		else if (ft_isdigit(**input))
-		{
-			if (redstr_len(*input) > 0)
-				break ;
-			else
-				(*input) += ft_strspn(*input, LEX_NUM);
-		}
 		else
 			(*input)++;
 	}
@@ -112,9 +107,6 @@ t_token_list	*lex_loop(char **input)
 	if (len > 0)
 		return (loop_return(input, len, LR_T_RED));
 	if (ft_strchr(LEX_EOW, **input) != NULL)
-	{
-		printf("unrecognized character token `%c\'\n", **input);
-		return (token_list_new(LR_NULL, NULL));
-	}
+		return (lex_error_token(**input));
 	return (lex_word(input, LR_T_WORD));
 }

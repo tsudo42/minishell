@@ -64,6 +64,7 @@ EV_SRCS	:= \
 	srcs/environ/init_environ.c \
 	srcs/environ/print_env.c \
 	srcs/environ/free_environ.c \
+	srcs/environ/ft_exit_status.c \
 
 SRCS	+= $(EX_SRCS)
 EX_SRCS	:= \
@@ -71,7 +72,9 @@ EX_SRCS	:= \
 	srcs/executor/exec_c.c \
 	srcs/executor/exec_p_piped.c \
 	srcs/executor/exec_d.c \
+	srcs/executor/heredoc_set.c \
 	srcs/executor/exec_calc_retval.c \
+	srcs/executor/heredoc_ready.c \
 	srcs/executor/exec_s.c \
 	srcs/executor/exec_stdfd.c \
 	srcs/executor/exec_a.c \
@@ -100,6 +103,7 @@ L_SRCS	:= \
 	srcs/lexer/lexer.c \
 	srcs/lexer/lex_loop.c \
 	srcs/lexer/token_list_join.c \
+	srcs/lexer/lex_error_token.c \
 	srcs/lexer/token_list_new.c \
 	srcs/lexer/token_list_free.c \
 

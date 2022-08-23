@@ -14,7 +14,8 @@
 # define PARSER_H
 
 # include "ast.h"
-//# include "exec.h"
+
+# define PARSER_ERRMSG "minishell"
 
 typedef enum e_lr_token_type {
 	LR_NULL,

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_a.c                                           :+:      :+:    :+:   */
+/*   heredoc_set.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,54 +11,57 @@
 /* ************************************************************************** */
 
 #include "exec_internal.h"
-#include "libft.h"
-#include <stdlib.h>
-#include <stdio.h>
 
-static char	**lst_to_strs(t_list *lst)
+static int	heredoc_set_d(t_ast_d *d, int *count)
 {
-	char	**strs;
-	size_t	i;
-	t_list	*tmp;
+	int	fd;
 
-	strs = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
-	if (strs == NULL)
+	while (d != NULL)
 	{
-		perror(EXEC_ERRMSG ": malloc");
-		ft_lstclear(&lst, free);
-		return (NULL);
+		if (d->type == AST_D_HEREDOC)
+		{
+			fd = heredoc_ready(d->word, *count);
+			if (fd < 0)
+				return (-1);
+			(*count)++;
+			d->heredoc_fd = fd;
+		}
+		d = d->next;
 	}
-	i = 0;
-	while (lst != NULL)
-	{
-		strs[i] = lst->content;
-		tmp = lst->next;
-		free(lst);
-		lst = tmp;
-		i++;
-	}
-	strs[i] = NULL;
-	return (strs);
+	return (0);
 }
 
-char	**exec_a(t_ast_a *a)
+static int	heredoc_set_l(t_ast_l *l, int *count)
 {
-	t_list	*lst;
-	t_list	*lst_node;
+	t_ast_p	*p;
 
-	errno = 0;
-	lst = NULL;
-	while (a != NULL)
+	while (l != NULL)
 	{
-		lst_node = expander(a->word);
-		a->word = NULL;
-		if (lst_node == NULL && errno != 0)
+		p = l->p;
+		while (p != NULL)
 		{
-			ft_lstclear(&lst, free);
-			return (NULL);
+			if (p->type == AST_P_C)
+			{
+				if (heredoc_set_d(p->c->d, count) < 0)
+					return (-1);
+			}
+			else if (p->type == AST_P_S)
+			{
+				if (heredoc_set_l(p->s->l, count) < 0 || \
+					heredoc_set_d(p->s->d, count) < 0)
+					return (-1);
+			}
+			p = p->next;
 		}
-		ft_lstadd_back(&lst, lst_node);
-		a = a->next;
+		l = l->next;
 	}
-	return (lst_to_strs(lst));
+	return (0);
+}
+
+int	heredoc_set(t_ast *ast)
+{
+	int	count;
+
+	count = 0;
+	return (heredoc_set_l(ast, &count));
 }

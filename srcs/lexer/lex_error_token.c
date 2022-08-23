@@ -1,39 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug_lexer.c                                      :+:      :+:    :+:   */
+/*   lex_error_token.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Created: 2021/11/19 17:23:08 by tsudo             #+#    #+#             */
+/*   Updated: 2022/03/04 15:55:19 by tsudo            ###   ##########        */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-#include "debug.h"
+#include "lexer_internal.h"
 #include "libft.h"
 #include <unistd.h>
 
-/**
- * Function to debug lexer().
- * Input via stdin and print the token list.
- * Always returns 0.
- */
-int	debug_lexer(void)
+t_token_list	*lex_error_token(char token)
 {
-	char			*input;
-	t_token_list	*list;
-
-	write(1, "> ", 2);
-	input = get_next_line_easy(0);
-	while (input != NULL)
-	{
-		list = lexer(input);
-		token_list_print(list);
-		token_list_free(&list);
-		write(1, "> ", 2);
-		input = get_next_line_easy(0);
-	}
-	return (0);
+	ft_putstr_fd(LEXER_ERRMSG "unrecognized character token `", STDERR_FILENO);
+	ft_putchar_fd(token, STDERR_FILENO);
+	ft_putendl_fd("\'", STDERR_FILENO);
+	return (token_list_new(LR_NULL, NULL));
 }

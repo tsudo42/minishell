@@ -105,7 +105,10 @@ int	exec_c(t_ast_c *c)
 		exec_error("c is NULL");
 	args = exec_a(c->a);
 	if (args == NULL)
+	{
+		set_exit_status(1);
 		return (1);
+	}
 	if (args[0] != NULL)
 		builtin_func = get_builtin_func(args[0]);
 	else
@@ -115,5 +118,6 @@ int	exec_c(t_ast_c *c)
 	else
 		ret = exec_c_command(args, c->d);
 	free_strs(args);
+	set_exit_status(ret);
 	return (ret);
 }

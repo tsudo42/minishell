@@ -20,6 +20,11 @@
  */
 int		debug_lexer(void);
 
+/**
+ * Function to debug lexer() and parser().
+ * Input via stdin and print the generated AST tree.
+ * Always returns 0.
+ */
 int		debug_syntax(void);
 
 /**

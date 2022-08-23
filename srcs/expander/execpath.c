@@ -58,7 +58,7 @@ char	*execpath_from_env(char *name, char **path_env)
 			exec_path = ft_strjoin3(*path_env, "/", name);
 		if (exec_path == NULL)
 		{
-			perror("malloc");
+			perror(EXPANDER_ERRMSG ": malloc");
 			return (NULL);
 		}
 		if (access(exec_path, X_OK) == 0 || \
@@ -91,7 +91,7 @@ char	*execpath(char *name)
 		terminate_path_env(path_env);
 	}
 	if (exec_path == NULL)
-		perror("malloc");
+		perror(EXPANDER_ERRMSG ": malloc");
 	errno = 0;
 	return (exec_path);
 }

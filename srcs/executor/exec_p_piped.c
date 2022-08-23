@@ -15,12 +15,6 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
-typedef struct s_pipe_info {
-	pid_t	pid;
-	int		fd_in;
-	int		fd_out;
-}	t_pipe_info;
-
 static t_pipe_info	*infos_ready(size_t	len)
 {
 	t_pipe_info	*infos;
@@ -85,7 +79,7 @@ static int	exec_p_wait(t_pipe_info *infos, size_t p_len)
 	i = 0;
 	while (i < p_len - 1)
 	{
-		if (waitpid(infos[i].pid, &stat, WNOHANG) < 0)
+		if (waitpid(infos[i].pid, &stat, 0) < 0)
 		{
 			perror(EXEC_ERRMSG ": waitpid");
 			errno = 0;

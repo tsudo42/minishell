@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   heredoc_ready.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,9 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "exec_internal.h"
 
+/*
+<<<<<<< HEAD:includes/minishell.h
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -37,4 +38,12 @@ void deactivate_signal(void);
 void activate_signal_heredoc(void);
 int *exit_status(void);
 
-#endif /* MINISHELL_H */
+#endif  MINISHELL_H 
+=======
+*/
+int	heredoc_ready(const char *word, int count)
+{
+	(void)word;
+	(void)count;
+	return (0);
+}
