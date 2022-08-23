@@ -28,7 +28,7 @@ int get_exit_status(char *str)
 		exit_status = exit_status % 256; 
 	else if (exit_status < 0)
 		exit_status = 0;
-return (exit_status);//change this
+	return (exit_status);//change this
 }
 
 int	builtin_exit(char **argv)
