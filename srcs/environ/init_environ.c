@@ -46,14 +46,14 @@ char **envdup_init(char **env_new)
 	return (env_new);
 }
 
-void	init_environ(void)
+int	init_environ(void)
 {
 	char	**env_new;
 	extern char **environ;
 	static int initialized;
 
 	if (initialized == 1)
-		return ;
+		return (0);
 	initialized = 1;
 	env_new = (char **)malloc(sizeof(char *) * (envlen() + 1));
 	if (!env_new)
@@ -61,5 +61,5 @@ void	init_environ(void)
 	environ = envdup_init(env_new);
 	if (!environ)
 		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc");
-	return ;
+	return (0);
 }
