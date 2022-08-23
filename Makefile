@@ -62,6 +62,7 @@ SRCS	+= $(EX_SRCS)
 EX_SRCS	:= \
 	srcs/executor/executor.c \
 	srcs/executor/exec_c.c \
+	srcs/executor/heredoc_input.c \
 	srcs/executor/exec_p_piped.c \
 	srcs/executor/exec_d.c \
 	srcs/executor/heredoc_set.c \

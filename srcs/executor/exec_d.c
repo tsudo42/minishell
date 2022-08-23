@@ -37,11 +37,16 @@ static int	exec_d_redout(const char *word, int fd, int is_append)
 	return (0);
 }
 
-/* NOTIMPLEMENTED */
 static int	exec_d_heredoc(int from_fd, int to_fd)
 {
-	(void)from_fd;
-	(void)to_fd;
+	int	fd;
+
+	fd = dup2(from_fd, to_fd);
+	if (fd < 0)
+		perror(EXEC_ERRMSG ": dup2");
+	close(from_fd);
+	if (fd < 0)
+		return (-1);
 	return (0);
 }
 
@@ -51,7 +56,7 @@ static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
 
 	if (num == NULL || *num == '\0')
 	{
-		if (type == AST_D_REDIN)
+		if (type == AST_D_REDIN || type == AST_D_HEREDOC)
 			return (0);
 		return (1);
 	}

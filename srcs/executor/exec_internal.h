@@ -27,8 +27,9 @@ typedef struct s_pipe_info {
 void	exec_error(const char *name);
 int		exec_calc_retval(int stat);
 
-int		heredoc_ready(const char *word, int count);
-int		heredoc_set(t_ast *ast);
+char	*heredoc_input(char *delim, int *is_error);
+int		heredoc_set(char *delim, int *idx);
+int		heredoc_ready(t_ast *ast);
 
 int		exec_l(t_ast_l *l);
 int		exec_p(t_ast_p *p);
