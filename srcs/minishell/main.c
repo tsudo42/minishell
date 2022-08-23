@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 /*
-#include "minishell.h"
 
 int *exit_status(void)
 {
@@ -32,6 +31,7 @@ int *exit_status(void)
 #include <unistd.h>
 =======
 */
+#include "minishell.h"
 
 #define MAIN_ERRMSG "minishell"
 
