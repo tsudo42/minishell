@@ -31,7 +31,7 @@ static int	exec_d_redin(const char *word, int fd)
 		perror(EXEC_ERRMSG ": open_fd");
 		return (-1);
 	}
-	if (ft_r_dup2(open_fd, fd, EXEC_ERRMSG) < 0);
+	if (ft_r_dup2(open_fd, fd, EXEC_ERRMSG) < 0)
 		return (-1);
 	return (0);
 }
