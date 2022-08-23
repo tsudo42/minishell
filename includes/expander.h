@@ -16,8 +16,8 @@
 # include "ft_list.h"
 
 # define EXPAND_ERRMSG "minishell"
-# define EXPAND_INTERNAL_ERRMSG "expander internal error"
-# define EXPAND_INTERNAL_ERRNUM -1
+//# define EXPAND_INTERNAL_ERRMSG "expander internal error"
+//# define EXPAND_INTERNAL_ERRNUM -1
 
 char	*execpath(char *name);
 
