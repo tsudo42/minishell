@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "builtin.h"
 # include "minishell.h"
+# include "utils.h"
 
 # define ENV_ERRMSG "minishell"
 # define ENVIRON_ERRMSG "minishell"
@@ -25,7 +26,7 @@
 extern char	**environ;
 
 int envlen(void);
-void	init_environ(void);
+int	init_environ(void);
 char	*ft_getenv(const char *name);
 int		ft_setenv(const char *name, const char *value, int overwrite);
 int		ft_putenv(const char *string);

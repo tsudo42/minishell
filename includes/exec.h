@@ -13,7 +13,7 @@
 #ifndef EXEC_H
 # define EXEC_H
 
-//# include "minishell.h"
+# include "minishell.h"
 # include "ast.h"
 # include "builtin.h"
 # include "environ.h"
