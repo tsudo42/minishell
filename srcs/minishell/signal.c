@@ -38,7 +38,8 @@ static void	signal_handler_heredoc(int sig)
 {
 	g_sig = sig;
 	write(1, "\n", 1);
-	exit (*exit_status() = 130);
+	exit (130);
+//	exit (*exit_status() = 130);
 }
 
 void	activate_signal_heredoc(void)
