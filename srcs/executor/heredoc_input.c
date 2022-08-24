@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/24 11:29:52 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ static char	*heredoc_getline(int quoted, int *is_error)
 	char	*line;
 
 	errno = 0;
-	write(STDERR_FILENO, "heredoc> ", 9);
-	line = get_next_line(STDIN_FILENO);
+//	write(STDERR_FILENO, "heredoc> ", 9);
+//	line = get_next_line(STDIN_FILENO);
+	line = readline("> ");
 	if (errno != 0)
 		perror(EXEC_ERRMSG ": heredoc");
 	if (line != NULL && quoted)
@@ -107,6 +108,7 @@ char	*heredoc_input(char *delim, int *is_error)
 	errno = 0;
 	quoted = is_quoted(delim);
 	input = NULL;
+	activate_signal_heredoc();
 	line = heredoc_getline(quoted, is_error);
 	while (!is_end_input(line, delim, is_error))
 	{
@@ -114,6 +116,7 @@ char	*heredoc_input(char *delim, int *is_error)
 			break ;
 		line = heredoc_getline(quoted, is_error);
 	}
+	deactivate_signal_heredoc();
 	ft_free_set((void **)&line, NULL);
 	return (input);
 }
