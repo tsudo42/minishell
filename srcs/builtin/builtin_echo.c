@@ -34,10 +34,10 @@ int	builtin_echo(char **argv)
 	}
 	while (*argv != NULL)
 	{
-		if (ft_strncmp(*argv, "$", 1) == 0)
-			print_env(parameter_expander(*argv));
-		else 
-			ft_putstr_fd(*argv, STDOUT_FILENO);
+//		if (ft_strncmp(*argv, "$", 1) == 0)
+//			print_env(parameter_expander(*argv));
+//		else 
+		ft_putstr_fd(*argv, STDOUT_FILENO);
 		argv++;
 		if (*argv != NULL)
 			ft_putchar_fd(' ', STDOUT_FILENO);
