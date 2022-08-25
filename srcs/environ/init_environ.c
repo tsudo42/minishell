@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*      init_environ.c                                  :+:      :+:    :+:   */
+/*   init_environ.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/25 12:41:24 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	envlen(void)
 	char **tmp;
 	int len;
 
+	if (!environ)
+		return (0);
 	tmp = environ;
 	len = 0;
 	while (*tmp)
@@ -55,6 +57,8 @@ int	init_environ(void)
 	if (initialized == 1)
 		return (0);
 	initialized = 1;
+	if (!environ)
+		return (0);
 	env_new = (char **)malloc(sizeof(char *) * (envlen() + 1));
 	if (!env_new)
 		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc");
