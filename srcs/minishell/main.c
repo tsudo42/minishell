@@ -6,31 +6,10 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/25 12:21:44 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-
-int *exit_status(void)
-{
-	static int s;
-
-	return (&s);
-}
-
-
-
-#include "environ.h"
-#include "lexer.h"
-#include "parser.h"
-#include "exec.h"
-#include "libft.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-=======
-*/
 #include "minishell.h"
 
 #define MAIN_ERRMSG "minishell"
@@ -64,13 +43,27 @@ static int	init(void)
 	return (0);
 }
 
-/*
 static char	*input(void)
 {
-	write(STDERR_FILENO, "> ", 2);
-	return (get_next_line(0));
+	char *line;
+
+	g_sig = 0;
+//	rl_event_hook = rl_status_checker;
+	activate_signal();
+	line = readline("minishell> ");
+	return (line);
 }
-*/
+
+static bool is_continue_input(char *line)
+{
+	if (g_sig != 0 || is_continue(line))
+	{
+		free (line);
+		return (true);
+	}
+	deactivate_signal();
+	return (false);
+}
 
 int	main(void)
 {
@@ -80,18 +73,11 @@ int	main(void)
 	ret = init();
 	while (1)
 	{
-		activate_signal();
-		g_sig = 0;
-		line = readline("minishell> ");
-		if (line == NULL)
+		if ((line = input()) == NULL)
 			break ;
-		if (g_sig != 0 || is_continue(line))
-		{
-			free (line);
-			continue ;
-		}
+		if (is_continue_input(line))
+			continue;
 		add_history(line);
-		deactivate_signal();
 		ret = executor(parser(lexer(line)));
 	}
 	printf("exit\n");
