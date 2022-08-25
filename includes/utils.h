@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/25 11:37:16 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	ft_x_pipe(int fildes[2], const char *errmsg);
 /*  This function is an version of ft_putendl_fd to return the length of      */
 /*  charactors printed.                                 ..                    */
 /* ************************************************************************** */
-int	ft_putendl_len_fd(const char *s, int fd);
+
+//int	ft_putendl_len_fd(const char *s, int fd);
 
 void ft_perror_exit(int exit_no, const char *errmsg);
 
