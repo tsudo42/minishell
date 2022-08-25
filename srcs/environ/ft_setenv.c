@@ -6,13 +6,13 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/25 14:19:22 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environ.h"
 
-char *env_strjoin(const char *name, const char *value)
+static char *env_strjoin(const char *name, const char *value)
 {
 	char *res;
 	int len1;
@@ -60,6 +60,7 @@ int find_name(const char *name)
 	return (-1);
 }
 
+/*
 int setenv_overwrite(const char *name, const char *value, int len)
 {
 	extern char **environ;
@@ -74,6 +75,7 @@ int setenv_overwrite(const char *name, const char *value, int len)
 	}
 	return (0);
 }
+*/
 
 int	ft_setenv(const char *name, const char *value, int overwrite)
 {
@@ -85,7 +87,8 @@ int	ft_setenv(const char *name, const char *value, int overwrite)
 	if ((len = find_name(name)) != -1)
 	{
 		if (overwrite != 0)
-			return (setenv_overwrite(name, value, len));
+			//return (setenv_overwrite(name, value, len));
+			return (ft_putenv(env_strjoin(name, value)));
 		return (0);
 	}
 	str = env_strjoin(name, value);
