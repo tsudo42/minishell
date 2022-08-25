@@ -6,14 +6,15 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/25 19:47:47 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static void putstrlen_fd(const char *s, size_t len, int fd)
+static void putstrlen_fd(const char *s, size_t max_len, int fd)
 {
+//	size_t len;
 	size_t i;
 
 	if (s == NULL)
@@ -21,9 +22,22 @@ static void putstrlen_fd(const char *s, size_t len, int fd)
 		write(fd, "(null)", 6);
 		return ;
 	}
+//	len = ft_strnlen(s, max_len);
 	i = 0;
-	while (s[i] != '\0' && i < len) 
+	//while (s[i] != '\0' && i < len) 
+	//		i++;
+//	if (i != 0)
+//		write(fd, s, i);
+	while (s[i] != '\0' && i < max_len)
+	{
+		if (i >= 10000000L)
+		{
+			write(fd, s, 10000000L);
+			s += i;
+			i = -1;
+		}
 		i++;
+	}
 	if (i != 0)
 		write(fd, s, i);
 }
@@ -37,6 +51,22 @@ static int	is_printable(char *s)
 	else if (ft_strncmp(s, "_=", 2) == 0)
 		return (-1);
 	return (0);
+}
+
+static void print_values2(char *str, char *value)
+{
+	ft_putstr_fd("declare -x ", STDOUT_FILENO);
+	putstrlen_fd(str, value - str, STDOUT_FILENO);
+	ft_putstr_fd("=\"", STDOUT_FILENO);
+	value++;
+	while (*value != '\0')
+	{
+		if (*value == '\"' || *value == '\\' || *value == '$')
+			write(STDOUT_FILENO, "\\", 1);
+		write(STDOUT_FILENO, value, 1);
+		value++;
+	}
+	ft_putstr_fd("\"\n", STDOUT_FILENO);
 }
 
 static int	print_values(void)
@@ -54,13 +84,9 @@ static int	print_values(void)
 			i++;
 			continue ;
 		}
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		str = ft_strdup(environ[i++]);
 		value = ft_strchr(str, '=');
-		putstrlen_fd(str, value - str, STDOUT_FILENO);
-		ft_putstr_fd("=\"", STDOUT_FILENO);
-		ft_putstr_fd(++value, STDOUT_FILENO);
-		ft_putstr_fd("\"\n", STDOUT_FILENO);
+		print_values2(str, value);
 	}
 	return (STATUS_SUCCESS);
 }
@@ -82,7 +108,7 @@ static int	export_value_checker(char *name, int len, char **argv)
 		if (!ft_isalpha(name[0]) && !is_underbar(name[0]))
 			break ;
 		if (!ft_isalpha(name[i]) && !ft_isdigit(name[i]) \
-			&& !is_underbar(name[i]))
+				&& !is_underbar(name[i]))
 			break ;
 		i++;
 	}
@@ -107,7 +133,7 @@ static int	export_values(char **argv)
 		string = ft_strdup(*argv);
 		value = ft_strchr(string, '=');
 		if ((status = export_value_checker(string, value - string, argv)) \
-			== STATUS_FAILURE)
+				== STATUS_FAILURE)
 			break;
 		*value = '\0';
 		if (value != NULL)
