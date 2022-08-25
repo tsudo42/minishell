@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/24 11:22:40 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/25 12:06:54 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,22 @@ void deactivate_signal_heredoc(void)
 	return ;
 }
 
+int rl_status_checker_heredoc(void)
+{
+	if (g_sig != 0)
+	{
+		rl_event_hook = 0;
+		rl_done = 1;
+	}
+	return (0);
+}
+
 static void	signal_handler_heredoc(int sig)
 {
 	g_sig = sig;
 	write(1, "\n", 1);
-	exit (130);
-//	exit (*exit_status() = 130);
+	set_exit_status(130);
+	return ;
 }
 
 void	activate_signal_heredoc(void)
