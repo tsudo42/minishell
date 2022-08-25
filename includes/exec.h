@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/25 12:07:17 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 07:57:10 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ int	ft_strcmp(const char *s1, const char *s2);
 void deactivate_signal_heredoc(void);
 void	activate_signal_heredoc(void);
 int	rl_status_checker_heredoc(void);
-int	heredoc_pipe_buf_counter(char *line);
+//int	heredoc_pipe_buf_counter(char *line);
 
 #endif /* EXEC_H */
