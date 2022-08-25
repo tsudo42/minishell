@@ -6,7 +6,7 @@
 #    By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#              #
-#    Updated: 2022/08/25 11:36:51 by hos              ###   ########.fr        #
+#    Updated: 2022/08/26 07:56:44 by hos              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ EX_SRCS	:= \
 	srcs/executor/exec_l.c \
 	srcs/executor/exec_error.c \
 	srcs/executor/heredoc_signal.c \
-	srcs/executor/heredoc_pipe_buf_counter.c \
+#	srcs/executor/heredoc_pipe_buf_counter.c \
 
 SRCS	+= $(EP_SRCS)
 EP_SRCS	:= \
