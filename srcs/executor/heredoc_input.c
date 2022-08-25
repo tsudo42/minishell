@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/25 12:10:28 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 08:47:35 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,10 @@ static char	*heredoc_getline(int quoted, int *is_error)
 		perror(EXEC_ERRMSG ": heredoc");
 	if (line != NULL && quoted)
 		line = parameter_expander(line);
-	if (errno != 0 || heredoc_pipe_buf_counter(line) == -1)
+	if (errno != 0)
 		*is_error = 1;
 	deactivate_signal_heredoc();
+	rl_event_hook = 0;
 	return (line);
 }
 
@@ -69,7 +70,9 @@ static int	heredoc_append(char **input, char **line, int *is_error)
 {
 	char	*joined;
 
-	joined = ft_strjoin(*input, *line);
+	if (*line == NULL)
+		return (*is_error);
+	joined = ft_strjoin3(*input, *line, "\n");
 	if ((*input != NULL || *line != NULL) && joined == NULL)
 	{
 		*is_error = 1;
@@ -114,7 +117,6 @@ char	*heredoc_input(char *delim, int *is_error)
 	{
 		if (g_sig != 0)
 		{
-			input = NULL;
 			*is_error = 1;
 			break;
 		}
