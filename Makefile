@@ -6,7 +6,7 @@
 #    By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#              #
-#    Updated: 2022/08/26 07:56:44 by hos              ###   ########.fr        #
+#    Updated: 2022/08/26 18:20:56 by hos              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRCS	+= $(B_SRCS)
 B_SRCS	:= \
 	srcs/builtin/builtin_echo.c \
 	srcs/builtin/builtin_export.c \
+	srcs/builtin/builtin_export2.c \
 	srcs/builtin/builtin_unset.c \
 	srcs/builtin/builtin_pwd.c \
 	srcs/builtin/builtin_env.c \
@@ -83,7 +84,6 @@ EX_SRCS	:= \
 	srcs/executor/exec_l.c \
 	srcs/executor/exec_error.c \
 	srcs/executor/heredoc_signal.c \
-#	srcs/executor/heredoc_pipe_buf_counter.c \
 
 SRCS	+= $(EP_SRCS)
 EP_SRCS	:= \
@@ -132,7 +132,6 @@ U_SRCS	:= \
 	srcs/utils/ft_x_pipe.c \
 	srcs/utils/ft_x_fork.c \
 	srcs/utils/ft_perror_exit.c \
-#	srcs/utils/ft_putendl_len_fd.c \
 
 SRCS	+= $(D_SRCS)
 D_SRCS	:= \
