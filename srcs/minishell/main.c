@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/25 12:21:44 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 09:02:07 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,26 @@ static char	*input(void)
 	char *line;
 
 	g_sig = 0;
-//	rl_event_hook = rl_status_checker;
+	rl_event_hook = rl_status_checker;
 	activate_signal();
 	line = readline("minishell> ");
+	deactivate_signal();
 	return (line);
 }
 
 static bool is_continue_input(char *line)
 {
-	if (g_sig != 0 || is_continue(line))
+	if (g_sig != 0)
 	{
+		set_exit_status(130);
 		free (line);
 		return (true);
 	}
-	deactivate_signal();
+	if (is_continue(line))
+	{
+		free (line);
+		return (true);
+	}	
 	return (false);
 }
 
