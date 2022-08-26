@@ -6,24 +6,11 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 17:42:53 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 21:57:05 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environ.h"
-
-static void	free_env_new(char **env_new, int i)
-{
-	int	j;
-
-	j = 0;
-	if (!env_new)
-		return ;
-	while (j < i - 2)
-		free(env_new[j++]);
-	free (env_new);
-	return ;
-}
 
 static int	envdup_unset(char **env_new, int skip)
 {
