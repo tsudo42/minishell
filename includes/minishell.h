@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/25 12:10:54 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 18:21:55 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@
 
 volatile sig_atomic_t	g_sig;
 
-void activate_signal(void);
-void deactivate_signal(void);
-void activate_signal_heredoc(void);
-int *exit_status(void);
-int rl_status_checker(void);
+void	activate_signal(void);
+void	deactivate_signal(void);
+void	activate_signal_heredoc(void);
+int		*exit_status(void);
+int		rl_status_checker(void);
 
 #endif /* MINISHELL_H */

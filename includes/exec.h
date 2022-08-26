@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 07:57:10 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 18:20:21 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,9 @@
  * Some fatal errors such as malloc(3) error causes terminating the process.
  */
 int		executor(t_ast *ast_root);
-int	ft_strcmp(const char *s1, const char *s2);
-//int	exec_d_heredoc(const char *delimi, int fd);
-void deactivate_signal_heredoc(void);
+int		ft_strcmp(const char *s1, const char *s2);
+void	deactivate_signal_heredoc(void);
 void	activate_signal_heredoc(void);
-int	rl_status_checker_heredoc(void);
-//int	heredoc_pipe_buf_counter(char *line);
+int		rl_status_checker_heredoc(void);
 
 #endif /* EXEC_H */
