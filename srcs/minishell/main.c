@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 09:02:07 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 17:37:02 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,13 @@ static bool	is_continue(char	*line)
 static int	init(void)
 {
 	set_exit_status(0);
-/*
-	if (dup2(STDERR_FILENO, MINISHELL_HEREDOC_FILENO) < 0)
-	{
-		perror(MAIN_ERRMSG ": init: dup2");
-		exit(2);
-*/
 	init_environ();
-//	if (init_environ() < 0)
-//		exit(2);
 	return (0);
 }
 
 static char	*input(void)
 {
-	char *line;
+	char	*line;
 
 	g_sig = 0;
 	rl_event_hook = rl_status_checker;
@@ -55,7 +47,7 @@ static char	*input(void)
 	return (line);
 }
 
-static bool is_continue_input(char *line)
+static bool	is_continue_input(char *line)
 {
 	if (g_sig != 0)
 	{
@@ -73,16 +65,17 @@ static bool is_continue_input(char *line)
 
 int	main(void)
 {
-	char *line;
+	char	*line;
 	int		ret;
 
 	ret = init();
 	while (1)
 	{
-		if ((line = input()) == NULL)
+		line = input();
+		if (!line)
 			break ;
 		if (is_continue_input(line))
-			continue;
+			continue ;
 		add_history(line);
 		ret = executor(parser(lexer(line)));
 	}
