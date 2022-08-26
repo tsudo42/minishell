@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/25 12:27:24 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 18:10:58 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-//#define BUFSIZE 2048
-
 static int	exec_d_redin(const char *word, int fd)
 {
-	int open_fd;
+	int	open_fd;
 
 	open_fd = open(word, O_RDONLY);
 	if (open_fd < 0)
@@ -38,8 +36,8 @@ static int	exec_d_redin(const char *word, int fd)
 
 static int	exec_d_redout(const char *word, int fd, int is_append)
 {
-	int open_fd;
-	int ret;
+	int	open_fd;
+	int	ret;
 
 	if (is_append == 0)
 		open_fd = open(word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -52,7 +50,6 @@ static int	exec_d_redout(const char *word, int fd, int is_append)
 	}
 	ret = ft_r_dup2(open_fd, fd, EXEC_ERRMSG);
 	close(open_fd);
-//	exec_d_redin(word, 0);
 	if (ret < 0)
 		return (-1);
 	return (0);

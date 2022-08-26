@@ -6,19 +6,19 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/25 12:06:54 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 18:13:42 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-void deactivate_signal_heredoc(void)
+void	deactivate_signal_heredoc(void)
 {
 	signal(SIGINT, SIG_IGN);
 	return ;
 }
 
-int rl_status_checker_heredoc(void)
+int	rl_status_checker_heredoc(void)
 {
 	if (g_sig != 0)
 	{

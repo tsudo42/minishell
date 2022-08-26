@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 08:47:35 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 18:12:40 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	*heredoc_input(char *delim, int *is_error)
 		if (g_sig != 0)
 		{
 			*is_error = 1;
-			break;
+			break ;
 		}
 		if (heredoc_append(&input, &line, is_error) < 0)
 			break ;
