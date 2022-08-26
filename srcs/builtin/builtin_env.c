@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/26 17:50:50 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	builtin_env(char **argv)
 {
-	extern char **environ;
-	int i;
+	extern char	**environ;
+	int			i;
 
 	(void)argv;
 	i = 0;
@@ -24,12 +24,12 @@ int	builtin_env(char **argv)
 		if (ft_strncmp(environ[i], "LINES=", 6) == 0)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		else if (ft_strncmp(environ[i], "COLUMNS=", 8) == 0)
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		ft_putstr_fd(environ[i++], STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);

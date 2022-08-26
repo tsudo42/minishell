@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/25 14:24:16 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 18:07:05 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	builtin_pwd(char **argv)
 	char	*path;
 
 	(void)argv;
-	if ((path = getcwd(NULL, 0)) == NULL)
+	path = getcwd(NULL, 0);
+	if (path == NULL)
 	{
 		perror(BUILT_ERRMSG ": getcwd");
 		return (STATUS_FAILURE);

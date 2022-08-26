@@ -6,20 +6,11 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/26 18:08:08 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
-
-/*
- char *remove_dollormk(char *argv)
-{
-	if (!*argv)
-		return (NULL);
-	return (++argv);
-}
-*/
 
 int	builtin_echo(char **argv)
 {
@@ -34,9 +25,6 @@ int	builtin_echo(char **argv)
 	}
 	while (*argv != NULL)
 	{
-//		if (ft_strncmp(*argv, "$", 1) == 0)
-//			print_env(parameter_expander(*argv));
-//		else 
 		ft_putstr_fd(*argv, STDOUT_FILENO);
 		argv++;
 		if (*argv != NULL)
