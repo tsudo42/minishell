@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/25 12:41:24 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 17:45:57 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	envlen(void)
 {
-	extern char **environ;
-	char **tmp;
-	int len;
+	extern char	**environ;
+	char		**tmp;
+	int			len;
 
 	if (!environ)
 		return (0);
@@ -30,10 +30,10 @@ int	envlen(void)
 	return (len);
 }
 
-char **envdup_init(char **env_new)
+char	**envdup_init(char **env_new)
 {
-	extern char **environ;
-	int i;
+	extern char	**environ;
+	int			i;
 
 	if (!environ)
 		return (NULL);
@@ -50,13 +50,9 @@ char **envdup_init(char **env_new)
 
 int	init_environ(void)
 {
-	char	**env_new;
-	extern char **environ;
-	static int initialized;
+	char		**env_new;
+	extern char	**environ;
 
-	if (initialized == 1)
-		return (0);
-	initialized = 1;
 	if (!environ)
 		return (0);
 	env_new = (char **)malloc(sizeof(char *) * (envlen() + 1));

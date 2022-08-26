@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*       add_environ.c                                  :+:      :+:    :+:   */
+/*   add_environ.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/26 17:40:24 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environ.h"
 
-char **add_environ(const char *string)
+char	**add_environ(const char *string)
 {
-	extern char **environ;
-	char	**env_new;
-	int i;
+	extern char	**environ;
+	char		**env_new;
+	int			i;
 
 	if (!environ)
 		return (NULL);

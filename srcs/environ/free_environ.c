@@ -6,16 +6,16 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/25 19:53:51 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 17:43:25 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environ.h"
 
-void free_environ(void)
+void	free_environ(void)
 {
-	extern char **environ;
-	int i;
+	extern char	**environ;
+	int			i;
 
 	if (!environ)
 		return ;

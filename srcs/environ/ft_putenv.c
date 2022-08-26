@@ -6,17 +6,17 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/25 19:51:15 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 17:49:08 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environ.h"
 
-static int find_string(const char *string)
+static int	find_string(const char *string)
 {
-	extern char **environ;
-	int i;
-	int len;
+	extern char	**environ;
+	int			i;
+	int			len;
 
 	len = ft_strchr(string, '=') - string;
 	i = 0;
@@ -29,11 +29,10 @@ static int find_string(const char *string)
 	return (-1);
 }
 
-static int change_content(const char *string, int location)
+static int	change_content(const char *string, int location)
 {
-	extern char **environ;
+	extern char	**environ;
 
-//	printf("env: %s\n", environ[location]);
 	free (environ[location]);
 	environ[location] = NULL;
 	environ[location] = ft_strdup(string);
@@ -45,10 +44,10 @@ static int change_content(const char *string, int location)
 int	ft_putenv(const char *string)
 {
 	extern char	**environ;
-	int location;
+	int			location;
 
-	init_environ();
-	if ((location = find_string(string)) != -1)
+	location = find_string(string);
+	if (location != -1)
 		return (change_content(string, location));
 	environ = add_environ(string);
 	if (!environ)
