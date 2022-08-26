@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 17:43:25 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 22:02:23 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,18 @@ void	free_environ(void)
 		free (environ[i++]);
 	free (environ);
 	environ = NULL;
+	return ;
+}
+
+void	free_env_new(char **env_new, int i)
+{
+	int	j;
+
+	if (!env_new)
+		return ;
+	j = 0;
+	while (j < i - 1)
+		free(env_new[j++]);
+	free (env_new);
 	return ;
 }
