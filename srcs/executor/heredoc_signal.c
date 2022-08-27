@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 18:13:42 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 16:53:54 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ready_heredoc_signal(int *is_error)
 	if (errno != 0)
 	{
 		*is_error = 1;
-		cleanup_heredoc_readline(is_error);
+		cleanup_heredoc_signal(is_error);
 		return (-1);
 	}
 	rl_event_hook = rl_status_checker_heredoc;

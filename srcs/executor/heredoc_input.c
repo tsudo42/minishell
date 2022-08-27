@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 18:12:40 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 16:53:17 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char	*heredoc_input(char *delim, int *is_error)
 	char	*line;
 	int		quoted;
 
-	if (ready_heredoc_readline(is_error) != 0)
+	if (ready_heredoc_signal(is_error) != 0)
 		return (NULL);
 	quoted = is_quoted(delim);
 	input = NULL;
