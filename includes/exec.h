@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 11:50:30 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:37:15 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define EXEC_H
 
 # include "minishell.h"
+# include "utils.h"
+# include "libft.h"
 # include "ast.h"
 # include "builtin.h"
 # include "environ.h"
@@ -22,13 +24,6 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-
-# define READ 0
-# define WRITE 1
-
-# define EXEC_ERRMSG "minishell"
-# define EXEC_INTERNAL_ERRMSG "exec internal error"
-# define EXEC_INTERNAL_ERRNUM -1
 
 /**
  * This function executes the whole commands expressed as AST tree
