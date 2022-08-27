@@ -6,13 +6,11 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/27 08:35:54 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 /* ************************************************************************** */
 /*  This function is an error checking version of malloc(3).                  */
