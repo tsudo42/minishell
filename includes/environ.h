@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 18:19:08 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/26 21:55:41 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int			ft_putenv(const char *string);
 int			find_name(const char *name);
 int			ft_unsetenv(const char *name);
 void		free_environ(void);
+void		free_env_new(char **env_new, int i);
 int			print_env(const char *string);
 char		**add_environ(const char *string);
 
