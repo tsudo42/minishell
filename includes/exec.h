@@ -39,9 +39,5 @@
  * Some fatal errors such as malloc(3) error causes terminating the process.
  */
 int		executor(t_ast *ast_root);
-int		ft_strcmp(const char *s1, const char *s2);
-void	deactivate_signal_heredoc(void);
-void	activate_signal_heredoc(void);
-int		rl_status_checker_heredoc(void);
 
 #endif /* EXEC_H */

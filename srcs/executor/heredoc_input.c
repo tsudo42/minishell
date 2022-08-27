@@ -52,8 +52,6 @@ static char	*heredoc_getline(int quoted, int *is_error)
 	char	*line;
 
 	errno = 0;
-	activate_signal_heredoc();
-	rl_event_hook = rl_status_checker_heredoc;
 	line = readline("> ");
 	if (errno != 0)
 		perror(EXEC_ERRMSG ": heredoc");
@@ -61,8 +59,6 @@ static char	*heredoc_getline(int quoted, int *is_error)
 		line = parameter_expander(line);
 	if (errno != 0)
 		*is_error = 1;
-	deactivate_signal_heredoc();
-	rl_event_hook = 0;
 	return (line);
 }
 
@@ -109,7 +105,8 @@ char	*heredoc_input(char *delim, int *is_error)
 	char	*line;
 	int		quoted;
 
-	errno = 0;
+	if (ready_heredoc_readline(is_error) != 0)
+		return (NULL);
 	quoted = is_quoted(delim);
 	input = NULL;
 	line = heredoc_getline(quoted, is_error);
@@ -124,6 +121,9 @@ char	*heredoc_input(char *delim, int *is_error)
 			break ;
 		line = heredoc_getline(quoted, is_error);
 	}
+	cleanup_heredoc_signal(is_error);
 	ft_free_set((void **)&line, NULL);
+	if (*is_error)
+		ft_free_set((void **)&input, NULL);
 	return (input);
 }

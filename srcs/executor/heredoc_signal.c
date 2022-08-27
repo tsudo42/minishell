@@ -12,12 +12,6 @@
 
 #include "exec.h"
 
-void	deactivate_signal_heredoc(void)
-{
-	signal(SIGINT, SIG_IGN);
-	return ;
-}
-
 int	rl_status_checker_heredoc(void)
 {
 	if (g_sig != 0)
@@ -32,13 +26,28 @@ static void	signal_handler_heredoc(int sig)
 {
 	g_sig = sig;
 	write(1, "\n", 1);
-	set_exit_status(130);
-	return ;
 }
 
-void	activate_signal_heredoc(void)
+void	cleanup_heredoc_signal(int *is_error)
 {
+	rl_event_hook = 0;
+	errno = 0;
+	signal(SIGINT, SIG_IGN);
+	if (errno != 0)
+		*is_error = 1;
+}
+
+int	ready_heredoc_signal(int *is_error)
+{
+	errno = 0;
 	signal(SIGINT, signal_handler_heredoc);
 	signal(SIGQUIT, SIG_IGN);
-	return ;
+	if (errno != 0)
+	{
+		*is_error = 1;
+		cleanup_heredoc_readline(is_error);
+		return (-1);
+	}
+	rl_event_hook = rl_status_checker_heredoc;
+	return (0);
 }
