@@ -6,11 +6,11 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 13:15:22 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:15:34 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "builtin_internal.h"
 
 void	putstrlen_fd(const char *s, size_t max_len, int fd)
 {

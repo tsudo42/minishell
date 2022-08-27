@@ -6,11 +6,11 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 18:08:08 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:15:34 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "builtin_internal.h"
 
 int	builtin_echo(char **argv)
 {
