@@ -6,11 +6,11 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 16:48:51 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:17:37 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ.h"
+#include "environ_internal.h"
 
 char	**add_environ(const char *string)
 {

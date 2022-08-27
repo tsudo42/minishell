@@ -6,11 +6,11 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 16:52:06 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:17:37 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ.h"
+#include "environ_internal.h"
 
 static int	envdup_unset(char **new_env, int skip)
 {
