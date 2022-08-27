@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 17:59:10 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 13:15:22 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ void	print_values2(char *str, char *value)
 	value++;
 	while (*value != '\0')
 	{
-		if (*value == '\"' || *value == '\\' || *value == '$')
+		if (*value == '\"' || *value == '\\' || \
+			*value == '$' || *value == '`')
 			write(STDOUT_FILENO, "\\", 1);
 		write(STDOUT_FILENO, value, 1);
 		value++;
