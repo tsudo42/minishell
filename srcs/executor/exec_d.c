@@ -37,12 +37,42 @@ static int	exec_d_redout(const char *word, int fd, int is_append)
 	return (0);
 }
 
-/* NOTIMPLEMENTED */
-static int	exec_d_heredoc(const char *word, int fd)
+static int	exec_d_heredoc(int from_fd, int to_fd)
 {
-	(void)word;
-	(void)fd;
+	int	fd;
+
+	fd = dup2(from_fd, to_fd);
+	if (fd < 0)
+		perror(EXEC_ERRMSG ": dup2");
+	close(from_fd);
+	if (fd < 0)
+		return (-1);
 	return (0);
+}
+
+static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
+{
+	long	fd;
+
+	if (num == NULL || *num == '\0')
+	{
+		if (type == AST_D_REDIN || type == AST_D_HEREDOC)
+			return (0);
+		return (1);
+	}
+	fd = ft_strtol(num, NULL, 10);
+	if (fd != STDIN_FILENO && fd != STDOUT_FILENO && fd != STDERR_FILENO)
+	{
+		errno = EBADF;
+		*is_err = 1;
+		ft_putstr_fd(EXEC_ERRMSG ": ", STDERR_FILENO);
+		if (fd < 0 || INT_MAX < fd)
+			perror("file descriptor out of range");
+		else
+			perror(num);
+		return (-1);
+	}
+	return (fd);
 }
 
 int	exec_d(t_ast_d *d)
@@ -51,14 +81,11 @@ int	exec_d(t_ast_d *d)
 	long	fd;
 
 	is_err = 0;
-	while (d != NULL && is_err)
+	while (d != NULL && is_err == 0)
 	{
-		fd = ft_strtol(d->num, NULL, 10);
-		if (fd > 3)
-		{
-			perror("minishell: file descriptor out of range");
+		fd = calc_fd(d->type, d->num, &is_err);
+		if (fd < 0)
 			return (1);
-		}
 		if (d->type == AST_D_REDIN)
 			is_err = exec_d_redin(d->word, fd);
 		else if (d->type == AST_D_REDOUT)
@@ -66,7 +93,7 @@ int	exec_d(t_ast_d *d)
 		else if (d->type == AST_D_REDAPP)
 			is_err = exec_d_redout(d->word, fd, 1);
 		else if (d->type == AST_D_HEREDOC)
-			is_err = exec_d_heredoc(d->word, fd);
+			is_err = exec_d_heredoc(d->heredoc_fd, fd);
 		else
 			exec_error("undefined d type");
 		d = d->next;

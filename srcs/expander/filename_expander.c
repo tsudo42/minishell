@@ -27,14 +27,14 @@ static DIR	*ready_dir(void)
 	dirname = getcwd(NULL, 0);
 	if (dirname == NULL)
 	{
-		perror("getcwd");
+		perror(EXPANDER_ERRMSG ": getcwd");
 		return (NULL);
 	}
 	dir = opendir(dirname);
 	free(dirname);
 	if (dir == NULL)
 	{
-		perror("opendir");
+		perror(EXPANDER_ERRMSG ": opendir");
 		return (NULL);
 	}
 	return (dir);
@@ -63,7 +63,7 @@ static t_list	*glob_dir(const char *pattern, DIR *dir)
 	}
 	if (errno != 0)
 	{
-		perror("glob dir");
+		perror(EXPANDER_ERRMSG ": filename expansion");
 		ft_lstclear(&lst, free);
 	}
 	return (lst);

@@ -12,6 +12,8 @@
 
 #include "lexer.h"
 #include "debug.h"
+#include "libft.h"
+#include <unistd.h>
 
 /**
  * Function to debug lexer().

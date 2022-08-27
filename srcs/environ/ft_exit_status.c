@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environ.h                                          :+:      :+:    :+:   */
+/*   ft_exit_status.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,34 +10,56 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENVIRON_H
-# define ENVIRON_H
+#include "environ.h"
+#include "libft.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-# define ENVIRON_ERRMSG "minishell"
+static int	*stored_status(void)
+{
+	static int	status;
 
-extern char	**environ;
-
-int			ft_init_environ(void);
-
-char		*ft_getenv(const char *name);
-int			ft_setenv(const char *name, const char *value, int overwrite);
-int			ft_putenv(const char *string);
-int			ft_unsetenv(const char *name);
+	return (&status);
+}
 
 /**
  *  This function stores the argument as exit status.
  */
-void		set_exit_status(int status);
+void	set_exit_status(int status)
+{
+	(*stored_status()) = status;
+}
 
 /**
  *  This function returns the stored exit status.
  */
-int			get_exit_status(void);
+int	get_exit_status(void)
+{
+	return (*(stored_status()));
+}
 
 /**
  *  This function returns the string representation of the stored exit status.
  *  This function returns NULL when malloc(3) fails.
  */
-const char	*get_exit_status_str(void);
+const char	*get_exit_status_str(void)
+{
+	static char	*alloced_str;
+	int			status;
 
-#endif /* ENVIRON_H */
+	status = get_exit_status();
+	if (status == 0)
+		return ("0");
+	if (status == 1)
+		return ("1");
+	if (alloced_str == NULL)
+	{
+		alloced_str = malloc(sizeof(char) * 16);
+		if (alloced_str == NULL)
+		{
+			perror(ENVIRON_ERRMSG ": malloc");
+			return (NULL);
+		}
+	}
+	return (ft_itoa_buf(status, alloced_str, 16));
+}

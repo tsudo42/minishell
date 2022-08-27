@@ -16,14 +16,15 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 static void	bad_substitution(const char *str)
 {
 	if (errno == 0)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": bad substitution", 2);
+		ft_putstr_fd(EXPANDER_ERRMSG ": ", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putendl_fd(": bad substitution", STDERR_FILENO);
 		errno = EINVAL;
 	}
 }
@@ -33,7 +34,7 @@ static size_t	sep_var_len(char *str)
 {
 	size_t	i;
 
-	if (ft_isdigit(str[1]) || str[1] == '$' || str[1] == '?')
+	if (ft_isdigit(str[1]) || str[1] == '?')
 		return (2);
 	i = 2;
 	if (ft_isalpha(str[1]) || str[1] == '_')
@@ -85,10 +86,10 @@ static size_t	sep_len(char *str)
 	return (i);
 }
 
-static char	*get_env_helper(char *param)
+static const char	*get_env_helper(char *param)
 {
-	char	*param_head;
-	char	*env_var;
+	char		*param_head;
+	const char	*env_var;
 
 	if (*param == '$')
 		param++;
@@ -101,17 +102,21 @@ static char	*get_env_helper(char *param)
 	else
 	{
 		param_head = param;
-		if (ft_isdigit(*param) || *param == '$' || *param == '@')
-		{
+		if (ft_isdigit(*param) || *param == '?')
 			*(param + 1) = '\0';
-		}
 	}
-	env_var = ft_getenv(param_head);
+	if (ft_strcmp(param_head, "?") == 0)
+		env_var = get_exit_status_str();
+	else
+		env_var = ft_getenv(param_head);
 	if (env_var == NULL)
 		return ("");
 	return (env_var);
 }
 
+/* returns the ft_list node of parameter token.                              */
+/* (*word)[0] should not be '\0'.                                            */
+/* error message of malloc error should be printed outside of this function. */
 t_list	*next_parameter_token(char **word)
 {
 	t_list	*lst;
@@ -132,7 +137,7 @@ t_list	*next_parameter_token(char **word)
 		return (NULL);
 	tmp = (**word);
 	(**word) = '\0';
-	lst = ft_lstnew(get_env_helper(word_head));
+	lst = ft_lstnew((void *)get_env_helper(word_head));
 	(**word) = tmp;
 	*word_head = '\0';
 	return (lst);

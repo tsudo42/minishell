@@ -24,7 +24,7 @@ static char	**lst_to_strs(t_list *lst)
 	strs = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
 	if (strs == NULL)
 	{
-		perror("malloc");
+		perror(EXEC_ERRMSG ": malloc");
 		ft_lstclear(&lst, free);
 		return (NULL);
 	}
