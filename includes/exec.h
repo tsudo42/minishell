@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 18:20:21 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 11:50:30 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # define EXEC_ERRMSG "minishell"
 # define EXEC_INTERNAL_ERRMSG "exec internal error"
 # define EXEC_INTERNAL_ERRNUM -1
-# define PIPE_BUFF_MAX 8192
 
 /**
  * This function executes the whole commands expressed as AST tree
