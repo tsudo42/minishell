@@ -12,51 +12,44 @@
 
 #include "environ.h"
 
-int	envlen(void)
+size_t	envlen(char **old_env)
 {
-	extern char	**environ;
-	char		**tmp;
-	int			len;
+	size_t	len;
 
-	if (!environ)
+	if (!old_env)
 		return (0);
-	tmp = environ;
 	len = 0;
-	while (*tmp)
+	while (old_env[len] != NULL)
 	{
-		tmp++;
 		len++;
 	}
 	return (len);
 }
 
-char	**envdup_init(char **env_new)
+char	**envdup_init(char **new_env, char **old_env)
 {
-	extern char	**environ;
-	int			i;
+	int	i;
 
-	if (!environ)
-		return (NULL);
 	i = 0;
-	while (environ[i])
+	while (old_env[i])
 	{
-		env_new[i] = ft_x_strdup(environ[i]);
+		new_env[i] = ft_x_strdup(old_env[i]);
 		i++;
 	}
-	env_new[i] = NULL;
-	return (env_new);
+	new_env[i] = NULL;
+	return (new_env);
 }
 
 int	init_environ(void)
 {
-	char		**env_new;
 	extern char	**environ;
+	static char	**old_env;
+	char		**new_env;
 
-	if (!environ)
-		return (0);
-	env_new = (char **)ft_x_malloc(sizeof(char *) * (envlen() + 1), \
-	ENVIRON_ERRMSG ": malloc");
-	environ = envdup_init(env_new);
+	old_env = environ;
+	new_env = (char **)ft_x_malloc(sizeof(char *) * (envlen(old_env) + 1), \
+		ENVIRON_ERRMSG ": malloc");
+	environ = envdup_init(new_env, old_env);
 	if (!environ)
 		ft_perror_exit(EXIT_FAILURE, ENVIRON_ERRMSG ": malloc");
 	return (0);
