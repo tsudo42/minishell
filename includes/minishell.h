@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 18:21:55 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 14:28:40 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define STATUS_FAILURE -1
 # define STATUS_SUCCESS 0
 # define ARG_MAX_SIZE 4096
+# define MAIN_ERRMSG "minishell"
 
 volatile sig_atomic_t	g_sig;
 

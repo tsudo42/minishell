@@ -6,13 +6,11 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 17:37:02 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 14:28:59 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#define MAIN_ERRMSG "minishell"
 
 static bool	is_continue(char	*line)
 {
