@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:34:39 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:46:08 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int	rl_status_checker(void)
 	}
 	return (0);
 }
+
 static void	signal_handler(int sig)
 {
 	g_sig = sig;

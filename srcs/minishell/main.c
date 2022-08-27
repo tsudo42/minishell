@@ -6,13 +6,13 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:33:06 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:46:45 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_internal.h"
 
-volatile sig_atomic_t g_sig;
+volatile sig_atomic_t	g_sig;
 
 static bool	is_continue(char	*line)
 {
