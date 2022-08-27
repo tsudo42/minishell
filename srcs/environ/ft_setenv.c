@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 17:48:30 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 11:55:53 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ int	ft_setenv(const char *name, const char *value, int overwrite)
 	if (!str)
 	{
 		free_environ();
-		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc");
+		ft_perror_exit(EXIT_FAILURE, ENVIRON_ERRMSG ": malloc");
 	}
 	environ = add_environ(str);
 	if (!environ)
 	{
 		free_environ();
-		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": environ");
+		ft_perror_exit(EXIT_FAILURE, ENVIRON_ERRMSG ": environ");
 	}
 	free(str);
 	return (0);

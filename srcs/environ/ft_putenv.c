@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 17:49:08 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 11:54:03 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	change_content(const char *string, int location)
 	environ[location] = NULL;
 	environ[location] = ft_strdup(string);
 	if (environ[location] == NULL)
-		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc");
+		ft_perror_exit(EXIT_FAILURE, ENVIRON_ERRMSG ": malloc");
 	return (0);
 }
 
@@ -53,7 +53,7 @@ int	ft_putenv(const char *string)
 	if (!environ)
 	{
 		free_environ();
-		ft_perror_exit(EXIT_FAILURE, ENV_ERRMSG ": malloc");
+		ft_perror_exit(EXIT_FAILURE, ENVIRON_ERRMSG ": malloc");
 	}
 	return (0);
 }
