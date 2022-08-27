@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 18:23:16 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:41:50 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 
 # include "ft_list.h"
 
-# define EXPAND_ERRMSG "minishell"
 # define EXPANDER_ERRMSG "minishell"
-//# define EXPAND_INTERNAL_ERRMSG "expander internal error"
-//# define EXPAND_INTERNAL_ERRNUM -1
 
 /**
  * This function generates full path of executable file searched using PATH
