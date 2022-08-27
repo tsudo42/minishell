@@ -6,13 +6,13 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 11:53:19 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 16:52:06 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environ.h"
 
-static int	envdup_unset(char **env_new, int skip)
+static int	envdup_unset(char **new_env, int skip)
 {
 	extern char	**environ;
 	int			i;
@@ -26,39 +26,39 @@ static int	envdup_unset(char **env_new, int skip)
 			j++;
 		if (environ[j] != NULL)
 		{
-			env_new[i] = ft_strdup(environ[j++]);
-			if (!env_new[i++])
+			new_env[i] = ft_strdup(environ[j++]);
+			if (!new_env[i++])
 			{
-				free_env_new(env_new, i);
+				free_environ();
 				return (-1);
 			}
 		}
 	}
-	env_new[i] = NULL;
+	new_env[i] = NULL;
 	return (0);
 }
 
 static char	**del_one_environ(int skip)
 {
 	extern char	**environ;
-	char		**env_new;
+	char		**new_env;
 
 	if (!environ)
 		return (NULL);
-	env_new = (char **)malloc(sizeof(char *) * (envlen()));
-	if (!env_new)
+	new_env = (char **)malloc(sizeof(char *) * (envlen(environ)));
+	if (!new_env)
 	{
 		free_environ();
 		return (NULL);
 	}
-	if (envdup_unset(env_new, skip) == -1)
+	if (envdup_unset(new_env, skip) == -1)
 	{
 		free_environ();
 		return (NULL);
 	}
 	free_environ();
 	environ = NULL;
-	return (env_new);
+	return (new_env);
 }
 
 int	ft_unsetenv(const char *name)

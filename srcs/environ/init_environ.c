@@ -6,20 +6,20 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 11:57:05 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 16:47:01 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environ.h"
 
-size_t	envlen(char **old_env)
+size_t	envlen(char **envp)
 {
 	size_t	len;
 
-	if (!old_env)
+	if (!envp)
 		return (0);
 	len = 0;
-	while (old_env[len] != NULL)
+	while (envp[len] != NULL)
 	{
 		len++;
 	}

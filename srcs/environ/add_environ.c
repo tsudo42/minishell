@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 17:40:24 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 16:48:51 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 char	**add_environ(const char *string)
 {
 	extern char	**environ;
-	char		**env_new;
+	char		**new_env;
 	int			i;
 
 	if (!environ)
 		return (NULL);
-	env_new = (char **)malloc(sizeof(char *) * (envlen() + 2));
-	if (!env_new)
+	new_env = (char **)malloc(sizeof(char *) * (envlen(environ) + 2));
+	if (!new_env)
 		return (NULL);
 	i = 0;
 	while (environ[i])
 	{
-		env_new[i] = ft_strdup(environ[i]);
-		if (env_new[i++] == NULL)
+		new_env[i] = ft_strdup(environ[i]);
+		if (new_env[i++] == NULL)
 			return (NULL);
 	}
-	env_new[i] = ft_strdup(string);
-	if (env_new[i++] == NULL)
+	new_env[i] = ft_strdup(string);
+	if (new_env[i++] == NULL)
 		return (NULL);
-	env_new[i] = NULL;
+	new_env[i] = NULL;
 	free_environ();
-	return (env_new);
+	return (new_env);
 }
