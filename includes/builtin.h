@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 18:22:57 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 11:58:44 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include "environ.h"
 
 # define BUILT_ERRMSG "minishell"
-//# define BUILT_INTERNAL_ERRMSG "builtin internal error"
-//# define BUILT_INTERNAL_ERRNUM -1
 
 int		builtin_echo(char **argv);
 int		builtin_cd(char **argv);

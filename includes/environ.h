@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 21:55:41 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 11:58:26 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@
 # include "minishell.h"
 # include "utils.h"
 
-# define ENV_ERRMSG "minishell"
 # define ENVIRON_ERRMSG "minishell"
-//# define ENV_INTERNAL_ERRMSG "environ internal error"
-//# define ENV_INTERNAL_ERRNUM -1
 
 extern char	**environ;
 
