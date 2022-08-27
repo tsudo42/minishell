@@ -6,11 +6,11 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 16:44:55 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:33:06 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishell_internal.h"
 
 volatile sig_atomic_t g_sig;
 
@@ -40,10 +40,18 @@ static char	*input(void)
 	char	*line;
 
 	g_sig = 0;
-	rl_event_hook = rl_status_checker;
-	activate_signal();
+	if (ready_signal() != 0)
+	{
+		perror(MAIN_ERRMSG ": signal");
+		return (NULL);
+	}
 	line = readline("minishell> ");
-	deactivate_signal();
+	if (cleanup_signal() != 0)
+	{
+		free (line);
+		perror(MAIN_ERRMSG ": signal");
+		return (NULL);
+	}
 	return (line);
 }
 
@@ -59,7 +67,7 @@ static bool	is_continue_input(char *line)
 	{
 		free (line);
 		return (true);
-	}	
+	}
 	return (false);
 }
 

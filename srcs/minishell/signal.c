@@ -6,19 +6,13 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 17:38:22 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:34:39 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	signal_handler(int sig)
-{
-	g_sig = sig;
-	write(1, "\n", 1);
-}
-
-int	rl_status_checker(void)
+static int	rl_status_checker(void)
 {
 	if (g_sig != 0)
 	{
@@ -27,16 +21,32 @@ int	rl_status_checker(void)
 	}
 	return (0);
 }
-
-void	activate_signal(void)
+static void	signal_handler(int sig)
 {
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
-	return ;
+	g_sig = sig;
+	write(1, "\n", 1);
 }
 
-void	deactivate_signal(void)
+int	cleanup_signal(void)
 {
+	rl_event_hook = 0;
+	errno = 0;
 	signal(SIGINT, SIG_IGN);
-	return ;
+	if (errno != 0)
+		return (-1);
+	return (0);
+}
+
+int	ready_signal(void)
+{
+	errno = 0;
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	if (errno != 0)
+	{
+		cleanup_signal();
+		return (-1);
+	}
+	rl_event_hook = rl_status_checker;
+	return (0);
 }
