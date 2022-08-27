@@ -6,13 +6,14 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 18:22:27 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 08:42:47 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
+# include "libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -78,5 +79,6 @@ void	ft_x_pipe(int fildes[2], const char *errmsg);
 //int	ft_putendl_len_fd(const char *s, int fd);
 
 void	ft_perror_exit(int exit_no, const char *errmsg);
+char	*ft_x_strdup(const char *s);
 
 #endif /* UTILS_H */
