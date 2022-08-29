@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:48:06 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/29 13:09:24 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@
 
 # define ENVIRON_ERRMSG "minishell"
 
-extern char	**environ;
+# define ENV_INITIALIZED 1
 
 size_t	envlen(char **envp);
-int		find_name(const char *name);
-void	free_environ(void);
 int		print_env(const char *string);
 char	**add_environ(const char *string);
+int		is_init_environ(int activation);
 
 #endif
