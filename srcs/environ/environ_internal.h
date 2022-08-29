@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/29 13:09:24 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/29 13:10:17 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "environ.h"
 
 # define ENVIRON_ERRMSG "minishell"
-
 # define ENV_INITIALIZED 1
 
 size_t	envlen(char **envp);
