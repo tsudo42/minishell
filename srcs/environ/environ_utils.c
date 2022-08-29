@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_init_environ.c                                  :+:      :+:    :+:   */
+/*   environ_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/29 13:15:10 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/29 13:36:06 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ size_t	envlen(char **envp)
 	return (len);
 }
 
-int is_init_environ(int activation)
+int	is_init_environ(int activation)
 {
-	static int initialized;
+	static int	initialized;
 
 	if (activation == 1)
 		initialized = ENV_INITIALIZED;
