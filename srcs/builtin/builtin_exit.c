@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:15:34 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/29 13:17:39 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	builtin_exit(char **argv)
 {
 	int	exit_status;
 
+	free_environ();
 	if (argv[1] == NULL)
 		exit (0);
 	if (argv[2] != NULL)
