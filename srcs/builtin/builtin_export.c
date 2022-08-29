@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:15:34 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/29 13:18:21 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,13 @@ static int	export_values(char **argv)
 	status = STATUS_SUCCESS;
 	while (*(++argv) != NULL)
 	{
-		string = ft_strdup(*argv);
+		string = ft_x_strdup(*argv);
 		value = ft_strchr(string, '=');
 		status = export_value_checker(string, value - string, argv);
 		if (status == STATUS_FAILURE)
 			break ;
-		*value = '\0';
-		if (value != NULL)
-			ft_setenv(string, ++value, 1);
+		if (++value != NULL)
+			ft_putenv(string);
 		free (string);
 	}
 	return (status);
