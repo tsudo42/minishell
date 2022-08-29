@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:41:50 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/28 16:39:50 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXPANDER_H
 
 # include "ft_list.h"
+# include "environ.h"
 
 # define EXPANDER_ERRMSG "minishell"
 
