@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:15:34 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/29 08:10:07 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,11 @@ int	print_values(void)
 			i++;
 			continue ;
 		}
-		str = ft_strdup(environ[i++]);
+		str = ft_x_strdup(environ[i++]);
 		value = ft_strchr(str, '=');
 		print_values2(str, value);
+		free (str);
+		str = NULL;
 	}
 	return (STATUS_SUCCESS);
 }
