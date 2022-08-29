@@ -6,7 +6,7 @@
 #    By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#              #
-#    Updated: 2022/08/27 08:32:55 by hos              ###   ########.fr        #
+#    Updated: 2022/08/29 13:03:27 by hos              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,10 +58,8 @@ B_SRCS	:= \
 SRCS	+= $(EV_SRCS)
 EV_SRCS	:= \
 	srcs/environ/ft_putenv.c \
-	srcs/environ/ft_setenv.c \
 	srcs/environ/ft_getenv.c \
 	srcs/environ/ft_unsetenv.c \
-	srcs/environ/add_environ.c \
 	srcs/environ/init_environ.c \
 	srcs/environ/print_env.c \
 	srcs/environ/free_environ.c \
