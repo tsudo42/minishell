@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:46:45 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/29 13:23:26 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static bool	is_continue(char	*line)
 static int	init(void)
 {
 	set_exit_status(0);
-	init_environ();
 	return (0);
 }
 
@@ -87,6 +86,7 @@ int	main(void)
 		add_history(line);
 		ret = executor(parser(lexer(line)));
 	}
+	free_environ();
 	printf("exit\n");
 	return (ret);
 }
