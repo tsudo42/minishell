@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/29 13:17:39 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/30 19:07:20 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	builtin_exit(char **argv)
 	if (exit_status == -1)
 	{
 		ft_putstr_fd("exit: a numeric argument required\n", STDERR_FILENO);
-		exit (255);
+		return (255);
 	}
 	exit(exit_status);
 }
