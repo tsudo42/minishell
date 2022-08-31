@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/29 13:25:55 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/31 15:07:12 by hosuzuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	free_environ(void)
 {
 	extern char	**environ;
-	int			i;
+	size_t		i;
 
 	if (!environ)
 		return ;
