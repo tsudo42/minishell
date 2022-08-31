@@ -40,11 +40,9 @@ t_ast_d	*ast_convert_a_to_d(t_ast_a *a)
 	t_ast_d	*d;
 
 	if (errno != 0 || a == NULL)
-	{
-		ast_free_a(a);
-		return (NULL);
-	}
-	d = malloc(sizeof(t_ast_d));
+		d = NULL;
+	else
+		d = malloc(sizeof(t_ast_d));
 	if (d == NULL)
 	{
 		ast_free_a(a);
@@ -55,7 +53,7 @@ t_ast_d	*ast_convert_a_to_d(t_ast_a *a)
 	d->type = extract_ast_d_type(d->num);
 	d->heredoc_fd = -1;
 	d->next = ast_convert_a_to_d(a->next);
-	a->next = NULL;
+	free(a);
 	if (d->next == NULL && errno != 0)
 	{
 		ast_free_d(d);
