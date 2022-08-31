@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/29 13:13:21 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/31 15:09:46 by hosuzuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static char	**del_one_environ(int location)
 		ENVIRON_ERRMSG ": malloc");
 	envdup_unset(new_env, location);
 	free_environ();
+	is_init_environ(1);
 	return (new_env);
 }
 
@@ -78,7 +79,6 @@ int	ft_unsetenv(const char *name)
 	if (location == -1)
 		return (0);
 	environ = del_one_environ(location);
-	is_init_environ(1);
 	if (!environ)
 		ft_perror_exit(EXIT_FAILURE, ENVIRON_ERRMSG ": malloc");
 	return (0);
