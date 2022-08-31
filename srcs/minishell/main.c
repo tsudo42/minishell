@@ -6,13 +6,11 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/29 13:23:26 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/31 15:46:17 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_internal.h"
-
-volatile sig_atomic_t	g_sig;
 
 static bool	is_continue(char	*line)
 {
@@ -27,6 +25,24 @@ static bool	is_continue(char	*line)
 	}
 	return (false);
 }
+
+static bool	is_continue_input(char *line)
+{
+	if (g_sig != 0)
+	{
+		set_exit_status(130);
+		free (line);
+		return (true);
+	}
+	if (is_continue(line))
+	{
+		free (line);
+		return (true);
+	}
+	return (false);
+}
+
+volatile sig_atomic_t	g_sig;
 
 static int	init(void)
 {
@@ -52,22 +68,6 @@ static char	*input(void)
 		return (NULL);
 	}
 	return (line);
-}
-
-static bool	is_continue_input(char *line)
-{
-	if (g_sig != 0)
-	{
-		set_exit_status(130);
-		free (line);
-		return (true);
-	}
-	if (is_continue(line))
-	{
-		free (line);
-		return (true);
-	}
-	return (false);
 }
 
 int	main(void)
