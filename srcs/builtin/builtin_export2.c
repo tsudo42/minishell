@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/29 08:10:07 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/31 16:06:19 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,7 @@ void	putstrlen_fd(const char *s, size_t max_len, int fd)
 
 int	is_printable(char *s)
 {
-	if (ft_strncmp(s, "LINES=", 6) == 0)
-		return (-1);
-	else if (ft_strncmp(s, "COLUMNS=", 8) == 0)
-		return (-1);
-	else if (ft_strncmp(s, "_=", 2) == 0)
+	if (ft_strncmp(s, "_=", 2) == 0)
 		return (-1);
 	return (0);
 }
@@ -71,6 +67,8 @@ int	print_values(void)
 	char		*str;
 	char		*value;
 
+	if (!environ)
+		return (STATUS_FAILURE);
 	i = 0;
 	while (environ[i])
 	{
