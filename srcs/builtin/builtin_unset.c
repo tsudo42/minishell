@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:15:34 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/31 15:08:02 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	builtin_unset(char **argv)
 {
-	int	i;
-
-	i = 1;
-	while (argv[i] != NULL)
-		ft_unsetenv(argv[i++]);
+	while (*argv != NULL)
+	{
+		ft_unsetenv(*argv);
+		argv++;
+	}
 	return (STATUS_SUCCESS);
 }
