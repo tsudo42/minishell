@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/30 19:07:20 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/31 15:06:25 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,14 @@
 
 static int	builtin_get_exit_status(char *str)
 {
-	int	exit_status;
+	long	num;
+	char	*endptr;
 
-	exit_status = 0;
-	while (*str != '\0')
-	{
-		if (!ft_isdigit(*str))
-			return (-1);
-		str++;
-	}
-	exit_status = ft_atoi(str);
-	if (256 <= exit_status)
-		exit_status = exit_status % 256;
-	else if (exit_status < 0)
-		exit_status = 0;
-	return (exit_status);
+	errno = 0;
+	num = ft_strtol(str, &endptr, 10);
+	if (errno || *endptr != '\0')
+		return (-1);
+	return (num);
 }
 
 int	builtin_exit(char **argv)
