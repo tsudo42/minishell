@@ -6,18 +6,11 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/29 13:18:21 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/31 15:48:47 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin_internal.h"
-
-static bool	is_underbar(char c)
-{
-	if ((int)c == '_')
-		return (true);
-	return (false);
-}
 
 static int	export_value_checker(char *name, int len, char **argv)
 {
@@ -26,10 +19,10 @@ static int	export_value_checker(char *name, int len, char **argv)
 	i = 1;
 	while (i < len)
 	{
-		if (!ft_isalpha(name[0]) && !is_underbar(name[0]))
+		if (!ft_isalpha(name[0]) && !((int)name[0] == '_'))
 			break ;
 		if (!ft_isalpha(name[i]) && !ft_isdigit(name[i]) \
-				&& !is_underbar(name[i]))
+				&& !((int)name[i] == '_'))
 			break ;
 		i++;
 	}
