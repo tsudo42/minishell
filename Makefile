@@ -6,7 +6,7 @@
 #    By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#              #
-#    Updated: 2022/08/29 13:16:07 by hos              ###   ########.fr        #
+#    Updated: 2022/08/31 15:11:01 by hos              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,6 @@ EV_SRCS	:= \
 	srcs/environ/ft_getenv.c \
 	srcs/environ/ft_unsetenv.c \
 	srcs/environ/environ_utils.c \
-	srcs/environ/print_env.c \
 	srcs/environ/free_environ.c \
 	srcs/environ/ft_exit_status.c \
 
