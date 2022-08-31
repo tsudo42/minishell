@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/29 13:20:06 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/31 15:44:07 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ static int	exec_d_redin(const char *word, int fd)
 		return (-1);
 	}
 	if (ft_r_dup2(open_fd, fd, EXEC_ERRMSG) < 0)
+	{
+		close(open_fd);
 		return (-1);
+	}
+	close(open_fd);
 	return (0);
 }
 
