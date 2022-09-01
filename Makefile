@@ -127,7 +127,6 @@ U_SRCS	:= \
 	srcs/utils/ft_r_dup2.c \
 	srcs/utils/ft_x_dup2.c \
 	srcs/utils/ft_x_dup.c \
-	srcs/utils/ft_perror_exit.c \
 	srcs/utils/ft_x_pipe.c \
 	srcs/utils/ft_x_fork.c \
 

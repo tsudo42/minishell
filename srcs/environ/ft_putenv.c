@@ -19,7 +19,10 @@ char	**add_environ(const char *string)
 	int			i;
 
 	if (!environ)
-		ft_perror_exit(EXIT_FAILURE, ENVIRON_ERRMSG ": environ");
+	{
+		perror(ENVIRON_ERRMSG ": environ");
+		exit(EXIT_FAILURE);
+	}
 	new_env = (char **)ft_x_malloc(sizeof(char *) * (envlen(environ) + 2), \
 		ENVIRON_ERRMSG ": malloc");
 	i = 0;

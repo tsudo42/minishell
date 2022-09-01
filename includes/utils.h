@@ -69,8 +69,6 @@ void	*ft_x_malloc(size_t size, const char *errmsg);
 /* ************************************************************************** */
 void	ft_x_pipe(int fildes[2], const char *errmsg);
 
-void	ft_perror_exit(int exit_no, const char *errmsg);
-
 /* ************************************************************************** */
 /*  This function is an error checking version of strdup(3).                  */
 /*  This function prints an error message and terminates the process calling  */

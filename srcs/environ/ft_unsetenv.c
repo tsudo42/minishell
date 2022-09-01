@@ -80,6 +80,9 @@ int	ft_unsetenv(const char *name)
 		return (0);
 	environ = del_one_environ(location);
 	if (!environ)
-		ft_perror_exit(EXIT_FAILURE, ENVIRON_ERRMSG ": malloc");
+	{
+		perror(ENVIRON_ERRMSG ": malloc");
+		exit(EXIT_FAILURE);
+	}
 	return (0);
 }
