@@ -1,43 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:50:01 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:46:08 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#include "minishell.h"
 
-static int	cd_to_home(void)
+static int	rl_status_checker(void)
 {
-	char	*home_dir;
-
-	home_dir = ft_getenv("HOME");
-	if (home_dir == NULL)
+	if (g_sig != 0)
 	{
-		ft_putendl_fd("cd: No Home", STDERR_FILENO);
-		return (STATUS_FAILURE);
+		rl_event_hook = 0;
+		rl_done = 1;
 	}
-	if (chdir(home_dir) == -1)
-	{
-		perror(BUILT_ERRMSG ": chdir");
-		return (STATUS_FAILURE);
-	}
-	return (STATUS_SUCCESS);
+	return (0);
 }
 
-int	builtin_cd(char **argv)
+static void	signal_handler(int sig)
 {
-	if (argv[1] == NULL)
-		return (cd_to_home());
-	if (chdir(argv[1]) == -1)
+	g_sig = sig;
+	write(1, "\n", 1);
+}
+
+int	cleanup_signal(void)
+{
+	rl_event_hook = 0;
+	errno = 0;
+	signal(SIGINT, SIG_IGN);
+	if (errno != 0)
+		return (-1);
+	return (0);
+}
+
+int	ready_signal(void)
+{
+	errno = 0;
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	if (errno != 0)
 	{
-		perror(BUILT_ERRMSG ": chdir");
-		return (STATUS_FAILURE);
+		cleanup_signal();
+		return (-1);
 	}
-	return (STATUS_SUCCESS);
+	rl_event_hook = rl_status_checker;
+	return (0);
 }

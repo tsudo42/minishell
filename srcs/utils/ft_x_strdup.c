@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_setenv.c                                        :+:      :+:    :+:   */
+/*   ft_x_strdup.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/27 08:42:37 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ.h"
-#include <stdlib.h>
+#include "utils.h"
 
-int	ft_setenv(const char *name, const char *value, int overwrite)
+char	*ft_x_strdup(const char *s)
 {
-	if (ft_init_environ() != 0)
-		return (-1);
-	(void)name;
-	(void)value;
-	(void)overwrite;
-	return (0);
+	char	*tmp;
+
+	tmp = ft_strdup(s);
+	if (tmp == NULL)
+	{
+		perror(UTILS_ERRMSG ": malloc");
+		exit(EXIT_FAILURE);
+	}
+	return (tmp);
 }

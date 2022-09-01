@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/26 18:14:14 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ static int	exec_c_builtin(\
 
 static int	exec_c_command(char **args, t_ast_d *d)
 {
-	pid_t	pid;
-	int		stat;
-	char	*path;
+	pid_t		pid;
+	int			stat;
+	char		*path;
+	extern char	**environ;
 
 	path = execpath(args[0]);
 	if (path == NULL)

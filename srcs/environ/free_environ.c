@@ -1,43 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   free_environ.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:50:01 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/31 15:07:12 by hosuzuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#include "environ_internal.h"
 
-static int	cd_to_home(void)
+void	free_environ(void)
 {
-	char	*home_dir;
+	extern char	**environ;
+	size_t		i;
 
-	home_dir = ft_getenv("HOME");
-	if (home_dir == NULL)
-	{
-		ft_putendl_fd("cd: No Home", STDERR_FILENO);
-		return (STATUS_FAILURE);
-	}
-	if (chdir(home_dir) == -1)
-	{
-		perror(BUILT_ERRMSG ": chdir");
-		return (STATUS_FAILURE);
-	}
-	return (STATUS_SUCCESS);
-}
-
-int	builtin_cd(char **argv)
-{
-	if (argv[1] == NULL)
-		return (cd_to_home());
-	if (chdir(argv[1]) == -1)
-	{
-		perror(BUILT_ERRMSG ": chdir");
-		return (STATUS_FAILURE);
-	}
-	return (STATUS_SUCCESS);
+	if (!environ)
+		return ;
+	if (is_init_environ(0) != ENV_INITIALIZED)
+		return ;
+	i = 0;
+	while (environ[i] != NULL)
+		free (environ[i++]);
+	free (environ);
+	environ = NULL;
+	return ;
 }

@@ -1,43 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   builtin_internal.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:50:01 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:08:50 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#ifndef BUILTIN_INTERNAL_H
+# define BUILTIN_INTERNAL_H
 
-static int	cd_to_home(void)
-{
-	char	*home_dir;
+# include "builtin.h"
 
-	home_dir = ft_getenv("HOME");
-	if (home_dir == NULL)
-	{
-		ft_putendl_fd("cd: No Home", STDERR_FILENO);
-		return (STATUS_FAILURE);
-	}
-	if (chdir(home_dir) == -1)
-	{
-		perror(BUILT_ERRMSG ": chdir");
-		return (STATUS_FAILURE);
-	}
-	return (STATUS_SUCCESS);
-}
+# define BUILT_ERRMSG "minishell"
 
-int	builtin_cd(char **argv)
-{
-	if (argv[1] == NULL)
-		return (cd_to_home());
-	if (chdir(argv[1]) == -1)
-	{
-		perror(BUILT_ERRMSG ": chdir");
-		return (STATUS_FAILURE);
-	}
-	return (STATUS_SUCCESS);
-}
+void	putstrlen_fd(const char *s, size_t max_len, int fd);
+int		is_printable(char *s);
+void	print_values2(char *str, char *value);
+int		print_values(void);
+
+#endif /* BUILTIN_H */

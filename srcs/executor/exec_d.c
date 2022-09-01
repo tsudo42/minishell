@@ -6,34 +6,56 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/31 15:44:07 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec_internal.h"
 #include "libft.h"
+#include "exec.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
-/* NOTIMPLEMENTED */
 static int	exec_d_redin(const char *word, int fd)
 {
-	if (0)
+	int	open_fd;
+
+	open_fd = open(word, O_RDONLY);
+	if (open_fd < 0)
 	{
-		perror(word);
-		return (1);
+		perror(EXEC_ERRMSG ": open_fd");
+		return (-1);
 	}
-	(void)word;
-	(void)fd;
+	if (ft_r_dup2(open_fd, fd, EXEC_ERRMSG) < 0)
+	{
+		close(open_fd);
+		return (-1);
+	}
+	close(open_fd);
 	return (0);
 }
 
-/* NOTIMPLEMENTED */
 static int	exec_d_redout(const char *word, int fd, int is_append)
 {
-	(void)word;
-	(void)fd;
-	(void)is_append;
+	int	open_fd;
+	int	ret;
+
+	if (is_append == 0)
+		open_fd = open(word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else
+		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (open_fd < 0)
+	{
+		perror(EXEC_ERRMSG ": open_fd");
+		return (-1);
+	}
+	ret = ft_r_dup2(open_fd, fd, EXEC_ERRMSG);
+	close(open_fd);
+	if (ret < 0)
+		return (-1);
 	return (0);
 }
 

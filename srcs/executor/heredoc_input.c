@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/27 16:53:17 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ static char	*heredoc_getline(int quoted, int *is_error)
 	char	*line;
 
 	errno = 0;
-	write(STDERR_FILENO, "heredoc> ", 9);
-	line = get_next_line(STDIN_FILENO);
+	line = readline("> ");
 	if (errno != 0)
 		perror(EXEC_ERRMSG ": heredoc");
 	if (line != NULL && quoted)
@@ -67,7 +66,9 @@ static int	heredoc_append(char **input, char **line, int *is_error)
 {
 	char	*joined;
 
-	joined = ft_strjoin(*input, *line);
+	if (*line == NULL)
+		return (*is_error);
+	joined = ft_strjoin3(*input, *line, "\n");
 	if ((*input != NULL || *line != NULL) && joined == NULL)
 	{
 		*is_error = 1;
@@ -104,16 +105,25 @@ char	*heredoc_input(char *delim, int *is_error)
 	char	*line;
 	int		quoted;
 
-	errno = 0;
+	if (ready_heredoc_signal(is_error) != 0)
+		return (NULL);
 	quoted = is_quoted(delim);
 	input = NULL;
 	line = heredoc_getline(quoted, is_error);
 	while (!is_end_input(line, delim, is_error))
 	{
+		if (g_sig != 0)
+		{
+			*is_error = 1;
+			break ;
+		}
 		if (heredoc_append(&input, &line, is_error) < 0)
 			break ;
 		line = heredoc_getline(quoted, is_error);
 	}
+	cleanup_heredoc_signal(is_error);
 	ft_free_set((void **)&line, NULL);
+	if (*is_error)
+		ft_free_set((void **)&input, NULL);
 	return (input);
 }

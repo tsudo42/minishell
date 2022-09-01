@@ -66,7 +66,7 @@ static size_t	sep_len(char *str)
 
 	i = 0;
 	if (str[0] == '$')
-	i = sep_var_len(str);
+		i = sep_var_len(str);
 	if (i > 0)
 		return (0);
 	q = '\0';

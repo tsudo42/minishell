@@ -6,14 +6,17 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/31 15:16:49 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
+# include "libft.h"
 # include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
 
 # define UTILS_ERRMSG "minishell"
 # define INTERNAL_ERR_NUM 1
@@ -31,6 +34,13 @@ int		ft_x_dup(int fildes, const char *errmsg);
 /*  exit(3) when dup2 faces error.                                          */
 /* ************************************************************************** */
 int		ft_x_dup2(int fildes, int fildes2, const char *errmsg);
+
+/* ************************************************************************** */
+/*  This function is an error checking version of dup2(2).                    */
+/*  This function prints an error message and terminates the process and      */
+/*  return the new file discriptor. When dup2 faces error, -1 is returned.    */
+/* ************************************************************************** */
+int		ft_r_dup2(int fildes, int fildes2, const char *errmsg);
 
 /* ************************************************************************** */
 /*  This function is an error checking version of execve(2).                  */
@@ -60,5 +70,8 @@ void	*ft_x_malloc(size_t size, const char *errmsg);
 /*  exit(3) when pipe faces error.                                           */
 /* ************************************************************************** */
 void	ft_x_pipe(int fildes[2], const char *errmsg);
+
+void	ft_perror_exit(int exit_no, const char *errmsg);
+char	*ft_x_strdup(const char *s);
 
 #endif /* UTILS_H */

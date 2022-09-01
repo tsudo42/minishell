@@ -6,33 +6,68 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/31 15:46:17 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ.h"
-#include "lexer.h"
-#include "parser.h"
-#include "exec.h"
-#include "libft.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "minishell_internal.h"
 
-#define MAIN_ERRMSG "minishell"
+static bool	is_continue(char	*line)
+{
+	if (!line)
+		return (false);
+	if (ft_strncmp(line, "\0", 1) == 0)
+		return (true);
+	if (ft_strlen(line) >= ARG_MAX_SIZE)
+	{
+		ft_putendl_fd("line too long", STDERR_FILENO);
+		return (true);
+	}
+	return (false);
+}
+
+static bool	is_continue_input(char *line)
+{
+	if (g_sig != 0)
+	{
+		set_exit_status(130);
+		free (line);
+		return (true);
+	}
+	if (is_continue(line))
+	{
+		free (line);
+		return (true);
+	}
+	return (false);
+}
+
+volatile sig_atomic_t	g_sig;
 
 static int	init(void)
 {
 	set_exit_status(0);
-	if (ft_init_environ() < 0)
-		exit(2);
 	return (0);
 }
 
 static char	*input(void)
 {
-	write(STDERR_FILENO, "> ", 2);
-	return (get_next_line(0));
+	char	*line;
+
+	g_sig = 0;
+	if (ready_signal() != 0)
+	{
+		perror(MAIN_ERRMSG ": signal");
+		return (NULL);
+	}
+	line = readline("minishell> ");
+	if (cleanup_signal() != 0)
+	{
+		free (line);
+		perror(MAIN_ERRMSG ": signal");
+		return (NULL);
+	}
+	return (line);
 }
 
 int	main(void)
@@ -41,11 +76,17 @@ int	main(void)
 	int		ret;
 
 	ret = init();
-	line = input();
-	while (line != NULL)
+	while (1)
 	{
-		ret = executor(parser(lexer(line)));
 		line = input();
+		if (!line)
+			break ;
+		if (is_continue_input(line))
+			continue ;
+		add_history(line);
+		ret = executor(parser(lexer(line)));
 	}
+	free_environ();
+	printf("exit\n");
 	return (ret);
 }

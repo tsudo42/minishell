@@ -1,43 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   minishell_internal.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:50:01 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/27 17:45:31 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#ifndef MINISHELL_INTERNAL_H
+# define MINISHELL_INTERNAL_H
 
-static int	cd_to_home(void)
-{
-	char	*home_dir;
+# include "minishell.h"
 
-	home_dir = ft_getenv("HOME");
-	if (home_dir == NULL)
-	{
-		ft_putendl_fd("cd: No Home", STDERR_FILENO);
-		return (STATUS_FAILURE);
-	}
-	if (chdir(home_dir) == -1)
-	{
-		perror(BUILT_ERRMSG ": chdir");
-		return (STATUS_FAILURE);
-	}
-	return (STATUS_SUCCESS);
-}
+# define ARG_MAX_SIZE 4096
+# define MAIN_ERRMSG "minishell"
 
-int	builtin_cd(char **argv)
-{
-	if (argv[1] == NULL)
-		return (cd_to_home());
-	if (chdir(argv[1]) == -1)
-	{
-		perror(BUILT_ERRMSG ": chdir");
-		return (STATUS_FAILURE);
-	}
-	return (STATUS_SUCCESS);
-}
+extern volatile sig_atomic_t	g_sig;
+
+int	cleanup_signal(void);
+int	ready_signal(void);
+
+#endif /* MINISHELL_H */

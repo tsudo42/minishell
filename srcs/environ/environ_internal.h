@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_init_environ.c                                  :+:      :+:    :+:   */
+/*   environ_internal.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/29 13:10:17 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ.h"
-#include <stdlib.h>
+#ifndef ENVIRON_INTERNAL_H
+# define ENVIRON_INTERNAL_H
 
-int	ft_init_environ(void)
-{
-	static int	is_initialized = 0;
+# include "environ.h"
 
-	if (is_initialized)
-		return (0);
-	return (0);
-}
+# define ENVIRON_ERRMSG "minishell"
+# define ENV_INITIALIZED 1
+
+size_t	envlen(char **envp);
+int		print_env(const char *string);
+char	**add_environ(const char *string);
+int		is_init_environ(int activation);
+
+#endif

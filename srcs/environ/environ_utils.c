@@ -1,43 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   environ_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:50:01 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/29 13:36:06 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#include "environ_internal.h"
 
-static int	cd_to_home(void)
+size_t	envlen(char **envp)
 {
-	char	*home_dir;
+	size_t	len;
 
-	home_dir = ft_getenv("HOME");
-	if (home_dir == NULL)
+	if (!envp)
+		return (0);
+	len = 0;
+	while (envp[len] != NULL)
 	{
-		ft_putendl_fd("cd: No Home", STDERR_FILENO);
-		return (STATUS_FAILURE);
+		len++;
 	}
-	if (chdir(home_dir) == -1)
-	{
-		perror(BUILT_ERRMSG ": chdir");
-		return (STATUS_FAILURE);
-	}
-	return (STATUS_SUCCESS);
+	return (len);
 }
 
-int	builtin_cd(char **argv)
+int	is_init_environ(int activation)
 {
-	if (argv[1] == NULL)
-		return (cd_to_home());
-	if (chdir(argv[1]) == -1)
-	{
-		perror(BUILT_ERRMSG ": chdir");
-		return (STATUS_FAILURE);
-	}
-	return (STATUS_SUCCESS);
+	static int	initialized;
+
+	if (activation == 1)
+		initialized = ENV_INITIALIZED;
+	return (initialized);
 }

@@ -6,17 +6,32 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/27 17:17:37 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ.h"
-#include <stdlib.h>
+#include "environ_internal.h"
 
 char	*ft_getenv(const char *name)
 {
-	if (ft_init_environ() != 0)
+	extern char	**environ;
+	char		**tmp;
+	char		*content;
+	int			len;
+
+	if (!name)
 		return (NULL);
-	(void)name;
+	tmp = environ;
+	len = ft_strlen(name);
+	while (*tmp)
+	{
+		if (ft_strncmp(*tmp, name, len) == 0)
+		{
+			content = ft_strchr(*tmp, '=');
+			content++;
+			return (content);
+		}
+		tmp++;
+	}
 	return (NULL);
 }

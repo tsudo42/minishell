@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########        */
+/*   Updated: 2022/08/27 17:37:37 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 # include "exec.h"
 
-# include "utils.h"
-# include "libft.h"
+# define EXEC_ERRMSG "minishell"
+# define EXEC_INTERNAL_ERRMSG "exec internal error"
+# define EXEC_INTERNAL_ERRNUM -1
 
 typedef struct s_pipe_info {
 	pid_t	pid;
@@ -26,6 +27,9 @@ typedef struct s_pipe_info {
 
 void	exec_error(const char *name);
 int		exec_calc_retval(int stat);
+
+int		ready_heredoc_signal(int *is_error);
+void	cleanup_heredoc_signal(int *is_error);
 
 char	*heredoc_input(char *delim, int *is_error);
 int		heredoc_set(char *delim, int *idx);
