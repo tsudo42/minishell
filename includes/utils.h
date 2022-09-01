@@ -19,6 +19,15 @@
 # define INTERNAL_ERR_NUM 1
 
 /* ************************************************************************** */
+/*  This function frees strings contained in an array and itself.             */
+/*  String array is (char **)array which contains (char *)string and NULL.    */
+/*  This function can be utilized to free the return value of functions like  */
+/*  ft_split which returns malloc(3)-ed string array.                         */
+/*  This function always returns NULL.                                        */
+/* ************************************************************************** */
+void	*ft_free_strarr(char **str_array);
+
+/* ************************************************************************** */
 /*  This function is an error checking version of dup(2).                     */
 /*  This function prints an error message and terminates the process calling  */
 /*  exit(3) when dup faces error.                                             */
