@@ -33,13 +33,14 @@ int	builtin_exit(char **argv)
 		exit (0);
 	if (argv[2] != NULL)
 	{
-		ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO);
+		ft_putstr_fd(EXIT_ERRMSG " too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
 	exit_status = builtin_get_exit_status(argv[1]);
 	if (exit_status == -1)
 	{
-		ft_putstr_fd("exit: a numeric argument required\n", STDERR_FILENO);
+		ft_putstr_fd(\
+			EXIT_ERRMSG ": a numeric argument required\n", STDERR_FILENO);
 		return (255);
 	}
 	exit(exit_status);
