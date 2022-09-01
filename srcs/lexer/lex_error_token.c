@@ -16,8 +16,7 @@
 
 t_token_list	*lex_error_token(char token)
 {
-	ft_putstr_fd(LEXER_ERRMSG "unrecognized character token `", STDERR_FILENO);
-	ft_putchar_fd(token, STDERR_FILENO);
-	ft_putendl_fd("\'", STDERR_FILENO);
+	ft_dprintf(STDERR_FILENO, \
+		"%s: unrecognized character token `%s\'\n", LEXER_ERRMSG, token);
 	return (token_list_new(LR_NULL, NULL));
 }

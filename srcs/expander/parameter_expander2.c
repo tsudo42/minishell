@@ -22,9 +22,8 @@ static void	bad_substitution(const char *str)
 {
 	if (errno == 0)
 	{
-		ft_putstr_fd(EXPANDER_ERRMSG ": ", STDERR_FILENO);
-		ft_putstr_fd(str, STDERR_FILENO);
-		ft_putendl_fd(": bad substitution", STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, \
+			"%s: %s: bad substitution\n", EXPANDER_ERRMSG, str);
 		errno = EINVAL;
 	}
 }

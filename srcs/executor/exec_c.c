@@ -60,9 +60,8 @@ static void	exec_c_command_child(char *path, char **args, t_ast_d *d)
 	execve(path, args, environ);
 	if (errno == ENOENT)
 	{
-		ft_putstr_fd(EXEC_ERRMSG ": ", STDERR_FILENO);
-		ft_putstr_fd(path, STDERR_FILENO);
-		ft_putendl_fd(": command not found", STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, \
+			"%s: %s: command not found\n", EXEC_ERRMSG, path);
 		exit(127);
 	}
 	perror(EXEC_ERRMSG);

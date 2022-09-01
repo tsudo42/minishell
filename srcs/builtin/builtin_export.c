@@ -28,9 +28,8 @@ static int	export_value_checker(char *name, int len, char **argv)
 	}
 	if (i == len)
 		return (STATUS_SUCCESS);
-	ft_putstr_fd(EXPORT_ERRMSG ": '", STDERR_FILENO);
-	ft_putstr_fd(*argv, STDERR_FILENO);
-	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+	ft_dprintf(STDERR_FILENO, \
+		"%s: %s: not a valid identifier\n", EXPORT_ERRMSG, *argv);
 	free(name);
 	return (STATUS_FAILURE);
 }
