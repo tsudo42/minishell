@@ -49,14 +49,6 @@ int		ft_x_dup2(int fildes, int fildes2, const char *errmsg);
 int		ft_r_dup2(int fildes, int fildes2, const char *errmsg);
 
 /* ************************************************************************** */
-/*  This function is an error checking version of execve(2).                  */
-/*  This function prints an error message and terminates the process calling  */
-/*  exit(3) when execve faces error.                                          */
-/* ************************************************************************** */
-void	ft_x_execve(const char *path, char *const argv[], char *const envp[], \
-	const char *errmsg);
-
-/* ************************************************************************** */
 /*  This function is an error checking version of fork(2).                    */
 /*  This function prints an error message and terminates the process calling  */
 /*  exit(3) when fork faces error.                                            */
