@@ -13,12 +13,9 @@
 #ifndef UTILS_H
 # define UTILS_H
 
-# include "libft.h"
+# include <stddef.h>
 # include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
 
-# define UTILS_ERRMSG "minishell"
 # define INTERNAL_ERR_NUM 1
 
 /* ************************************************************************** */
@@ -31,7 +28,7 @@ int		ft_x_dup(int fildes, const char *errmsg);
 /* ************************************************************************** */
 /*  This function is an error checking version of dup2(2).                    */
 /*  This function prints an error message and terminates the process calling  */
-/*  exit(3) when dup2 faces error.                                          */
+/*  exit(3) when dup2 faces error.                                            */
 /* ************************************************************************** */
 int		ft_x_dup2(int fildes, int fildes2, const char *errmsg);
 
@@ -53,7 +50,7 @@ void	ft_x_execve(const char *path, char *const argv[], char *const envp[], \
 /* ************************************************************************** */
 /*  This function is an error checking version of fork(2).                    */
 /*  This function prints an error message and terminates the process calling  */
-/*  exit(3) when fork faces error.                                          */
+/*  exit(3) when fork faces error.                                            */
 /* ************************************************************************** */
 pid_t	ft_x_fork(const char *errmsg);
 
@@ -67,11 +64,17 @@ void	*ft_x_malloc(size_t size, const char *errmsg);
 /* ************************************************************************** */
 /*  This function is an error checking version of pipe(2).                    */
 /*  This function prints an error message and terminates the process calling  */
-/*  exit(3) when pipe faces error.                                           */
+/*  exit(3) when pipe faces error.                                            */
 /* ************************************************************************** */
 void	ft_x_pipe(int fildes[2], const char *errmsg);
 
 void	ft_perror_exit(int exit_no, const char *errmsg);
-char	*ft_x_strdup(const char *s);
+
+/* ************************************************************************** */
+/*  This function is an error checking version of strdup(3).                  */
+/*  This function prints an error message and terminates the process calling  */
+/*  strdup(3) when pipe faces error.                                          */
+/* ************************************************************************** */
+char	*ft_x_strdup(const char *s1, const char *errmsg);
 
 #endif /* UTILS_H */

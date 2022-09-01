@@ -28,7 +28,8 @@ void	ft_x_execve(const char *path, char *const argv[], char *const envp[], \
 	execve(path, argv, envp);
 	if (errno == ENOENT)
 	{
-		ft_putstr_fd(UTILS_ERRMSG ": ", STDERR_FILENO);
+		ft_putstr_fd(errmsg, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putendl_fd(": command not found", STDERR_FILENO);
 		exit(127);

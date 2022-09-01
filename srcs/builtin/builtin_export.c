@@ -44,7 +44,7 @@ static int	export_values(char **argv)
 	status = STATUS_SUCCESS;
 	while (*(++argv) != NULL)
 	{
-		string = ft_x_strdup(*argv);
+		string = ft_x_strdup(*argv, EXPORT_ERRMSG);
 		value = ft_strchr(string, '=');
 		status = export_value_checker(string, value - string, argv);
 		if (status == STATUS_FAILURE)

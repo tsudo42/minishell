@@ -25,10 +25,10 @@ char	**add_environ(const char *string)
 	i = 0;
 	while (environ[i])
 	{
-		new_env[i] = ft_x_strdup(environ[i]);
+		new_env[i] = ft_x_strdup(environ[i], ENVIRON_ERRMSG);
 		i++;
 	}
-	new_env[i++] = ft_x_strdup(string);
+	new_env[i++] = ft_x_strdup(string, ENVIRON_ERRMSG);
 	new_env[i] = NULL;
 	free_environ();
 	is_init_environ(1);
@@ -57,7 +57,7 @@ static int	change_content(const char *string, int location)
 	extern char	**environ;
 
 	free (environ[location]);
-	environ[location] = ft_x_strdup(string);
+	environ[location] = ft_x_strdup(string, ENVIRON_ERRMSG);
 	return (0);
 }
 

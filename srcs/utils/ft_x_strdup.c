@@ -11,16 +11,22 @@
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "libft.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-char	*ft_x_strdup(const char *s)
+/* ************************************************************************** */
+/*  This function is an error checking version of malloc(3).                  */
+/*  This function prints an error message and terminates the process calling  */
+/*  exit(3) when malloc faces error.                                          */
+/* ************************************************************************** */
+char	*ft_x_strdup(const char *s1, const char *errmsg)
 {
-	char	*tmp;
+	char	*dup;
 
-	tmp = ft_strdup(s);
-	if (tmp == NULL)
-	{
-		perror(UTILS_ERRMSG ": malloc");
-		exit(EXIT_FAILURE);
-	}
-	return (tmp);
+	dup = ft_strdup(s1);
+	if (dup != NULL)
+		return (dup);
+	perror(errmsg);
+	exit(INTERNAL_ERR_NUM);
 }

@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "utils.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 void	ft_perror_exit(int exit_no, const char *errmsg)
 {

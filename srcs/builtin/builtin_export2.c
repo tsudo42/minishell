@@ -77,7 +77,7 @@ int	print_values(void)
 			i++;
 			continue ;
 		}
-		str = ft_x_strdup(environ[i++]);
+		str = ft_x_strdup(environ[i++], EXPORT_ERRMSG);
 		value = ft_strchr(str, '=');
 		print_values2(str, value);
 		free (str);

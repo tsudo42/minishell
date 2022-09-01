@@ -49,7 +49,7 @@ static int	envdup_unset(char **new_env, int location)
 		if (j == location)
 			j++;
 		if (environ[j] != NULL)
-			new_env[i++] = ft_x_strdup(environ[j++]);
+			new_env[i++] = ft_x_strdup(environ[j++], ENVIRON_ERRMSG);
 	}
 	new_env[i] = NULL;
 	return (0);
