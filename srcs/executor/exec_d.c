@@ -26,7 +26,8 @@ static int	exec_d_redin(const char *word, int fd)
 	open_fd = open(word, O_RDONLY);
 	if (open_fd < 0)
 	{
-		perror(EXEC_ERRMSG ": open_fd");
+		ft_putstr_fd(EXEC_ERRMSG ": ", STDERR_FILENO);
+		perror(word);
 		return (-1);
 	}
 	if (ft_r_dup2(open_fd, fd, EXEC_ERRMSG) < 0)
@@ -49,7 +50,8 @@ static int	exec_d_redout(const char *word, int fd, int is_append)
 		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (open_fd < 0)
 	{
-		perror(EXEC_ERRMSG ": open_fd");
+		ft_putstr_fd(EXEC_ERRMSG ": ", STDERR_FILENO);
+		perror(word);
 		return (-1);
 	}
 	ret = ft_r_dup2(open_fd, fd, EXEC_ERRMSG);
