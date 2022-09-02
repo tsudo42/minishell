@@ -6,7 +6,7 @@
 #    By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#              #
-#    Updated: 2022/08/31 15:11:01 by hos              ###   ########.fr        #
+#    Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,11 @@ LIBFT	:= libft/libft.a
 UNAME	:= $(shell uname)
 
 ifeq ($(DEBUG), 1)
-CFLAGS	+= -g3 -fsanitize=address
+CFLAGS	+= -g3
 endif
 
 ifeq ($(DEBUG), 2)
-CFLAGS	+= -g
+CFLAGS	+= -g3 -fsanitize=address
 endif
 
 # **************************************************************************** #
@@ -48,9 +48,9 @@ SRCS	+= $(B_SRCS)
 B_SRCS	:= \
 	srcs/builtin/builtin_echo.c \
 	srcs/builtin/builtin_export.c \
-	srcs/builtin/builtin_export2.c \
 	srcs/builtin/builtin_unset.c \
 	srcs/builtin/builtin_pwd.c \
+	srcs/builtin/builtin_export2.c \
 	srcs/builtin/builtin_env.c \
 	srcs/builtin/builtin_exit.c \
 	srcs/builtin/builtin_cd.c \
@@ -58,10 +58,10 @@ B_SRCS	:= \
 SRCS	+= $(EV_SRCS)
 EV_SRCS	:= \
 	srcs/environ/ft_putenv.c \
-	srcs/environ/ft_getenv.c \
-	srcs/environ/ft_unsetenv.c \
 	srcs/environ/environ_utils.c \
+	srcs/environ/ft_getenv.c \
 	srcs/environ/free_environ.c \
+	srcs/environ/ft_unsetenv.c \
 	srcs/environ/ft_exit_status.c \
 
 SRCS	+= $(EX_SRCS)
@@ -76,11 +76,11 @@ EX_SRCS	:= \
 	srcs/executor/heredoc_ready.c \
 	srcs/executor/exec_s.c \
 	srcs/executor/exec_stdfd.c \
+	srcs/executor/heredoc_signal.c \
 	srcs/executor/exec_a.c \
 	srcs/executor/exec_p.c \
 	srcs/executor/exec_l.c \
 	srcs/executor/exec_error.c \
-	srcs/executor/heredoc_signal.c \
 
 SRCS	+= $(EP_SRCS)
 EP_SRCS	:= \
@@ -121,15 +121,14 @@ P_SRCS	:= \
 
 SRCS	+= $(U_SRCS)
 U_SRCS	:= \
+	srcs/utils/ft_free_strarr.c \
 	srcs/utils/ft_x_malloc.c \
-	srcs/utils/ft_x_dup2.c \
+	srcs/utils/ft_x_strdup.c \
 	srcs/utils/ft_r_dup2.c \
-	srcs/utils/ft_x_execve.c \
+	srcs/utils/ft_x_dup2.c \
 	srcs/utils/ft_x_dup.c \
 	srcs/utils/ft_x_pipe.c \
 	srcs/utils/ft_x_fork.c \
-	srcs/utils/ft_perror_exit.c \
-	srcs/utils/ft_x_strdup.c \
 
 SRCS	+= $(D_SRCS)
 D_SRCS	:= \

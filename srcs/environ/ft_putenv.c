@@ -19,16 +19,19 @@ char	**add_environ(const char *string)
 	int			i;
 
 	if (!environ)
-		ft_perror_exit(EXIT_FAILURE, ENVIRON_ERRMSG ": environ");
+	{
+		perror(ENVIRON_ERRMSG ": environ");
+		exit(EXIT_FAILURE);
+	}
 	new_env = (char **)ft_x_malloc(sizeof(char *) * (envlen(environ) + 2), \
 		ENVIRON_ERRMSG ": malloc");
 	i = 0;
 	while (environ[i])
 	{
-		new_env[i] = ft_x_strdup(environ[i]);
+		new_env[i] = ft_x_strdup(environ[i], ENVIRON_ERRMSG);
 		i++;
 	}
-	new_env[i++] = ft_x_strdup(string);
+	new_env[i++] = ft_x_strdup(string, ENVIRON_ERRMSG);
 	new_env[i] = NULL;
 	free_environ();
 	is_init_environ(1);
@@ -57,7 +60,7 @@ static int	change_content(const char *string, int location)
 	extern char	**environ;
 
 	free (environ[location]);
-	environ[location] = ft_x_strdup(string);
+	environ[location] = ft_x_strdup(string, ENVIRON_ERRMSG);
 	return (0);
 }
 

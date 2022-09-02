@@ -49,7 +49,7 @@ static int	envdup_unset(char **new_env, int location)
 		if (j == location)
 			j++;
 		if (environ[j] != NULL)
-			new_env[i++] = ft_x_strdup(environ[j++]);
+			new_env[i++] = ft_x_strdup(environ[j++], ENVIRON_ERRMSG);
 	}
 	new_env[i] = NULL;
 	return (0);
@@ -80,6 +80,9 @@ int	ft_unsetenv(const char *name)
 		return (0);
 	environ = del_one_environ(location);
 	if (!environ)
-		ft_perror_exit(EXIT_FAILURE, ENVIRON_ERRMSG ": malloc");
+	{
+		perror(ENVIRON_ERRMSG ": malloc");
+		exit(EXIT_FAILURE);
+	}
 	return (0);
 }

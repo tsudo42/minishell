@@ -16,7 +16,6 @@
 
 void	exec_error(const char *name)
 {
-	ft_putstr_fd(EXEC_INTERNAL_ERRMSG ": ", STDERR_FILENO);
-	ft_putendl_fd(name, STDERR_FILENO);
+	ft_dprintf(STDERR_FILENO, "%s: %s\n", EXEC_INTERNAL_ERRMSG, name);
 	exit(EXEC_INTERNAL_ERRNUM);
 }

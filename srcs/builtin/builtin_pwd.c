@@ -20,7 +20,7 @@ int	builtin_pwd(char **argv)
 	path = getcwd(NULL, 0);
 	if (path == NULL)
 	{
-		perror(BUILT_ERRMSG ": getcwd");
+		perror(PWD_ERRMSG ": getcwd");
 		return (STATUS_FAILURE);
 	}
 	ft_putendl_fd(path, STDOUT_FILENO);

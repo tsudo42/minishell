@@ -20,7 +20,7 @@ static bool	is_continue(char	*line)
 		return (true);
 	if (ft_strlen(line) >= ARG_MAX_SIZE)
 	{
-		ft_putendl_fd("line too long", STDERR_FILENO);
+		ft_putendl_fd(MAIN_ERRMSG ": line too long", STDERR_FILENO);
 		return (true);
 	}
 	return (false);

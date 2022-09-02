@@ -15,21 +15,6 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
-static void	free_strs(char **str)
-{
-	char	**str_to_free;
-
-	if (str == NULL)
-		return ;
-	str_to_free = str;
-	while (*str != NULL)
-	{
-		free(*str);
-		str++;
-	}
-	free(str_to_free);
-}
-
 static int	(*get_builtin_func(char	*name))(char **args)
 {
 	if (ft_strncmp("echo", name, sizeof("echo")) == 0)
@@ -66,6 +51,23 @@ static int	exec_c_builtin(\
 	return (ret);
 }
 
+static void	exec_c_command_child(char *path, char **args, t_ast_d *d)
+{
+	if (exec_d(d) != 0)
+		exit(1);
+	if (*path == '\0')
+		exit(0);
+	execve(path, args, environ);
+	if (errno == ENOENT)
+	{
+		ft_dprintf(STDERR_FILENO, \
+			"%s: %s: command not found\n", EXEC_ERRMSG, path);
+		exit(127);
+	}
+	perror(EXEC_ERRMSG);
+	exit(INTERNAL_ERR_NUM);
+}
+
 static int	exec_c_command(char **args, t_ast_d *d)
 {
 	pid_t		pid;
@@ -78,13 +80,7 @@ static int	exec_c_command(char **args, t_ast_d *d)
 		exec_error("execpath");
 	pid = ft_x_fork(EXEC_ERRMSG);
 	if (pid == 0)
-	{
-		if (exec_d(d) != 0)
-			exit(1);
-		if (*path == '\0')
-			exit(0);
-		ft_x_execve(path, args, environ, EXEC_ERRMSG);
-	}
+		exec_c_command_child(path, args, d);
 	free(path);
 	if (waitpid(pid, &stat, 0) < 0)
 	{
@@ -117,7 +113,7 @@ int	exec_c(t_ast_c *c)
 		ret = exec_c_builtin(builtin_func, args, c->d);
 	else
 		ret = exec_c_command(args, c->d);
-	free_strs(args);
+	ft_free_strarr(args);
 	set_exit_status(ret);
 	return (ret);
 }

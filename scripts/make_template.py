@@ -32,6 +32,10 @@ LIBFT	:= libft/libft.a
 UNAME	:= $(shell uname)
 
 ifeq ($(DEBUG), 1)
+CFLAGS	+= -g3
+endif
+
+ifeq ($(DEBUG), 2)
 CFLAGS	+= -g3 -fsanitize=address
 endif
 

@@ -56,10 +56,8 @@ static t_lr_token_type	lex_quote(char **input)
 	}
 	else
 	{
-		ft_putstr_fd(LEXER_ERRMSG ": unexpected EOF", STDERR_FILENO);
-		ft_putstr_fd("while looking for matching `", STDERR_FILENO);
-		ft_putchar_fd(quote[0], STDERR_FILENO);
-		ft_putendl_fd("\'", STDERR_FILENO);
+		ft_dprintf(STDERR_FILENO, \
+			"%s: unexpected EOF while looking for matching `%c\'\n", quote[0]);
 		return (LR_NULL);
 	}
 }
