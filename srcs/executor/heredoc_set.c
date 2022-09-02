@@ -94,7 +94,7 @@ static int	heredoc_tmpfile_terminate(int fd, const char *filename)
 	{
 		ret2 = close(fd);
 		if (ret2 < 0)
-			perror(EXEC_ERRMSG "close");
+			perror(EXEC_ERRMSG ": close");
 	}
 	if (ret < 0 || ret2 < 0)
 		return (-1);

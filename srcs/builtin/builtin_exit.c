@@ -33,7 +33,7 @@ int	builtin_exit(char **argv)
 		exit (0);
 	if (argv[2] != NULL)
 	{
-		ft_putstr_fd(EXIT_ERRMSG " too many arguments\n", STDERR_FILENO);
+		ft_putstr_fd(EXIT_ERRMSG ": too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
 	exit_status = builtin_get_exit_status(argv[1]);
