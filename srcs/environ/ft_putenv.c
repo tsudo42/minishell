@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/04 14:53:59 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/04 21:30:52 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,11 @@ static int	find_string(const char *string)
 	char		*name;
 	int			location;
 	int			len;
+	char		*value;
 
-	len = ft_strchr(string, '=') - string;
-	if (*(ft_strchr(string, '=') - 1) == '+')
+	value = ft_strchr(string, '=');
+	len = value - string;
+	if (value > string && *(value - 1) == '+')
 		len--;
 	name = ft_strndup(string, len);
 	location = 0;
@@ -96,8 +98,9 @@ static int	change_content(const char *string, int location)
 
 	if (is_init_environ(0) != 1)
 		environ = init_environ();
-	len = ft_strchr(string, '=') - string;
-	if (string[len - 1] == '+')
+	tmp = ft_strchr(string, '=');
+	len = tmp - string;
+	if (tmp > string && string[len - 1] == '+')
 	{
 		tmp = ft_strjoin(environ[location], (ft_strchr(string, '=')) + 1);
 		if (!tmp)

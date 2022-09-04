@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/04 14:48:48 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/04 21:20:29 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	export_values(char **argv)
 	{
 		string = ft_x_strdup(*argv, EXPORT_ERRMSG);
 		value = ft_strchr(string, '=');
-		if (*(value - 1) == '+')
+		if (value > string && *(value - 1) == '+')
 			len = value - string - 1;
 		else
 			len = value - string;
