@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:17:37 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/04 13:41:55 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char	*ft_getenv(const char *name)
 	len = ft_strlen(name);
 	while (*tmp)
 	{
-		if (ft_strncmp(*tmp, name, len) == 0)
+		if (ft_strncmp(*tmp, name, len) == 0 \
+			&& (*tmp)[len] == '=')
 		{
 			content = ft_strchr(*tmp, '=');
 			content++;
