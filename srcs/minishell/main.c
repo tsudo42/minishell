@@ -44,8 +44,13 @@ static bool	is_continue_input(char *line)
 
 volatile sig_atomic_t	g_sig;
 
+pid_t					g_parent_pid = -1;
+
 static int	init(void)
 {
+	g_parent_pid = getpid();
+	if (g_parent_pid < 0)
+		exit(1);
 	set_exit_status(0);
 	return (0);
 }

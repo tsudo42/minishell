@@ -14,27 +14,14 @@
 
 static void	signal_handler(int sig)
 {
-	(void)sig;
-	write(1, "\n", 1);
-}
-
-void	cleanup_exec_signal(void)
-{
-	errno = 0;
-	signal(SIGINT, SIG_IGN);
-	if (errno != 0)
-	{
-		perror(EXEC_INTERNAL_ERRMSG ": signal");
-		exit (1);
-	}
-	return ;
+	g_sig = sig;
 }
 
 void	ready_exec_signal(void)
 {
 	errno = 0;
 	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, signal_handler);
 	if (errno != 0)
 	{
 		cleanup_exec_signal();

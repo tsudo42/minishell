@@ -57,6 +57,7 @@ static void	exec_c_command_child(char *path, char **args, t_ast_d *d)
 		exit(1);
 	if (*path == '\0')
 		exit(0);
+	ready_exec_signal();
 	execve(path, args, environ);
 	if (errno == ENOENT)
 	{
@@ -78,7 +79,6 @@ static int	exec_c_command(char **args, t_ast_d *d)
 	path = execpath(args[0]);
 	if (path == NULL)
 		exec_error("execpath");
-	ready_exec_signal();
 	pid = ft_x_fork(EXEC_ERRMSG);
 	if (pid == 0)
 		exec_c_command_child(path, args, d);
@@ -89,7 +89,6 @@ static int	exec_c_command(char **args, t_ast_d *d)
 		errno = 0;
 		return (1);
 	}
-	cleanup_exec_signal();
 	return (exec_calc_retval(stat));
 }
 
