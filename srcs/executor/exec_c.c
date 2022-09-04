@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 18:14:14 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/04 09:10:57 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	exec_c_command_child(char *path, char **args, t_ast_d *d)
 		exit(1);
 	if (*path == '\0')
 		exit(0);
+	ready_exec_signal();
 	execve(path, args, environ);
 	if (errno == ENOENT)
 	{

@@ -6,7 +6,7 @@
 #    By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#              #
-#    Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########         #
+#    Updated: 2022/09/04 08:40:47 by hos              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ EX_SRCS	:= \
 	srcs/executor/exec_p.c \
 	srcs/executor/exec_l.c \
 	srcs/executor/exec_error.c \
+	srcs/executor/exec_signal.c \
 
 SRCS	+= $(EP_SRCS)
 EP_SRCS	:= \
