@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/26 18:14:14 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/04 09:10:57 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static int	exec_c_command(char **args, t_ast_d *d)
 	path = execpath(args[0]);
 	if (path == NULL)
 		exec_error("execpath");
+	ready_exec_signal();
 	pid = ft_x_fork(EXEC_ERRMSG);
 	if (pid == 0)
 		exec_c_command_child(path, args, d);
@@ -88,6 +89,7 @@ static int	exec_c_command(char **args, t_ast_d *d)
 		errno = 0;
 		return (1);
 	}
+	cleanup_exec_signal();
 	return (exec_calc_retval(stat));
 }
 
