@@ -13,32 +13,47 @@
 #ifndef ENVIRON_H
 # define ENVIRON_H
 
-# include "libft.h"
-# include "builtin.h"
-# include "minishell.h"
-# include "utils.h"
+# include <unistd.h>
 
-void		free_environ(void);
-char		*ft_getenv(const char *name);
-int			ft_putenv(const char *string);
-int			ft_unsetenv(const char *name);
+typedef struct s_var {
+	char			*key;
+	char			*value;
+	int				is_exported;
+	struct s_var	*next;
+}	t_var;
+
+typedef struct s_environ {
+	int		exit_status;
+	pid_t	parent_pid;
+	t_var	*vars;
+}	t_environ;
 
 /**
- *  This function stores the argument as exit status.
+ *  This function generates minishell environment used by malloc(3).
+ *  This function should return non-NULL pointer.
  */
-void		set_exit_status(int status);
+t_environ	*init_environ(void);
 
 /**
- *  This function returns the stored exit status.
+ *  This function frees the minishell environ.
+ *  This function always returns NULL.
  */
-int			get_exit_status(void);
+void		*destroy_environ(t_environ *env);
+
+/**
+ *  This function generates the array of environ variables,
+ *  which can be passed to the 3rd argument of execve.
+ */
+char		**generate_envp(t_environ *env);
+
+char		*ft_getenv(const char *name, t_environ *env);
+int			ft_putenv(const char *string, t_environ *env);
+int			ft_unsetenv(const char *name, t_environ *emv);
 
 /**
  *  This function returns the string representation of the stored exit status.
- *  This function returns NULL when malloc(3) fails.
+ *  Returned string from this function should not be freed.
  */
-const char	*get_exit_status_str(void);
-
-extern char	**environ;
+const char	*get_exit_status_str(t_environ *env);
 
 #endif /* ENVIRON_H */

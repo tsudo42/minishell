@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit_status.c                                   :+:      :+:    :+:   */
+/*   get_exit_status_str.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,51 +12,17 @@
 
 #include "environ_internal.h"
 
-static int	*stored_status(void)
-{
-	static int	status;
-
-	return (&status);
-}
-
-/**
- *  This function stores the argument as exit status.
- */
-void	set_exit_status(int status)
-{
-	(*stored_status()) = status;
-}
-
-/**
- *  This function returns the stored exit status.
- */
-int	get_exit_status(void)
-{
-	return (*(stored_status()));
-}
-
 /**
  *  This function returns the string representation of the stored exit status.
- *  This function returns NULL when malloc(3) fails.
+ *  Returned string from this function should not be freed.
  */
-const char	*get_exit_status_str(void)
+const char	*get_exit_status_str(t_environ *env)
 {
-	static char	*alloced_str;
-	int			status;
+	static char	str_buf[16];
 
-	status = get_exit_status();
-	if (status == 0)
+	if (env->exit_status == 0)
 		return ("0");
-	if (status == 1)
+	if (env->exit_status == 1)
 		return ("1");
-	if (alloced_str == NULL)
-	{
-		alloced_str = malloc(sizeof(char) * 16);
-		if (alloced_str == NULL)
-		{
-			perror(ENVIRON_ERRMSG ": malloc");
-			return (NULL);
-		}
-	}
-	return (ft_itoa_buf(status, alloced_str, 16));
+	return (ft_itoa_buf(env->exit_status, str_buf, 16));
 }

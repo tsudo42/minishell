@@ -130,14 +130,14 @@ static int	heredoc_tmpfile(char *input, int *idx)
 	return (fd2);
 }
 
-int	heredoc_set(char *delim, int *idx)
+int	heredoc_set(char *delim, int *idx, t_environ *env)
 {
 	int		fd;
 	char	*input;
 	int		is_error;
 
 	is_error = 0;
-	input = heredoc_input(delim, &is_error);
+	input = heredoc_input(delim, &is_error, env);
 	if (is_error != 0)
 	{
 		free(input);

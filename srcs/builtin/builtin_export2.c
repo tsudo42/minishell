@@ -60,9 +60,8 @@ void	print_values2(char *str, char *value)
 	ft_putstr_fd("\"\n", STDOUT_FILENO);
 }
 
-int	print_values(void)
+int	print_values(t_environ *env)
 {
-	extern char	**environ;
 	int			i;
 	char		*str;
 	char		*value;

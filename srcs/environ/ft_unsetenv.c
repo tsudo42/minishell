@@ -11,10 +11,10 @@
 /* ************************************************************************** */
 
 #include "environ_internal.h"
+#include "libft.h"
 
 static int	find_name(const char *name)
 {
-	extern char	**environ;
 	int			i;
 	size_t		len;
 	size_t		len_env;
@@ -41,7 +41,6 @@ static int	find_name(const char *name)
 
 static int	envdup_unset(char **new_env, int location)
 {
-	extern char	**environ;
 	int			i;
 	int			j;
 
@@ -60,7 +59,6 @@ static int	envdup_unset(char **new_env, int location)
 
 static char	**del_one_environ(long location)
 {
-	extern char	**environ;
 	char		**new_env;
 
 	if (!environ)
@@ -73,9 +71,8 @@ static char	**del_one_environ(long location)
 	return (new_env);
 }
 
-int	ft_unsetenv(const char *name)
+int	ft_unsetenv(const char *name, t_environ *env)
 {
-	extern char	**environ;
 	int			location;
 
 	location = find_name(name);

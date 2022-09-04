@@ -14,6 +14,8 @@
 # define ENVIRON_INTERNAL_H
 
 # include "environ.h"
+# include "utils.h"
+# include <stdlib.h>
 
 # define ENVIRON_ERRMSG "minishell"
 # define ENV_INITIALIZED 1

@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "environ_internal.h"
+#include "libft.h"
+#include <stdio.h>
 
 static char	**init_environ(void)
 {
@@ -38,7 +40,6 @@ static char	**init_environ(void)
 
 char	**add_environ(const char *string)
 {
-	extern char	**environ;
 	char		**new_env;
 	int			i;
 
@@ -65,8 +66,7 @@ char	**add_environ(const char *string)
 static int	find_string(const char *string)
 {
 	extern char	**environ;
-	char		*name;
-	int			location;
+	int			i;
 	int			len;
 	char		*value;
 
@@ -93,35 +93,14 @@ static int	find_string(const char *string)
 static int	change_content(const char *string, int location)
 {
 	extern char	**environ;
-	char		*tmp;
-	int			len;
 
-	if (is_init_environ(0) != 1)
-		environ = init_environ();
-	tmp = ft_strchr(string, '=');
-	len = tmp - string;
-	if (tmp > string && string[len - 1] == '+')
-	{
-		tmp = ft_strjoin(environ[location], (ft_strchr(string, '=')) + 1);
-		if (!tmp)
-		{
-			perror(ENVIRON_ERRMSG ": environ");
-			exit(EXIT_FAILURE);
-		}
-		free (environ[location]);
-		environ[location] = tmp;
-	}
-	else
-	{
-		free (environ[location]);
-		environ[location] = ft_x_strdup(string, ENVIRON_ERRMSG);
-	}
+	free (environ[location]);
+	environ[location] = ft_x_strdup(string, ENVIRON_ERRMSG);
 	return (0);
 }
 
 int	ft_putenv(const char *string)
 {
-	extern char	**environ;
 	int			location;
 
 	location = find_string(string);

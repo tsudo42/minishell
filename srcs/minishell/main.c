@@ -26,11 +26,11 @@ static bool	is_continue(char	*line)
 	return (false);
 }
 
-static bool	is_continue_input(char *line)
+static bool	is_continue_input(char *line, t_environ *env)
 {
 	if (g_sig != 0)
 	{
-		set_exit_status(130);
+		env->exit_status = 130;
 		free (line);
 		return (true);
 	}
@@ -44,15 +44,12 @@ static bool	is_continue_input(char *line)
 
 volatile sig_atomic_t	g_sig;
 
-pid_t					g_parent_pid = -1;
-
-static int	init(void)
+static t_environ	*init(void)
 {
-	g_parent_pid = getpid();
-	if (g_parent_pid < 0)
-		exit(1);
-	set_exit_status(0);
-	return (0);
+	t_environ	*env;
+
+	env = init_environ();
+	return (env);
 }
 
 static char	*input(void)
@@ -77,21 +74,23 @@ static char	*input(void)
 
 int	main(void)
 {
-	char	*line;
-	int		ret;
+	t_environ	*env;
+	char		*line;
+	int			exit_status;
 
-	ret = init();
+	env = init();
 	while (1)
 	{
 		line = input();
 		if (!line)
 			break ;
-		if (is_continue_input(line))
+		if (is_continue_input(line, env))
 			continue ;
 		add_history(line);
-		ret = executor(parser(lexer(line)));
+		executor(parser(lexer(line)), env);
 	}
-	free_environ();
+	exit_status = env->exit_status;
+	destroy_environ(env);
 	printf("exit\n");
-	return (ret);
+	return (exit_status);
 }

@@ -11,10 +11,10 @@
 /* ************************************************************************** */
 
 #include "environ_internal.h"
+#include "libft.h"
 
-char	*ft_getenv(const char *name)
+char	*ft_getenv(const char *name, t_environ *env)
 {
-	extern char	**environ;
 	char		**tmp;
 	char		*content;
 	int			len;

@@ -26,6 +26,6 @@
 void	putstrlen_fd(const char *s, size_t max_len, int fd);
 int		is_printable(char *s);
 void	print_values2(char *str, char *value);
-int		print_values(void);
+int		print_values(t_environ *env);
 
 #endif /* BUILTIN_H */

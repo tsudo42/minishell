@@ -14,9 +14,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-extern pid_t	g_parent_pid;
-
-int	exec_signaled_prompt(int sig)
+static int	exec_signaled_prompt(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -29,7 +27,7 @@ int	exec_signaled_prompt(int sig)
 	return (0);
 }
 
-int	exec_calc_retval(int stat)
+int	exec_calc_retval(int stat, t_environ *env)
 {
 	pid_t	pid;
 
@@ -39,7 +37,7 @@ int	exec_calc_retval(int stat)
 	{
 		g_sig = WTERMSIG(stat);
 		pid = getpid();
-		if (pid > 0 && pid != g_parent_pid)
+		if (pid > 0 && pid != env->parent_pid)
 		{
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);

@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   destroy_environ.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:15:34 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/29 13:35:08 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#include "environ.h"
+#include "environ_internal.h"
 
-int	builtin_echo(char **argv, t_environ *env)
+/**
+ *  This function frees the minishell environ.
+ *  This function always returns NULL.
+ */
+void	*destroy_environ(t_environ *env)
 {
-	bool	print_newline;
+	t_var	*var;
+	t_var	*next;
 
-	(void)env;
-	print_newline = true;
-	argv++;
-	if (*argv != NULL && ft_strncmp("-n", *argv, 3) == 0)
+	var = env->vars;
+	while (var != NULL)
 	{
-		argv++;
-		print_newline = false;
+		next = var->next;
+		free(var->key);
+		free(var->value);
+		free(var);
+		var = next;
 	}
-	while (*argv != NULL)
-	{
-		ft_putstr_fd(*argv, STDOUT_FILENO);
-		argv++;
-		if (*argv != NULL)
-			ft_putchar_fd(' ', STDOUT_FILENO);
-	}
-	if (print_newline == true)
-		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (STATUS_SUCCESS);
+	free(env);
+	return (NULL);
 }

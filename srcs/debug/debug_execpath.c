@@ -26,16 +26,18 @@
  */
 int	debug_execpath(void)
 {
-	char	*input;
-	char	*path;
-	int		save_errno;
+	t_environ	*env;
+	char		*input;
+	char		*path;
+	int			save_errno;
 
+	env = init_environ();
 	write(1, "> ", 2);
 	input = get_next_line_easy(0);
 	while (input != NULL)
 	{
 		errno = 0;
-		path = execpath(ft_trimnl(input));
+		path = execpath(ft_trimnl(input), env);
 		save_errno = errno;
 		printf("execpath: %s\n", path);
 		if (save_errno != 0)
@@ -45,5 +47,6 @@ int	debug_execpath(void)
 		write(1, "> ", 2);
 		input = get_next_line_easy(0);
 	}
+	destroy_environ(env);
 	return (0);
 }

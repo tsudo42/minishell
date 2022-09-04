@@ -34,7 +34,7 @@ static int	export_value_checker(char *name, int len, char **argv)
 	return (STATUS_FAILURE);
 }
 
-static int	export_values(char **argv)
+static int	export_values(char **argv, t_environ *env)
 {
 	char	*string;
 	char	*value;
@@ -54,16 +54,16 @@ static int	export_values(char **argv)
 		if (status == STATUS_FAILURE)
 			break ;
 		if (++value != NULL)
-			ft_putenv(string);
-		free (string);
+			ft_putenv(string, env);
+		free(string);
 	}
 	return (status);
 }
 
-int	builtin_export(char **argv)
+int	builtin_export(char **argv, t_environ *env)
 {
 	if (argv[1] == NULL)
-		return (print_values());
+		return (print_values(env));
 	else
-		return (export_values(argv));
+		return (export_values(argv, env));
 }

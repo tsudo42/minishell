@@ -18,11 +18,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-char	**get_path_env(void)
+char	**get_path_env(t_environ *env)
 {
 	char	*path_env_raw;
 
-	path_env_raw = ft_getenv("PATH");
+	path_env_raw = ft_getenv("PATH", env);
 	if (path_env_raw == NULL)
 		return (NULL);
 	return (ft_split_sep(path_env_raw, ":"));
@@ -70,7 +70,7 @@ char	*execpath_from_env(char *name, char **path_env)
 	return (exec_path);
 }
 
-char	*execpath(char *name)
+char	*execpath(char *name, t_environ *env)
 {
 	char	*exec_path;
 	char	**path_env;
@@ -83,7 +83,7 @@ char	*execpath(char *name)
 	else
 	{
 		exec_path = NULL;
-		path_env = get_path_env();
+		path_env = get_path_env(env);
 		if (path_env != NULL)
 			exec_path = execpath_from_env(name, path_env);
 		if (exec_path == NULL)

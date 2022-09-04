@@ -12,9 +12,8 @@
 
 #include "builtin_internal.h"
 
-int	builtin_env(char **argv)
+int	builtin_env(char **argv, t_environ *env)
 {
-	extern char	**environ;
 	int			i;
 
 	if (!environ)

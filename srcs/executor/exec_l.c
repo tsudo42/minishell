@@ -13,21 +13,21 @@
 #include "exec_internal.h"
 #include <stdlib.h>
 
-int	exec_l(t_ast_l *l)
+int	exec_l(t_ast_l *l, t_environ *env)
 {
 	int	ret;
 
 	if (l == NULL)
 		exec_error("l is NULL");
-	ret = exec_p(l->p);
-	set_exit_status(ret);
+	ret = exec_p(l->p, env);
+	env->exit_status = ret;
 	l = l->next;
 	while (l != NULL)
 	{
 		if (!(ret) ^ (l->op == AST_L_OR))
 		{
-			ret = exec_p(l->p);
-			set_exit_status(ret);
+			ret = exec_p(l->p, env);
+			env->exit_status = ret;
 		}
 		l = l->next;
 	}

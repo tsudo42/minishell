@@ -12,11 +12,11 @@
 
 #include "builtin_internal.h"
 
-static int	cd_to_home(void)
+static int	cd_to_home(t_environ *env)
 {
 	char	*home_dir;
 
-	home_dir = ft_getenv("HOME");
+	home_dir = ft_getenv("HOME", env);
 	if (home_dir == NULL)
 	{
 		ft_putendl_fd(CD_ERRMSG ": No Home", STDERR_FILENO);
@@ -30,10 +30,10 @@ static int	cd_to_home(void)
 	return (STATUS_SUCCESS);
 }
 
-int	builtin_cd(char **argv)
+int	builtin_cd(char **argv, t_environ *env)
 {
 	if (argv[1] == NULL)
-		return (cd_to_home());
+		return (cd_to_home(env));
 	if (chdir(argv[1]) == -1)
 	{
 		perror(CD_ERRMSG ": chdir");

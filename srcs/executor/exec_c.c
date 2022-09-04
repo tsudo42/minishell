@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <sys/wait.h>
 
-static int	(*get_builtin_func(char	*name))(char **args)
+static int	(*get_builtin_func(char	*name))(char **args, t_environ *env)
 {
 	if (ft_strncmp("echo", name, sizeof("echo")) == 0)
 		return (builtin_echo);
@@ -34,31 +34,32 @@ static int	(*get_builtin_func(char	*name))(char **args)
 	return (NULL);
 }
 
-static int	exec_c_builtin(\
-	int (*builtin_func)(char **), char **args, t_ast_d *d)
+static int	exec_c_builtin(int (*builtin_func)(char **, t_environ *), \
+	char **args, t_ast_d *d, t_environ *env)
 {
 	int	stdfds[3];
 	int	ret;
 
 	exec_stdfd_set(stdfds);
-	if (exec_d(d) != 0)
+	if (exec_d(d, env) != 0)
 	{
 		exec_stdfd_reset(stdfds);
 		return (1);
 	}
-	ret = builtin_func(args);
+	ret = builtin_func(args, env);
 	exec_stdfd_reset(stdfds);
 	return (ret);
 }
 
-static void	exec_c_command_child(char *path, char **args, t_ast_d *d)
+static void
+	exec_c_command_child(char *path, char **args, t_ast_d *d, t_environ *env)
 {
-	if (exec_d(d) != 0)
+	if (exec_d(d, env) != 0)
 		exit(1);
 	if (*path == '\0')
 		exit(0);
 	ready_exec_signal();
-	execve(path, args, environ);
+	execve(path, args, generate_envp(env));
 	if (errno == ENOENT)
 	{
 		ft_dprintf(STDERR_FILENO, \
@@ -69,19 +70,18 @@ static void	exec_c_command_child(char *path, char **args, t_ast_d *d)
 	exit(INTERNAL_ERR_NUM);
 }
 
-static int	exec_c_command(char **args, t_ast_d *d)
+static int	exec_c_command(char **args, t_ast_d *d, t_environ *env)
 {
-	pid_t		pid;
-	int			stat;
-	char		*path;
-	extern char	**environ;
+	pid_t	pid;
+	int		stat;
+	char	*path;
 
-	path = execpath(args[0]);
+	path = execpath(args[0], env);
 	if (path == NULL)
 		exec_error("execpath");
 	pid = ft_x_fork(EXEC_ERRMSG);
 	if (pid == 0)
-		exec_c_command_child(path, args, d);
+		exec_c_command_child(path, args, d, env);
 	free(path);
 	if (waitpid(pid, &stat, 0) < 0)
 	{
@@ -89,21 +89,21 @@ static int	exec_c_command(char **args, t_ast_d *d)
 		errno = 0;
 		return (1);
 	}
-	return (exec_calc_retval(stat));
+	return (exec_calc_retval(stat, env));
 }
 
-int	exec_c(t_ast_c *c)
+int	exec_c(t_ast_c *c, t_environ *env)
 {
 	char	**args;
-	int		(*builtin_func)(char **);
+	int		(*builtin_func)(char **, t_environ *env);
 	int		ret;
 
 	if (c == NULL)
 		exec_error("c is NULL");
-	args = exec_a(c->a);
+	args = exec_a(c->a, env);
 	if (args == NULL)
 	{
-		set_exit_status(1);
+		env->exit_status = 1;
 		return (1);
 	}
 	if (args[0] != NULL)
@@ -111,10 +111,10 @@ int	exec_c(t_ast_c *c)
 	else
 		builtin_func = NULL;
 	if (builtin_func != NULL)
-		ret = exec_c_builtin(builtin_func, args, c->d);
+		ret = exec_c_builtin(builtin_func, args, c->d, env);
 	else
-		ret = exec_c_command(args, c->d);
+		ret = exec_c_command(args, c->d, env);
 	ft_free_strarr(args);
-	set_exit_status(ret);
+	env->exit_status = ret;
 	return (ret);
 }

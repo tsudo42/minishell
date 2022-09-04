@@ -14,7 +14,6 @@
 
 void	free_environ(void)
 {
-	extern char	**environ;
 	size_t		i;
 
 	if (!environ)

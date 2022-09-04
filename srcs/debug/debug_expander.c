@@ -45,18 +45,21 @@ static void	print_str_list(t_list *lst)
  */
 int	debug_expander(void)
 {
-	char	*input;
-	t_list	*lst;
+	t_environ	*env;
+	char		*input;
+	t_list		*lst;
 
+	env = init_environ();
 	write(1, "> ", 2);
 	input = get_next_line_easy(0);
 	while (input != NULL)
 	{
-		lst = expander(input);
+		lst = expander(input, env);
 		print_str_list(lst);
 		ft_lstclear(&lst, free);
 		write(1, "> ", 2);
 		input = get_next_line_easy(0);
 	}
+	destroy_environ(env);
 	return (0);
 }

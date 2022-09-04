@@ -12,11 +12,11 @@
 
 #include "builtin_internal.h"
 
-int	builtin_unset(char **argv)
+int	builtin_unset(char **argv, t_environ *env)
 {
 	while (*argv != NULL)
 	{
-		ft_unsetenv(*argv);
+		ft_unsetenv(*argv, env);
 		argv++;
 	}
 	return (STATUS_SUCCESS);
