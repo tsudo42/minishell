@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:37:37 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/04 09:05:37 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ typedef struct s_pipe_info {
 	int		fd_in;
 	int		fd_out;
 }	t_pipe_info;
+
+void	ready_exec_signal(void);
+void	cleanup_exec_signal(void);
 
 void	exec_error(const char *name);
 int		exec_calc_retval(int stat);
