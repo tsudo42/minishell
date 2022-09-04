@@ -25,10 +25,8 @@ typedef struct s_pipe_info {
 	int		fd_out;
 }	t_pipe_info;
 
-void	ready_exec_signal(void);
-void	cleanup_exec_signal(void);
-
 void	exec_error(const char *name);
+void	ready_exec_signal(void);
 int		exec_calc_retval(int stat);
 
 int		ready_heredoc_signal(int *is_error);
