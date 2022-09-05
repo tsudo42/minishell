@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ_internal.h"
+#include "environ.h"
+#include "libft.h"
 
 /**
  *  This function returns the string representation of the stored exit status.

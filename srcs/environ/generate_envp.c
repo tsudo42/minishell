@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "environ.h"
-#include "environ_internal.h"
 #include "libft.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 static char	**alloc_envp(t_environ *env)

@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destroy_environ.c                                  :+:      :+:    :+:   */
+/*   variable_get.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/29 13:35:08 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/31 15:09:46 by hosuzuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environ.h"
-#include "environ_internal.h"
+#include "libft.h"
 
 /**
- *  This function frees the minishell environ.
- *  This function always returns NULL.
+ *  This function gets string of variable selected by key if found.
+ *  Otherwise, NULL is returned.
+ *
+ *  The returned value of variable should not be modified or freed.
+ *
+ *  Argument key is checked via variable_check_key_format().
  */
-void	*destroy_environ(t_environ *env)
+char	*variable_get(const char *key, t_environ *env)
 {
 	t_var	*var;
-	t_var	*next;
 
+	if (variable_check_key_format(key) != 0)
+		return (NULL);
 	var = env->vars;
 	while (var != NULL)
 	{
-		next = var->next;
-		free(var->key);
-		free(var->value);
-		free(var);
-		var = next;
+		if (var->key != NULL && ft_strcmp(var->key, key) == 0)
+			return (var->value);
+		var = var->next;
 	}
-	free(env);
 	return (NULL);
 }

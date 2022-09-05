@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#include "builtin.h"
 
 static int	builtin_get_exit_status(char *str)
 {
@@ -28,7 +28,7 @@ int	builtin_exit(char **argv, t_environ *env)
 {
 	int	exit_status;
 
-	free_environ();
+	(void)env;
 	if (argv[1] == NULL)
 		exit (0);
 	if (argv[2] != NULL)

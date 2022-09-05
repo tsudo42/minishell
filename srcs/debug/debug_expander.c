@@ -49,7 +49,7 @@ int	debug_expander(void)
 	char		*input;
 	t_list		*lst;
 
-	env = init_environ();
+	env = environ_init();
 	write(1, "> ", 2);
 	input = get_next_line_easy(0);
 	while (input != NULL)
@@ -60,6 +60,6 @@ int	debug_expander(void)
 		write(1, "> ", 2);
 		input = get_next_line_easy(0);
 	}
-	destroy_environ(env);
+	environ_destroy(env);
 	return (0);
 }

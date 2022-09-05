@@ -10,20 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#include "builtin.h"
 
 int	builtin_env(char **argv, t_environ *env)
 {
-	int			i;
+	t_var	*var;
 
-	if (!environ)
-		return (STATUS_FAILURE);
 	(void)argv;
-	i = 0;
-	while (environ[i])
+	var = env->vars;
+	while (var != NULL)
 	{
-		ft_putstr_fd(environ[i++], STDOUT_FILENO);
-		ft_putstr_fd("\n", STDOUT_FILENO);
+		if (var->key != NULL && var->value != NULL && var->is_exported)
+			ft_dprintf(STDOUT_FILENO, "%s=%s\n", var->key, var->value);
+		var = var->next;
 	}
 	return (STATUS_SUCCESS);
 }

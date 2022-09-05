@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#include "builtin.h"
 
 static int	cd_to_home(t_environ *env)
 {
 	char	*home_dir;
 
-	home_dir = ft_getenv("HOME", env);
+	home_dir = variable_get("HOME", env);
 	if (home_dir == NULL)
 	{
 		ft_putendl_fd(CD_ERRMSG ": No Home", STDERR_FILENO);

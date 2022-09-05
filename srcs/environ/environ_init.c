@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_environ.c                                     :+:      :+:    :+:   */
+/*   environ_init.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,14 +11,14 @@
 /* ************************************************************************** */
 
 #include "environ.h"
-#include "environ_internal.h"
+#include "utils.h"
 #include "libft.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 static t_var	*convert_str_to_var(const char *str)
 {
 	t_var	*var;
-	char	*key;
 	char	*val;
 
 	var = ft_x_malloc(sizeof(t_var), ENVIRON_ERRMSG ": malloc");
@@ -44,7 +44,7 @@ static t_var	*convert_str_to_var(const char *str)
 
 static t_var	*init_environ_vars(void)
 {
-	extern char	*environ;
+	extern char	**environ;
 	t_var		*var_head;
 	t_var		*var;
 
@@ -71,7 +71,7 @@ static t_var	*init_environ_vars(void)
  *  This function generates minishell environment used by malloc(3).
  *  This function should return non-NULL pointer.
  */
-t_environ	*init_environ(void)
+t_environ	*environ_init(void)
 {
 	t_environ	*env;
 

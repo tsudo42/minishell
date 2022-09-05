@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_internal.h                                 :+:      :+:    :+:   */
+/*   environ_destroy.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:08:50 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/29 13:35:08 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_INTERNAL_H
-# define BUILTIN_INTERNAL_H
+#include "environ.h"
+#include <stdlib.h>
 
-# include "builtin.h"
+/**
+ *  This function frees the minishell environ.
+ *  This function always returns NULL.
+ */
+void	*environ_destroy(t_environ *env)
+{
+	t_var	*var;
+	t_var	*next;
 
-# define CD_ERRMSG		"cd"
-# define ECHO_ERRMSG	"echo"
-# define ENV_ERRMSG		"env"
-# define EXIT_ERRMSG	"exit"
-# define EXPORT_ERRMSG	"export"
-# define PWD_ERRMSG		"pwd"
-# define UNSET_ERRMSG	"unset"
-
-void	putstrlen_fd(const char *s, size_t max_len, int fd);
-int		is_printable(char *s);
-void	print_values2(char *str, char *value);
-int		print_values(t_environ *env);
-
-#endif /* BUILTIN_H */
+	var = env->vars;
+	while (var != NULL)
+	{
+		next = var->next;
+		free(var->key);
+		free(var->value);
+		free(var);
+		var = next;
+	}
+	free(env);
+	return (NULL);
+}

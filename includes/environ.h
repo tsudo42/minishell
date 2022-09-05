@@ -15,6 +15,8 @@
 
 # include <unistd.h>
 
+# define ENVIRON_ERRMSG "minishell"
+
 typedef struct s_var {
 	char			*key;
 	char			*value;
@@ -31,24 +33,67 @@ typedef struct s_environ {
 /**
  *  This function generates minishell environment used by malloc(3).
  *  This function should return non-NULL pointer.
+ *
+ *  This function exits with 1 when malloc(3) fails.
  */
-t_environ	*init_environ(void);
+t_environ	*environ_init(void);
 
 /**
  *  This function frees the minishell environ.
  *  This function always returns NULL.
  */
-void		*destroy_environ(t_environ *env);
+void		*environ_destroy(t_environ *env);
+
+/**
+ *  This function checks format of key, and returns 0 when the format does
+ *  not contain any problem.
+ *
+ *  Errno will be set to EINVAL and returns -1 if key is one of following:
+ *  - key is NULL.
+ *  - key is an empty string.
+ *  - key conatains character '='.
+ */
+int			variable_check_key_format(const char *key);
+
+/**
+ *  This function gets string of variable selected by key if found.
+ *  Otherwise, NULL is returned.
+ *
+ *  The returned value of variable should not be modified or freed.
+ *
+ *  Argument key is checked via variable_check_key_format().
+ */
+char		*variable_get(const char *key, t_environ *env);
+
+/**
+ *  This function sets key-value variable.
+ *
+ *  Environment variables are stored when export is true.
+ *  Internal variables are stored when export is false.
+ *
+ *  When updating an internal variable with is_exp == true,
+ *  the variable will be environment variable.
+ *  Environment variable can be updated with is_exp == false.
+ *
+ *  key is checked via variable_check_key_format().
+ *  This function exits with 1 when malloc(3) fails.
+ */
+int			variable_set( \
+	const char *key, const char *value, int export, t_environ *env);
+
+/**
+ *  This function gets string of variable selected by key if found.
+ *  Otherwise, NULL is returned.
+ *
+ *  Argument key is checked via variable_check_key_format().
+ */
+int			variable_unset(const char *key, t_environ *env);
 
 /**
  *  This function generates the array of environ variables,
  *  which can be passed to the 3rd argument of execve.
  */
 char		**generate_envp(t_environ *env);
-
-char		*ft_getenv(const char *name, t_environ *env);
-int			ft_putenv(const char *string, t_environ *env);
-int			ft_unsetenv(const char *name, t_environ *emv);
 
 /**
  *  This function returns the string representation of the stored exit status.

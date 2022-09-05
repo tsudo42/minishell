@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#include "builtin.h"
 
 int	builtin_pwd(char **argv, t_environ *env)
 {

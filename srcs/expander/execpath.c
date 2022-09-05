@@ -22,7 +22,7 @@ char	**get_path_env(t_environ *env)
 {
 	char	*path_env_raw;
 
-	path_env_raw = ft_getenv("PATH", env);
+	path_env_raw = variable_get("PATH", env);
 	if (path_env_raw == NULL)
 		return (NULL);
 	return (ft_split_sep(path_env_raw, ":"));

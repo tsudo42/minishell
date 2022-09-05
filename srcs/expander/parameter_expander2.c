@@ -107,7 +107,7 @@ static const char	*get_env_helper(char *param, t_environ *env)
 	if (ft_strcmp(param_head, "?") == 0)
 		env_var = get_exit_status_str(env);
 	else
-		env_var = ft_getenv(param_head, env);
+		env_var = variable_get(param_head, env);
 	if (env_var == NULL)
 		return ("");
 	return (env_var);

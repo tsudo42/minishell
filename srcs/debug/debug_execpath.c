@@ -31,7 +31,7 @@ int	debug_execpath(void)
 	char		*path;
 	int			save_errno;
 
-	env = init_environ();
+	env = environ_init();
 	write(1, "> ", 2);
 	input = get_next_line_easy(0);
 	while (input != NULL)
@@ -47,6 +47,6 @@ int	debug_execpath(void)
 		write(1, "> ", 2);
 		input = get_next_line_easy(0);
 	}
-	destroy_environ(env);
+	environ_destroy(env);
 	return (0);
 }

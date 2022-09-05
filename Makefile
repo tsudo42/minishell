@@ -6,7 +6,7 @@
 #    By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#              #
-#    Updated: 2022/09/04 08:40:47 by hos              ###   ########.fr        #
+#    Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,23 +50,25 @@ B_SRCS	:= \
 	srcs/builtin/builtin_export.c \
 	srcs/builtin/builtin_unset.c \
 	srcs/builtin/builtin_pwd.c \
-	srcs/builtin/builtin_export2.c \
 	srcs/builtin/builtin_env.c \
 	srcs/builtin/builtin_exit.c \
 	srcs/builtin/builtin_cd.c \
 
 SRCS	+= $(EV_SRCS)
 EV_SRCS	:= \
-	srcs/environ/ft_putenv.c \
-	srcs/environ/environ_utils.c \
-	srcs/environ/ft_getenv.c \
-	srcs/environ/free_environ.c \
-	srcs/environ/ft_unsetenv.c \
-	srcs/environ/ft_exit_status.c \
+	srcs/environ/generate_envp.c \
+	srcs/environ/environ_destroy.c \
+	srcs/environ/environ_init.c \
+	srcs/environ/get_exit_status_str.c \
+	srcs/environ/variable_set.c \
+	srcs/environ/variable_get.c \
+	srcs/environ/variable_check_key_format.c \
+	srcs/environ/variable_unset.c \
 
 SRCS	+= $(EX_SRCS)
 EX_SRCS	:= \
 	srcs/executor/executor.c \
+	srcs/executor/exec_signal.c \
 	srcs/executor/exec_c.c \
 	srcs/executor/heredoc_input.c \
 	srcs/executor/exec_p_piped.c \
@@ -81,7 +83,6 @@ EX_SRCS	:= \
 	srcs/executor/exec_p.c \
 	srcs/executor/exec_l.c \
 	srcs/executor/exec_error.c \
-	srcs/executor/exec_signal.c \
 
 SRCS	+= $(EP_SRCS)
 EP_SRCS	:= \

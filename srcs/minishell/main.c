@@ -48,7 +48,7 @@ static t_environ	*init(void)
 {
 	t_environ	*env;
 
-	env = init_environ();
+	env = environ_init();
 	return (env);
 }
 
@@ -90,7 +90,7 @@ int	main(void)
 		executor(parser(lexer(line)), env);
 	}
 	exit_status = env->exit_status;
-	destroy_environ(env);
+	environ_destroy(env);
 	printf("exit\n");
 	return (exit_status);
 }
