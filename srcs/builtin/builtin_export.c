@@ -81,7 +81,7 @@ static int	export_values(char **argv, t_environ *env)
 	{
 		if (export_format_checker(*argv) != 0)
 		{
-			ft_dprintf(STDERR_FILENO, "%s: %s: not a valid identifier\n", \
+			ft_dprintf(STDERR_FILENO, "%s: `%s\': not a valid identifier\n", \
 				EXPORT_ERRMSG, *argv);
 			return (1);
 		}
