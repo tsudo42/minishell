@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:09:46 by hosuzuki         ###   ########.fr       */
+/*   Updated: 2022/09/04 13:42:30 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ static int	find_name(const char *name)
 {
 	extern char	**environ;
 	int			i;
-	int			len;
-	int			len_env;
+	size_t		len;
+	size_t		len_env;
 
+	if (!environ)
+		return (-1);
 	i = 0;
 	len = ft_strlen(name);
 	while (environ[i])
@@ -29,7 +31,8 @@ static int	find_name(const char *name)
 			i++;
 			continue ;
 		}
-		if (ft_strncmp(environ[i], name, len) == 0)
+		if (ft_strncmp(environ[i], name, len) == 0 \
+			&& environ[i][len] == '=')
 			return (i);
 		i++;
 	}
@@ -55,7 +58,7 @@ static int	envdup_unset(char **new_env, int location)
 	return (0);
 }
 
-static char	**del_one_environ(int location)
+static char	**del_one_environ(long location)
 {
 	extern char	**environ;
 	char		**new_env;
@@ -79,10 +82,5 @@ int	ft_unsetenv(const char *name)
 	if (location == -1)
 		return (0);
 	environ = del_one_environ(location);
-	if (!environ)
-	{
-		perror(ENVIRON_ERRMSG ": malloc");
-		exit(EXIT_FAILURE);
-	}
 	return (0);
 }

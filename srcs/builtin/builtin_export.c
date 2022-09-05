@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:48:47 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/04 21:20:29 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,18 @@ static int	export_values(char **argv)
 	char	*string;
 	char	*value;
 	int		status;
+	int		len;
 
 	status = STATUS_SUCCESS;
 	while (*(++argv) != NULL)
 	{
 		string = ft_x_strdup(*argv, EXPORT_ERRMSG);
 		value = ft_strchr(string, '=');
-		status = export_value_checker(string, value - string, argv);
+		if (value > string && *(value - 1) == '+')
+			len = value - string - 1;
+		else
+			len = value - string;
+		status = export_value_checker(string, len, argv);
 		if (status == STATUS_FAILURE)
 			break ;
 		if (++value != NULL)
