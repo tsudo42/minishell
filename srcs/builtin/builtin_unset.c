@@ -41,7 +41,7 @@ int	builtin_unset(char **argv, t_environ *env)
 		if (unset_format_checker(*argv) != 0)
 		{
 			ft_dprintf(STDERR_FILENO, \
-				"%s: `\%s' is not a valid identifier\n", *argv);
+				"%s: `%s\' is not a valid identifier\n", *argv);
 			status |= 1;
 		}
 		else
