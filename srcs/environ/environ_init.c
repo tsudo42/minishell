@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/29 13:35:08 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/08 22:06:30 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static t_var	*convert_str_to_var(const char *str)
 		perror(ENVIRON_ERRMSG ": malloc");
 		exit(1);
 	}
+	var->is_exported = 1;
 	var->next = NULL;
 	return (var);
 }
@@ -50,13 +51,9 @@ static t_var	*init_environ_vars(void)
 
 	if (environ == NULL || *environ == NULL)
 		return (NULL);
-	var = malloc(sizeof(t_var));
-	if (var == NULL)
-	{
-		perror(ENVIRON_ERRMSG ": malloc");
-		exit(1);
-	}
+	var = convert_str_to_var(*environ);
 	var_head = var;
+	environ++;
 	while (*environ != NULL)
 	{
 		var->next = convert_str_to_var(*environ);
@@ -74,6 +71,7 @@ static t_var	*init_environ_vars(void)
 t_environ	*environ_init(void)
 {
 	t_environ	*env;
+	char		*s;
 
 	env = malloc(sizeof(t_environ));
 	if (env == NULL)
@@ -84,5 +82,9 @@ t_environ	*environ_init(void)
 	env->exit_status = 0;
 	env->parent_pid = getpid();
 	env->vars = init_environ_vars();
+	s = variable_get("SHLVL", env);
+	variable_set("SHLVL", ft_itoa(ft_atoi(s) + 1), 1, env);
+	variable_set("OLDPWD", NULL, 1, env);
+	variable_unset("_", env);
 	return (env);
 }
