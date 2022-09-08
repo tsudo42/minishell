@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:50:01 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/08 22:05:53 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,15 @@ static int	cd_to_home(t_environ *env)
 		perror(CD_ERRMSG ": chdir");
 		return (STATUS_FAILURE);
 	}
+	variable_set("OLDPWD", variable_get("PWD", env), 1, env);
+	variable_set("PWD", home_dir, 1, env);
 	return (STATUS_SUCCESS);
 }
 
 int	builtin_cd(char **argv, t_environ *env)
 {
+	char	buf[PATH_MAX];
+
 	if (argv[1] == NULL)
 		return (cd_to_home(env));
 	if (chdir(argv[1]) == -1)
@@ -39,5 +43,12 @@ int	builtin_cd(char **argv, t_environ *env)
 		perror(CD_ERRMSG ": chdir");
 		return (STATUS_FAILURE);
 	}
+	variable_set("OLDPWD", variable_get("PWD", env), 1, env);
+	if (getcwd(buf, sizeof(buf)) == NULL)
+	{
+		perror(CD_ERRMSG ": getcwd");
+		return (STATUS_FAILURE);
+	}
+	variable_set("PWD", buf, 1, env);
 	return (STATUS_SUCCESS);
 }
