@@ -68,6 +68,9 @@ char		*variable_get(const char *key, t_environ *env);
 /**
  *  This function sets key-value variable.
  *
+ *  If value argument is NULL, value of variable will not be updated
+ *  but whether the variable is exported can be updated.
+ *
  *  Environment variables are stored when export is true.
  *  Internal variables are stored when export is false.
  *

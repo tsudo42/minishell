@@ -19,7 +19,6 @@ static void	variable_update(t_var *var, const char *value, int export)
 {
 	char	*new_value;
 
-	new_value = NULL;
 	if (value != NULL)
 	{
 		new_value = ft_strdup(value);
@@ -28,15 +27,18 @@ static void	variable_update(t_var *var, const char *value, int export)
 			perror(ENVIRON_ERRMSG ": malloc");
 			exit(1);
 		}
+		free(var->value);
+		var->value = new_value;
 	}
-	free(var->value);
-	var->value = new_value;
 	if (export)
 		var->is_exported = export;
 }
 
 /**
  *  This function sets key-value variable.
+ *
+ *  If value argument is NULL, value of variable will not be updated
+ *  but whether the variable is exported can be updated.
  *
  *  Environment variables are stored when export is true.
  *  Internal variables are stored when export is false.
