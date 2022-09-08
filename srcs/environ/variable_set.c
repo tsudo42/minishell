@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   variable_set.c                                    :+:      :+:    :+:   */
+/*   variable_set.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:09:46 by hosuzuki         ###   ########.fr       */
+/*   Updated: 2022/09/08 21:59:51 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ static void	variable_update(t_var *var, const char *value, int export)
 		free(var->value);
 		var->value = new_value;
 	}
-	if (export)
+	else
+		var->value = NULL;
+	if (var->is_exported)
 		var->is_exported = export;
 }
 
