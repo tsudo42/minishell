@@ -10,14 +10,43 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#include "builtin.h"
 
-int	builtin_unset(char **argv)
+static int	unset_format_checker(char *str)
 {
+	size_t	i;
+
+	if (str == NULL || str[0] == '\0' || str[0] == '=')
+		return (-1);
+	if (!ft_isalpha(str[0]) && !((int)str[0] == '_'))
+		return (-1);
+	i = 1;
+	while (str[i] != '\0')
+	{
+		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) \
+				&& !((int)str[i] == '_'))
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
+int	builtin_unset(char **argv, t_environ *env)
+{
+	int	status;
+
+	status = 0;
 	while (*argv != NULL)
 	{
-		ft_unsetenv(*argv);
+		if (unset_format_checker(*argv) != 0)
+		{
+			ft_dprintf(STDERR_FILENO, \
+				"%s: `%s\': not a valid identifier\n", UNSET_ERRMSG, *argv);
+			status |= 1;
+		}
+		else
+			variable_unset(*argv, env);
 		argv++;
 	}
-	return (STATUS_SUCCESS);
+	return (status);
 }

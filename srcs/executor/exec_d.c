@@ -99,11 +99,12 @@ static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
 	return (fd);
 }
 
-int	exec_d(t_ast_d *d)
+int	exec_d(t_ast_d *d, t_environ *env)
 {
 	int		is_err;
 	long	fd;
 
+	(void)env;
 	is_err = 0;
 	while (d != NULL && is_err == 0)
 	{

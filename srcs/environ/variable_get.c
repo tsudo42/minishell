@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environ_utils.c                                    :+:      :+:    :+:   */
+/*   variable_get.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/29 13:36:06 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/31 15:09:46 by hosuzuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ_internal.h"
+#include "environ.h"
+#include "libft.h"
 
-size_t	envlen(char **envp)
+/**
+ *  This function gets string of variable selected by key if found.
+ *  Otherwise, NULL is returned.
+ *
+ *  The returned value of variable should not be modified or freed.
+ *
+ *  Argument key is checked via variable_check_key_format().
+ */
+char	*variable_get(const char *key, t_environ *env)
 {
-	size_t	len;
+	t_var	*var;
 
-	if (!envp)
-		return (0);
-	len = 0;
-	while (envp[len] != NULL)
+	if (variable_check_key_format(key) != 0)
+		return (NULL);
+	var = env->vars;
+	while (var != NULL)
 	{
-		len++;
+		if (var->key != NULL && ft_strcmp(var->key, key) == 0)
+			return (var->value);
+		var = var->next;
 	}
-	return (len);
-}
-
-int	is_init_environ(int activation)
-{
-	static int	initialized;
-
-	if (activation == 1)
-		initialized = ENV_INITIALIZED;
-	return (initialized);
+	return (NULL);
 }

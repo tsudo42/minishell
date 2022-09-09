@@ -54,7 +54,8 @@ static void	close_fds(t_pipe_info *infos, size_t len)
 	}
 }
 
-static void	exec_p_piped_child(t_ast_p *p, t_pipe_info *infos, size_t len)
+static void	exec_p_piped_child( \
+	t_ast_p *p, t_pipe_info *infos, size_t len, t_environ *env)
 {
 	t_pipe_info	*current_info;
 
@@ -67,11 +68,11 @@ static void	exec_p_piped_child(t_ast_p *p, t_pipe_info *infos, size_t len)
 		ft_x_dup2(current_info->fd_out, 1, EXEC_ERRMSG);
 	close_fds(infos, len);
 	if (p->type == AST_P_C)
-		exit(exec_c(p->c));
-	exit(exec_s(p->s));
+		exit(exec_c(p->c, env));
+	exit(exec_s(p->s, env));
 }
 
-static int	exec_p_wait(t_pipe_info *infos, size_t p_len)
+static int	exec_p_wait(t_pipe_info *infos, size_t p_len, t_environ *env)
 {
 	int		stat;
 	size_t	i;
@@ -92,10 +93,10 @@ static int	exec_p_wait(t_pipe_info *infos, size_t p_len)
 		errno = 0;
 		return (1);
 	}
-	return (exec_calc_retval(stat));
+	return (exec_calc_retval(stat, env));
 }
 
-int	exec_p_piped(t_ast_p *p, size_t p_len)
+int	exec_p_piped(t_ast_p *p, size_t p_len, t_environ *env)
 {
 	t_pipe_info	*infos;
 	size_t		i;
@@ -107,12 +108,12 @@ int	exec_p_piped(t_ast_p *p, size_t p_len)
 	{
 		infos[i].pid = ft_x_fork(EXEC_ERRMSG);
 		if (infos[i].pid == 0)
-			exec_p_piped_child(p, infos, p_len);
+			exec_p_piped_child(p, infos, p_len, env);
 		i++;
 		p = p->next;
 	}
 	close_fds(infos, p_len);
-	ret = exec_p_wait(infos, p_len);
+	ret = exec_p_wait(infos, p_len, env);
 	free(infos);
 	return (ret);
 }

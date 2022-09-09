@@ -13,25 +13,25 @@
 #include "exec.h"
 #include "exec_internal.h"
 
-int	executor(t_ast *ast_root)
+int	executor(t_ast *ast_root, t_environ *env)
 {
 	int	ret;
 
 	if (ast_root == NULL)
 	{
 		ret = 258;
-		set_exit_status(ret);
-		return (ret);
+		env->exit_status = 258;
+		return (258);
 	}
 	g_sig = 0;
-	if (heredoc_ready(ast_root) == 0)
-		ret = exec_l(ast_root);
+	if (heredoc_ready(ast_root, env) == 0)
+		ret = exec_l(ast_root, env);
 	else
 		ret = 1;
 	ast_free_l(ast_root);
-	if (g_sig == 0)
-		set_exit_status(ret);
+	if (g_sig != 0)
+		env->exit_status = 130;
 	else
-		set_exit_status(130);
+		env->exit_status = ret;
 	return (ret);
 }

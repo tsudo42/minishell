@@ -27,7 +27,7 @@
  * NULL is returned only when this function encounters malloc(3) error.
  * In that case, error message will be printed using perror(3).
  */
-char	*execpath(char *name);
+char	*execpath(char *name, t_environ *env);
 
 /**
  * This function evaluates whether patten matches filename as a result of
@@ -42,7 +42,7 @@ int		is_match_globstar(const char *pattern, const char *filename);
  * Upon malloc(3) error, error message will be printed.
  * Errno will be initialized in the beginning of this call.
  */
-char	*parameter_expander(char *word);
+char	*parameter_expander(char *word, t_environ *env);
 
 /**
  * This function performs word splitting and returns split word list using
@@ -86,6 +86,6 @@ t_list	*quote_remover(char *word);
  * NULL is returned either to represent error or blank word.
  * Caller should recognize referring to errno.
  */
-t_list	*expander(char *word);
+t_list	*expander(char *word, t_environ *env);
 
 #endif /* EXPANDER_H */

@@ -33,6 +33,6 @@
  *
  * Some fatal errors such as malloc(3) error causes terminating the process.
  */
-int		executor(t_ast *ast_root);
+int		executor(t_ast *ast_root, t_environ *env);
 
 #endif /* EXEC_H */

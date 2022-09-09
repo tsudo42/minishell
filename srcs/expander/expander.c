@@ -68,13 +68,13 @@ static t_list	*expander2(t_list *lst)
 	return (lst2);
 }
 
-t_list	*expander(char *word)
+t_list	*expander(char *word, t_environ *env)
 {
 	t_list	*lst;
 	t_list	*lst2;
 
 	errno = 0;
-	word = parameter_expander(word);
+	word = parameter_expander(word, env);
 	if (word == NULL)
 		return (NULL);
 	lst = word_splitter(word);

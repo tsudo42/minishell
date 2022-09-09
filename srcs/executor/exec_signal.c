@@ -24,7 +24,6 @@ void	ready_exec_signal(void)
 	signal(SIGQUIT, signal_handler);
 	if (errno != 0)
 	{
-		cleanup_exec_signal();
 		perror(EXEC_INTERNAL_ERRMSG ": signal");
 		exit (1);
 	}

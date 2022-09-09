@@ -41,7 +41,7 @@ static char	**lst_to_strs(t_list *lst)
 	return (strs);
 }
 
-char	**exec_a(t_ast_a *a)
+char	**exec_a(t_ast_a *a, t_environ *env)
 {
 	t_list	*lst;
 	t_list	*lst_node;
@@ -50,7 +50,7 @@ char	**exec_a(t_ast_a *a)
 	lst = NULL;
 	while (a != NULL)
 	{
-		lst_node = expander(a->word);
+		lst_node = expander(a->word, env);
 		a->word = NULL;
 		if (lst_node == NULL && errno != 0)
 		{

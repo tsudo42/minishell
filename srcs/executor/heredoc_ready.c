@@ -12,7 +12,7 @@
 
 #include "exec_internal.h"
 
-static int	heredoc_ready_d(t_ast_d *d, int *idx)
+static int	heredoc_ready_d(t_ast_d *d, int *idx, t_environ *env)
 {
 	int	fd;
 
@@ -20,7 +20,7 @@ static int	heredoc_ready_d(t_ast_d *d, int *idx)
 	{
 		if (d->type == AST_D_HEREDOC)
 		{
-			fd = heredoc_set(d->word, idx);
+			fd = heredoc_set(d->word, idx, env);
 			if (fd < 0)
 				return (-1);
 			(*idx)++;
@@ -31,7 +31,7 @@ static int	heredoc_ready_d(t_ast_d *d, int *idx)
 	return (0);
 }
 
-static int	heredoc_ready_l(t_ast_l *l, int *idx)
+static int	heredoc_ready_l(t_ast_l *l, int *idx, t_environ *env)
 {
 	t_ast_p	*p;
 
@@ -42,13 +42,13 @@ static int	heredoc_ready_l(t_ast_l *l, int *idx)
 		{
 			if (p->type == AST_P_C)
 			{
-				if (heredoc_ready_d(p->c->d, idx) < 0)
+				if (heredoc_ready_d(p->c->d, idx, env) < 0)
 					return (-1);
 			}
 			else if (p->type == AST_P_S)
 			{
-				if (heredoc_ready_l(p->s->l, idx) < 0 || \
-					heredoc_ready_d(p->s->d, idx) < 0)
+				if (heredoc_ready_l(p->s->l, idx, env) < 0 || \
+					heredoc_ready_d(p->s->d, idx, env) < 0)
 					return (-1);
 			}
 			p = p->next;
@@ -58,10 +58,10 @@ static int	heredoc_ready_l(t_ast_l *l, int *idx)
 	return (0);
 }
 
-int	heredoc_ready(t_ast *ast)
+int	heredoc_ready(t_ast *ast, t_environ *env)
 {
 	int	idx;
 
 	idx = 0;
-	return (heredoc_ready_l(ast, &idx));
+	return (heredoc_ready_l(ast, &idx, env));
 }

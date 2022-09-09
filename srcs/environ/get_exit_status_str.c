@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_environ.c                                     :+:      :+:    :+:   */
+/*   get_exit_status_str.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:07:12 by hosuzuki         ###   ########.fr       */
+/*   Updated: 2022/08/27 17:17:06 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environ_internal.h"
+#include "environ.h"
+#include "libft.h"
 
-void	free_environ(void)
+/**
+ *  This function returns the string representation of the stored exit status.
+ *  Returned string from this function should not be freed.
+ */
+const char	*get_exit_status_str(t_environ *env)
 {
-	extern char	**environ;
-	size_t		i;
+	static char	str_buf[16];
 
-	if (!environ)
-		return ;
-	if (is_init_environ(0) != ENV_INITIALIZED)
-		return ;
-	i = 0;
-	while (environ[i] != NULL)
-		free (environ[i++]);
-	free (environ);
-	environ = NULL;
-	return ;
+	if (env->exit_status == 0)
+		return ("0");
+	if (env->exit_status == 1)
+		return ("1");
+	return (ft_itoa_buf(env->exit_status, str_buf, 16));
 }

@@ -10,12 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#include "builtin.h"
 
-int	builtin_echo(char **argv)
+int	builtin_echo(char **argv, t_environ *env)
 {
 	bool	print_newline;
 
+	(void)env;
 	print_newline = true;
 	argv++;
 	if (*argv != NULL && ft_strncmp("-n", *argv, 3) == 0)

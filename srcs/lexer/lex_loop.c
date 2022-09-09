@@ -57,7 +57,8 @@ static t_lr_token_type	lex_quote(char **input)
 	else
 	{
 		ft_dprintf(STDERR_FILENO, \
-			"%s: unexpected EOF while looking for matching `%c\'\n", quote[0]);
+			"%s: unexpected EOF while looking for matching `%c\'\n", \
+			LEXER_ERRMSG, quote[0]);
 		return (LR_NULL);
 	}
 }

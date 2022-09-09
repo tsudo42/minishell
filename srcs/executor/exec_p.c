@@ -26,7 +26,7 @@ static size_t	count_p_len(t_ast_p *p)
 	return (p_len);
 }
 
-int	exec_p(t_ast_p *p)
+int	exec_p(t_ast_p *p, t_environ *env)
 {
 	size_t	p_len;
 
@@ -34,6 +34,6 @@ int	exec_p(t_ast_p *p)
 		exec_error("p is NULL");
 	p_len = count_p_len(p);
 	if (p_len == 1 && p->type == AST_P_C)
-		return (exec_c(p->c));
-	return (exec_p_piped(p, p_len));
+		return (exec_c(p->c, env));
+	return (exec_p_piped(p, p_len, env));
 }

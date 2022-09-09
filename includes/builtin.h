@@ -17,12 +17,20 @@
 # include "minishell.h"
 # include "environ.h"
 
-int		builtin_echo(char **argv);
-int		builtin_cd(char **argv);
-int		builtin_pwd(char **argv);
-int		builtin_export(char **argv);
-int		builtin_unset(char **argv);
-int		builtin_env(char **argv);
-int		builtin_exit(char **argv);
+# define CD_ERRMSG		"cd"
+# define ECHO_ERRMSG	"echo"
+# define ENV_ERRMSG		"env"
+# define EXIT_ERRMSG	"exit"
+# define EXPORT_ERRMSG	"export"
+# define PWD_ERRMSG		"pwd"
+# define UNSET_ERRMSG	"unset"
+
+int		builtin_echo(char **argv, t_environ *env);
+int		builtin_cd(char **argv, t_environ *env);
+int		builtin_pwd(char **argv, t_environ *env);
+int		builtin_export(char **argv, t_environ *env);
+int		builtin_unset(char **argv, t_environ *env);
+int		builtin_env(char **argv, t_environ *env);
+int		builtin_exit(char **argv, t_environ *env);
 
 #endif /* BUILTIN_H */

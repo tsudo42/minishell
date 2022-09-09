@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_internal.h                                 :+:      :+:    :+:   */
+/*   variable_check_key_format.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:08:50 by hos              ###   ########.fr       */
+/*   Updated: 2022/08/31 15:09:46 by hosuzuki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_INTERNAL_H
-# define BUILTIN_INTERNAL_H
+#include "environ.h"
+#include "libft.h"
+#include <errno.h>
 
-# include "builtin.h"
-
-# define CD_ERRMSG		"cd"
-# define ECHO_ERRMSG	"echo"
-# define ENV_ERRMSG		"env"
-# define EXIT_ERRMSG	"exit"
-# define EXPORT_ERRMSG	"export"
-# define PWD_ERRMSG		"pwd"
-# define UNSET_ERRMSG	"unset"
-
-void	putstrlen_fd(const char *s, size_t max_len, int fd);
-int		is_printable(char *s);
-void	print_values2(char *str, char *value);
-int		print_values(void);
-
-#endif /* BUILTIN_H */
+/**
+ *  This function checks format of key, and returns 0 when the format does
+ *  not contain any problem.
+ *
+ *  Errno will be set to EINVAL and returns -1 if key is one of following:
+ *  - key is NULL.
+ *  - key is an empty string.
+ *  - key conatains character '='.
+ */
+int	variable_check_key_format(const char *key)
+{
+	if (key == NULL || *key == '\0' || ft_strchr(key, '=') != NULL)
+	{
+		errno = EINVAL;
+		return (-1);
+	}
+	return (0);
+}

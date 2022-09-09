@@ -27,22 +27,22 @@ typedef struct s_pipe_info {
 
 void	exec_error(const char *name);
 void	ready_exec_signal(void);
-int		exec_calc_retval(int stat);
+int		exec_calc_retval(int stat, t_environ *env);
 
 int		ready_heredoc_signal(int *is_error);
 void	cleanup_heredoc_signal(int *is_error);
 
-char	*heredoc_input(char *delim, int *is_error);
-int		heredoc_set(char *delim, int *idx);
-int		heredoc_ready(t_ast *ast);
+char	*heredoc_input(char *delim, int *is_error, t_environ *env);
+int		heredoc_set(char *delim, int *idx, t_environ *env);
+int		heredoc_ready(t_ast *ast, t_environ *env);
 
-int		exec_l(t_ast_l *l);
-int		exec_p(t_ast_p *p);
-int		exec_p_piped(t_ast_p *p, size_t p_len);
-int		exec_s(t_ast_s *s);
-int		exec_c(t_ast_c *c);
-char	**exec_a(t_ast_a *a);
-int		exec_d(t_ast_d	*d);
+int		exec_l(t_ast_l *l, t_environ *env);
+int		exec_p(t_ast_p *p, t_environ *env);
+int		exec_p_piped(t_ast_p *p, size_t p_len, t_environ *env);
+int		exec_s(t_ast_s *s, t_environ *env);
+int		exec_c(t_ast_c *c, t_environ *env);
+char	**exec_a(t_ast_a *a, t_environ *env);
+int		exec_d(t_ast_d	*d, t_environ *env);
 
 void	exec_stdfd_set(int *stdfds);
 void	exec_stdfd_reset(int *stdfds);

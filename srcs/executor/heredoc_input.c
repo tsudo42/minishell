@@ -47,7 +47,7 @@ static int	is_quoted(char *delim)
 }
 
 /* get single line. perform parameter expansion if delimiter was not quoted. */
-static char	*heredoc_getline(int quoted, int *is_error)
+static char	*heredoc_getline(int quoted, int *is_error, t_environ *env)
 {
 	char	*line;
 
@@ -56,7 +56,7 @@ static char	*heredoc_getline(int quoted, int *is_error)
 	if (errno != 0)
 		perror(EXEC_ERRMSG ": heredoc");
 	if (line != NULL && quoted)
-		line = parameter_expander(line);
+		line = parameter_expander(line, env);
 	if (errno != 0)
 		*is_error = 1;
 	return (line);
@@ -99,7 +99,7 @@ static int	is_end_input(const char *line, const char *delim, int *is_error)
 	return (0);
 }
 
-char	*heredoc_input(char *delim, int *is_error)
+char	*heredoc_input(char *delim, int *is_error, t_environ *env)
 {
 	char	*input;
 	char	*line;
@@ -109,7 +109,7 @@ char	*heredoc_input(char *delim, int *is_error)
 		return (NULL);
 	quoted = is_quoted(delim);
 	input = NULL;
-	line = heredoc_getline(quoted, is_error);
+	line = heredoc_getline(quoted, is_error, env);
 	while (!is_end_input(line, delim, is_error))
 	{
 		if (g_sig != 0)
@@ -119,7 +119,7 @@ char	*heredoc_input(char *delim, int *is_error)
 		}
 		if (heredoc_append(&input, &line, is_error) < 0)
 			break ;
-		line = heredoc_getline(quoted, is_error);
+		line = heredoc_getline(quoted, is_error, env);
 	}
 	cleanup_heredoc_signal(is_error);
 	ft_free_set((void **)&line, NULL);

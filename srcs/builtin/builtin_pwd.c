@@ -10,12 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin_internal.h"
+#include "builtin.h"
 
-int	builtin_pwd(char **argv)
+int	builtin_pwd(char **argv, t_environ *env)
 {
 	char	*path;
 
+	(void)env;
 	(void)argv;
 	path = getcwd(NULL, 0);
 	if (path == NULL)
