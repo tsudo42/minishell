@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/08 21:46:36 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/09 13:07:16 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	is_pwd(t_var *var, t_environ *env)
 {
 	if (ft_strcmp(var->key, "PWD") == 0)
 	{
-		variable_set("PWD", variable_get("PWD", env), 0, env);
+		variable_set("PWD", variable_get("PWD", env), -1, env);
 		return (1);
 	}
 	return (0);
