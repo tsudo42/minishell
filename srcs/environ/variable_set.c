@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/08 21:59:51 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/09 13:08:25 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ static void	variable_update(t_var *var, const char *value, int export)
 	}
 	else
 		var->value = NULL;
-	if (var->is_exported)
+	if (export == -1)
+		var->is_exported = 0;
+	else if (export)
 		var->is_exported = export;
 }
 
