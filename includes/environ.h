@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/12 08:08:19 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/12 14:29:15 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int			variable_set( \
  *  Argument key is checked via variable_check_key_format().
  */
 int			variable_unset(const char *key, t_environ *env);
+
+void	variable_add_back(t_environ *env, const char *key, const char *value);
 
 /**
  *  This function creates a t_var to add key-value variable and

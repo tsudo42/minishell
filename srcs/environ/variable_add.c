@@ -6,7 +6,7 @@
 /*   By: hos <hosuzuki@student.42tokyo.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 11:26:00 by hos               #+#    #+#             */
-/*   Updated: 2022/09/09 12:30:38 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/12 14:53:10 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@
  *  variableL.
  *
  */
+void	variable_add_back(t_environ *env, const char *key, const char *value)
+{
+	t_var	*var;
+
+	var = env->vars;
+	while (var->next)
+		var = var->next;
+	var->next = variable_add(key, value);
+}
+
 t_var	*variable_add(const char *key, const char *value)
 {
 	t_var		*var;
