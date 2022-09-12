@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/09 12:18:46 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/12 14:58:29 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,35 @@ static t_var	*add_initial_env(void)
 	return (var);
 }
 
+static void	update_shlvl(t_environ *env)
+{
+	char	*num;
+	char	*s;
+
+	s = variable_get("SHLVL", env);
+	if (!s)
+		variable_add_back(env, "SHLVL", "1");
+	else
+	{
+		if (ft_atoi(s) > 1000)
+		{
+			perror(ENVIRON_ERRMSG ": SHLVL");
+			num = ft_itoa(1);
+		}
+		else
+		{
+			num = ft_itoa(ft_atoi(s) + 1);
+			if (num == NULL)
+			{
+				perror(ENVIRON_ERRMSG ": malloc");
+				exit (1);
+			}
+		}
+		variable_set("SHLVL", num, 1, env);
+		free (num);
+	}
+}
+
 /**
  *  This function generates minishell environment used by malloc(3).
  *  This function should return non-NULL pointer.
@@ -87,7 +116,6 @@ static t_var	*add_initial_env(void)
 t_environ	*environ_init(void)
 {
 	t_environ	*env;
-	char		*s;
 
 	env = malloc(sizeof(t_environ));
 	if (env == NULL)
@@ -102,10 +130,11 @@ t_environ	*environ_init(void)
 		env->vars = add_initial_env();
 	else
 	{
-		s = variable_get("SHLVL", env);
-		if (s != NULL)
-			variable_set("SHLVL", ft_itoa(ft_atoi(s) + 1), 1, env);
-		variable_set("OLDPWD", NULL, 1, env);
+		update_shlvl(env);
+		if (!variable_get("OLDPWD", env))
+			variable_add_back(env, "OLDPWD", NULL);
+		else
+			variable_set("OLDPWD", NULL, 1, env);
 		variable_unset("_", env);
 	}
 	return (env);
