@@ -6,12 +6,13 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/09 13:08:25 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/12 12:42:52 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environ.h"
 #include "libft.h"
+#include "utils.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -31,7 +32,10 @@ static void	variable_update(t_var *var, const char *value, int export)
 		var->value = new_value;
 	}
 	else
-		var->value = NULL;
+	{
+		free (var->value);
+		var->value = ft_x_strdup("", ENVIRON_ERRMSG);
+	}
 	if (export == -1)
 		var->is_exported = 0;
 	else if (export)
