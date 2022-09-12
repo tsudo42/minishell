@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/09 13:05:26 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/12 08:30:41 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	builtin_cd(char **argv, t_environ *env)
 {
 	char	buf[PATH_MAX];
 
+	if (argv == NULL || *argv == NULL)
+		return (STATUS_FAILURE);
 	if (argv[1] == NULL)
 		return (cd_to_home(env));
 	if (chdir(argv[1]) == -1)

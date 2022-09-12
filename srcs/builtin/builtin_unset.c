@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:08:02 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/12 08:30:26 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	builtin_unset(char **argv, t_environ *env)
 {
 	int	status;
 
+	if (argv == NULL || *argv == NULL)
+		return (STATUS_FAILURE);
 	status = 0;
 	while (*argv != NULL)
 	{

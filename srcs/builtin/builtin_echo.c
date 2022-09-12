@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:15:34 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/12 08:30:50 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	builtin_echo(char **argv, t_environ *env)
 {
 	bool	print_newline;
 
+	if (argv == NULL || *argv == NULL)
+		return (STATUS_FAILURE);
 	(void)env;
 	print_newline = true;
 	argv++;
