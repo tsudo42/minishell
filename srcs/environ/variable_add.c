@@ -6,7 +6,7 @@
 /*   By: hos <hosuzuki@student.42tokyo.jp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 11:26:00 by hos               #+#    #+#             */
-/*   Updated: 2022/09/12 14:53:10 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/12 15:08:08 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  *  This function exits with 1 when malloc(3) fails.
 
  *  If value argument is NULL, NULL is assigned to the value of 
- *  variableL.
+ *  variable.
  *
  */
 void	variable_add_back(t_environ *env, const char *key, const char *value)
