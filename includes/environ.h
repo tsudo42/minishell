@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/09 12:30:27 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/12 08:08:19 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int			variable_unset(const char *key, t_environ *env);
  *  This function exits with 1 when malloc(3) fails.
  *
  *  If value argument is NULL, NULL is assigned to the value of 
- *  variableL.
+ *  variable.
  *
  */
 t_var		*variable_add(const char *key, const char *value);
