@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/12 14:58:29 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/13 11:08:59 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,19 @@ static t_var	*init_environ_vars(void)
 	t_var		*var_head;
 	t_var		*var;
 
+	var = (t_var *)malloc(sizeof(t_var));
+	if (var == NULL)
+	{
+		perror(ENVIRON_ERRMSG ": malloc");
+		exit (1);
+	}
+	var->key = NULL;
+	var->value = NULL;
+	var->is_exported = 0;
+	var->next = NULL;
 	if (environ == NULL || *environ == NULL)
-		return (NULL);
-	var = convert_str_to_var(*environ);
+		return (var);
 	var_head = var;
-	environ++;
 	while (*environ != NULL)
 	{
 		var->next = convert_str_to_var(*environ);
@@ -64,20 +72,20 @@ static t_var	*init_environ_vars(void)
 	return (var_head);
 }
 
-static t_var	*add_initial_env(void)
+static void	update_pwd(t_environ *env)
 {
-	t_var	*var;
 	char	buf[PATH_MAX];
 
-	var = variable_add("SHLVL", "1");
 	if (getcwd(buf, sizeof(buf)) == NULL)
 	{
 		perror(ENVIRON_ERRMSG ": getcwd");
 		exit (1);
 	}
-	var->next = variable_add("PWD", buf);
-	var->next->next = variable_add("OLDPWD", NULL);
-	return (var);
+	if (variable_get("PWD", env) != NULL)
+		variable_set("OLDPWD", variable_get("PWD", env), 1, env);
+	else
+		variable_set("OLDPWD", NULL, 1, env);
+	variable_set("PWD", buf, 1, env);
 }
 
 static void	update_shlvl(t_environ *env)
@@ -87,7 +95,7 @@ static void	update_shlvl(t_environ *env)
 
 	s = variable_get("SHLVL", env);
 	if (!s)
-		variable_add_back(env, "SHLVL", "1");
+		variable_set("SHLVL", "1", 1, env);
 	else
 	{
 		if (ft_atoi(s) > 1000)
@@ -126,16 +134,8 @@ t_environ	*environ_init(void)
 	env->exit_status = 0;
 	env->parent_pid = getpid();
 	env->vars = init_environ_vars();
-	if (env->vars == NULL)
-		env->vars = add_initial_env();
-	else
-	{
-		update_shlvl(env);
-		if (!variable_get("OLDPWD", env))
-			variable_add_back(env, "OLDPWD", NULL);
-		else
-			variable_set("OLDPWD", NULL, 1, env);
-		variable_unset("_", env);
-	}
+	update_shlvl(env);
+	update_pwd(env);
+	variable_unset("_", env);
 	return (env);
 }
