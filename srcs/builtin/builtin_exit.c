@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/12 12:21:58 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/12 15:31:16 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,6 @@ static void	builtin_put_msg_and_exit(char *str, char *argv, int status)
 	exit (status);
 }
 
-static int	is_numeric(char *str)
-{
-	if (!str)
-		return (-1);
-	while (*str)
-	{
-		if (!ft_isdigit(*str))
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
 int	builtin_exit(char **argv, t_environ *env)
 {
 	long	exit_status;
@@ -62,18 +49,16 @@ int	builtin_exit(char **argv, t_environ *env)
 	(void)env;
 	if (argv[1] == NULL)
 		builtin_put_msg_and_exit(NULL, NULL, 0);
-	if (!is_numeric(argv[1]))
-		builtin_put_msg_and_exit(": numeric argument required\n", argv[1], 255);
+	exit_status = builtin_get_exit_status(argv[1]);
+	if (exit_status == -1)
+		builtin_put_msg_and_exit(": numeric argument required\n", \
+			argv[1], 255);
 	if (argv[2] != NULL)
 	{
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 		ft_putstr_fd(EXIT_ERRMSG ": too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
-	exit_status = builtin_get_exit_status(argv[1]);
-	if (exit_status == -1)
-		builtin_put_msg_and_exit(": numeric argument required\n", \
-			argv[1], 255);
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	exit (exit_status);
 }
