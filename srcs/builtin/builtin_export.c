@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/04 21:20:29 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/13 08:44:18 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static int	export_values(char **argv, t_environ *env)
 
 	if (argv == NULL)
 		return (0);
+	argv++;
 	while (*argv != NULL)
 	{
 		if (export_format_checker(*argv) != 0)
