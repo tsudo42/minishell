@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/12 14:29:15 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/12 17:02:08 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,21 +91,6 @@ int			variable_set( \
  *  Argument key is checked via variable_check_key_format().
  */
 int			variable_unset(const char *key, t_environ *env);
-
-void	variable_add_back(t_environ *env, const char *key, const char *value);
-
-/**
- *  This function creates a t_var to add key-value variable and
- *  return the t_var.
- *
- *  The key argument is checked via variable_check_key_format().
- *  This function exits with 1 when malloc(3) fails.
- *
- *  If value argument is NULL, NULL is assigned to the value of 
- *  variable.
- *
- */
-t_var		*variable_add(const char *key, const char *value);
 
 /**
  *  This function generates the array of environ variables,
