@@ -12,18 +12,33 @@
 
 #include "builtin.h"
 
+static int	is_option_n(char *str)
+{
+	size_t	i;
+
+	if (str == NULL || str[0] != '-' || str[1] != 'n')
+		return (0);
+	i = 1;
+	while (str[i] != '\0')
+	{
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	builtin_echo(char **argv, t_environ *env)
 {
 	bool	print_newline;
 
+	if (argv == NULL || *argv == NULL)
+		return (STATUS_FAILURE);
 	(void)env;
-	print_newline = true;
 	argv++;
-	if (*argv != NULL && ft_strncmp("-n", *argv, 3) == 0)
-	{
+	print_newline = !is_option_n(*argv);
+	while (is_option_n(*argv))
 		argv++;
-		print_newline = false;
-	}
 	while (*argv != NULL)
 	{
 		ft_putstr_fd(*argv, STDOUT_FILENO);
