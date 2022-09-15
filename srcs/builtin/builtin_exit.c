@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/15 12:29:52 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/15 15:09:29 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	builtin_exit(char **argv, t_environ *env)
 	if (argv[1] == NULL)
 	{
 		ft_dprintf(STDERR_FILENO, "exit\n");
-		exit (1);
+		exit (env->exit_status);
 	}
 	exit_status = builtin_get_exit_status(argv[1]);
 	if (exit_status == -1)
