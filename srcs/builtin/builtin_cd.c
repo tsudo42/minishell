@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/12 19:27:02 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/15 15:34:59 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,12 @@ static int	cd_to_home(t_environ *env)
 		perror(CD_ERRMSG ": chdir");
 		return (STATUS_FAILURE);
 	}
-	if (variable_get("PWD", env) != NULL)
-		variable_set("OLDPWD", variable_get("PWD", env), 0, env);
-	else
-		variable_set("OLDPWD", "", 0, env);
+	if (getcwd(buf, sizeof(buf)) == NULL)
+	{
+		perror(CD_ERRMSG ": getcwd");
+		return (STATUS_FAILURE);
+	}
+	variable_set("OLDPWD", variable_get("PWD", env), 0, env);
 	variable_set("PWD", buf, 0, env);
 	return (STATUS_SUCCESS);
 }
@@ -54,10 +56,7 @@ int	builtin_cd(char **argv, t_environ *env)
 		perror(CD_ERRMSG ": getcwd");
 		return (STATUS_FAILURE);
 	}
-	if (variable_get("PWD", env) != NULL)
-		variable_set("OLDPWD", variable_get("PWD", env), 0, env);
-	else
-		variable_set("OLDPWD", "", 0, env);
+	variable_set("OLDPWD", variable_get("PWD", env), 0, env);
 	variable_set("PWD", buf, 0, env);
 	return (STATUS_SUCCESS);
 }
