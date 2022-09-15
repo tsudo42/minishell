@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/27 17:08:53 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/12 11:25:02 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define CD_ERRMSG		"cd"
 # define ECHO_ERRMSG	"echo"
 # define ENV_ERRMSG		"env"
-# define EXIT_ERRMSG	"exit"
+# define EXIT_ERRMSG	"minishell: exit"
 # define EXPORT_ERRMSG	"export"
 # define PWD_ERRMSG		"pwd"
 # define UNSET_ERRMSG	"unset"

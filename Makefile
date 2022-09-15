@@ -6,7 +6,7 @@
 #    By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#              #
-#    Updated: 2022/09/09 11:49:36 by hos              ###   ########.fr        #
+#    Updated: 2022/09/12 21:44:59 by hos              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,6 @@ EV_SRCS	:= \
 	srcs/environ/get_exit_status_str.c \
 	srcs/environ/variable_set.c \
 	srcs/environ/variable_get.c \
-	srcs/environ/variable_add.c \
 	srcs/environ/variable_check_key_format.c \
 	srcs/environ/variable_unset.c \
 

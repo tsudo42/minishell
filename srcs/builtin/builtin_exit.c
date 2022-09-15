@@ -6,13 +6,13 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:06:25 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/15 15:09:29 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static int	builtin_get_exit_status(char *str)
+static long	builtin_get_exit_status(char *str)
 {
 	long	num;
 	char	*endptr;
@@ -26,22 +26,28 @@ static int	builtin_get_exit_status(char *str)
 
 int	builtin_exit(char **argv, t_environ *env)
 {
-	int	exit_status;
+	long	exit_status;
 
+	if (argv == NULL || *argv == NULL)
+		return (STATUS_FAILURE);
 	(void)env;
 	if (argv[1] == NULL)
-		exit (0);
-	if (argv[2] != NULL)
 	{
-		ft_putstr_fd(EXIT_ERRMSG ": too many arguments\n", STDERR_FILENO);
-		return (1);
+		ft_dprintf(STDERR_FILENO, "exit\n");
+		exit (env->exit_status);
 	}
 	exit_status = builtin_get_exit_status(argv[1]);
 	if (exit_status == -1)
 	{
-		ft_putstr_fd(\
-			EXIT_ERRMSG ": a numeric argument required\n", STDERR_FILENO);
-		return (255);
+		ft_dprintf(STDERR_FILENO, "exit\n%s: %s: \
+			numeric argument required\n", EXIT_ERRMSG, argv[1]);
+		exit (255);
 	}
-	exit(exit_status);
+	if (argv[2] != NULL)
+	{
+		ft_dprintf(STDERR_FILENO, "exit\n%s: too many arguments\n", EXIT_ERRMSG);
+		return (1);
+	}
+	ft_putstr_fd("exit\n", STDERR_FILENO);
+	exit (exit_status);
 }
