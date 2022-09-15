@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/13 11:08:59 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/15 13:36:25 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,11 @@ static t_var	*init_environ_vars(void)
 	t_var		*var_head;
 	t_var		*var;
 
-	var = (t_var *)malloc(sizeof(t_var));
-	if (var == NULL)
-	{
-		perror(ENVIRON_ERRMSG ": malloc");
-		exit (1);
-	}
-	var->key = NULL;
-	var->value = NULL;
-	var->is_exported = 0;
-	var->next = NULL;
 	if (environ == NULL || *environ == NULL)
-		return (var);
+		return (NULL);
+	var = convert_str_to_var(*environ);
 	var_head = var;
+	environ++;
 	while (*environ != NULL)
 	{
 		var->next = convert_str_to_var(*environ);
@@ -104,13 +96,11 @@ static void	update_shlvl(t_environ *env)
 			num = ft_itoa(1);
 		}
 		else
-		{
 			num = ft_itoa(ft_atoi(s) + 1);
-			if (num == NULL)
-			{
-				perror(ENVIRON_ERRMSG ": malloc");
-				exit (1);
-			}
+		if (num == NULL)
+		{
+			perror(ENVIRON_ERRMSG ": malloc");
+			exit (1);
 		}
 		variable_set("SHLVL", num, 1, env);
 		free (num);
