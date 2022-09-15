@@ -73,38 +73,35 @@ static void	update_pwd(t_environ *env)
 		perror(ENVIRON_ERRMSG ": getcwd");
 		exit (1);
 	}
-	if (variable_get("PWD", env) != NULL)
-		variable_set("OLDPWD", variable_get("PWD", env), 1, env);
-	else
-		variable_set("OLDPWD", NULL, 1, env);
+	variable_set("OLDPWD", NULL, 1, env);
 	variable_set("PWD", buf, 1, env);
 }
 
 static void	update_shlvl(t_environ *env)
 {
-	char	*num;
 	char	*s;
+	long	lvl;
+	char	*endptr;
+	char	*lvl_str;
 
 	s = variable_get("SHLVL", env);
 	if (!s)
-		variable_set("SHLVL", "1", 1, env);
+		s = "0";
+	lvl = ft_strtol(s, &endptr, 10);
+	while (ft_isspace(*endptr))
+		endptr++;
+	if (*endptr != '\0' || errno != 0 || lvl >= 999)
+		lvl = 1;
 	else
+		lvl++;
+	lvl_str = ft_itoa(lvl);
+	if (lvl_str == NULL)
 	{
-		if (ft_atoi(s) > 1000)
-		{
-			perror(ENVIRON_ERRMSG ": SHLVL");
-			num = ft_itoa(1);
-		}
-		else
-			num = ft_itoa(ft_atoi(s) + 1);
-		if (num == NULL)
-		{
-			perror(ENVIRON_ERRMSG ": malloc");
-			exit (1);
-		}
-		variable_set("SHLVL", num, 1, env);
-		free (num);
+		perror(ENVIRON_ERRMSG ": malloc");
+		exit (1);
 	}
+	variable_set("SHLVL", lvl_str, 1, env);
+	free (lvl_str);
 }
 
 /**
