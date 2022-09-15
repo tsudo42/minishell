@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/13 08:46:40 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/15 13:12:41 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static t_var	*variable_add(const char *key, const char *value, int export)
+static t_var	*variable_new(const char *key, const char *value, int export)
 {
 	t_var		*var;
 
@@ -38,15 +38,15 @@ static void	variable_add_back(const char *key, const char *value, int export, \
 {
 	t_var	*var;
 
-	var = env->vars;
-	if (var == NULL)
+	if (env->vars == NULL)
 	{
-		perror(ENVIRON_ERRMSG ": No var");
+		env->vars = variable_new(key, value, export);
 		return ;
 	}
+	var = env->vars;
 	while (var->next)
 		var = var->next;
-	var->next = variable_add(key, value, export);
+	var->next = variable_new(key, value, export);
 }
 
 static void	variable_update(t_var *var, const char *value, int export)
