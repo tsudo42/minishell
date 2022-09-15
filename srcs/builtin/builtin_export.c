@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/13 08:44:18 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/15 12:30:14 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ static int	export_values(char **argv, t_environ *env)
 
 int	builtin_export(char **argv, t_environ *env)
 {
+	if (argv == NULL || *argv == NULL)
+		return (STATUS_FAILURE);
 	if (argv[1] == NULL)
 		return (print_values(env));
 	else
