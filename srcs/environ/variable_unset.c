@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/12 21:48:58 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/15 12:47:18 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	variable_unset(const char *key, t_environ *env)
 	if (variable_check_key_format(key) != 0)
 		return (-1);
 	var = env->vars;
+	if (var == NULL)
+		return (-1);
 	if (var->key != NULL && ft_strcmp(var->key, key) == 0)
 	{
 		env->vars = drop_var(var);
