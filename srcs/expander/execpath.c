@@ -16,17 +16,8 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 #include <unistd.h>
-
-char	**get_path_env(t_environ *env)
-{
-	char	*path_env_raw;
-
-	path_env_raw = variable_get("PATH", env);
-	if (path_env_raw == NULL)
-		return (NULL);
-	return (ft_split_sep(path_env_raw, ":"));
-}
 
 void	terminate_path_env(char **path_env)
 {
@@ -43,17 +34,29 @@ void	terminate_path_env(char **path_env)
 	free(path_env_head);
 }
 
+static int	is_valid_command(char *path)
+{
+	struct stat	st;
+
+	if (stat(path, &st) != 0)
+		return (0);
+	if ((st.st_mode & S_IFMT) == S_IFDIR)
+		return (0);
+	if (access(path, X_OK) != 0 && access(path, R_OK | X_OK) != 0)
+		return (0);
+	return (1);
+}
+
 char	*execpath_from_env(char *name, char **path_env)
 {
 	char	*exec_path;
 
-	if (path_env == NULL)
-		return (NULL);
 	exec_path = NULL;
 	while (*path_env != NULL)
 	{
+		errno = 0;
 		if (**path_env == '\0')
-			exec_path = ft_strdup(name);
+			exec_path = ft_strjoin("./", name);
 		else
 			exec_path = ft_strjoin3(*path_env, "/", name);
 		if (exec_path == NULL)
@@ -61,37 +64,41 @@ char	*execpath_from_env(char *name, char **path_env)
 			perror(EXPANDER_ERRMSG ": malloc");
 			return (NULL);
 		}
-		if (access(exec_path, X_OK) == 0 || \
-			access(exec_path, R_OK | X_OK) == 0)
-			break ;
+		if (is_valid_command(exec_path))
+			return (exec_path);
 		ft_free_set((void **)&exec_path, NULL);
 		path_env++;
 	}
+	errno = ENOENT;
+	ft_dprintf(STDERR_FILENO, \
+		"%s: %s: command not found\n", EXPANDER_ERRMSG, name);
 	return (exec_path);
 }
 
 char	*execpath(char *name, t_environ *env)
 {
 	char	*exec_path;
-	char	**path_env;
+	char	*path_env;
+	char	**path_list;
 
-	errno = 0;
+	path_env = variable_get("PATH", env);
 	if (name == NULL)
 		exec_path = ft_strdup("");
-	else if (ft_strchr(name, '/') != NULL)
+	else if (ft_strchr(name, '/') != NULL || path_env == NULL)
 		exec_path = ft_strdup(name);
 	else
 	{
-		exec_path = NULL;
-		path_env = get_path_env(env);
-		if (path_env != NULL)
-			exec_path = execpath_from_env(name, path_env);
-		if (exec_path == NULL)
-			exec_path = ft_strdup(name);
-		terminate_path_env(path_env);
+		path_list = ft_split_sep(path_env, ":");
+		if (path_list == NULL)
+		{
+			perror(EXPANDER_ERRMSG ": malloc");
+			return (NULL);
+		}
+		exec_path = execpath_from_env(name, path_list);
+		terminate_path_env(path_list);
+		return (exec_path);
 	}
 	if (exec_path == NULL)
 		perror(EXPANDER_ERRMSG ": malloc");
-	errno = 0;
 	return (exec_path);
 }

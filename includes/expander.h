@@ -21,11 +21,11 @@
 /**
  * This function generates full path of executable file searched using PATH
  * environment variable using ft_getenv() and malloc(3).
- * If no executable is found, this function dupricates the passed argument
- * using malloc(3).
+ * If PATH environment is NULL, name will be ft_strdup-ed.
  *
- * NULL is returned only when this function encounters malloc(3) error.
- * In that case, error message will be printed using perror(3).
+ * NULL is returned and error message will be printed when:
+ * 1). no executable was found (ENOENT).
+ * 2). this function encounters malloc(3) error (ENOMEM).
  */
 char	*execpath(char *name, t_environ *env);
 
