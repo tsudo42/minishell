@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/15 12:30:14 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/16 09:01:35 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int	print_values(t_environ *env)
 {
 	t_var	*var;
 
+	builtin_export_sort(env);
 	var = env->vars;
 	while (var != NULL)
 	{
