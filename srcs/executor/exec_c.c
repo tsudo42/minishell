@@ -52,7 +52,7 @@ static int	exec_c_builtin(int (*builtin_func)(char **, t_environ *), \
 	return (ret);
 }
 
-static void	exec_c_command_child(char **args, t_environ *env)
+static void	exec_c_command_child(char **args, char **envp, t_environ *env)
 {
 	char		*path;
 	struct stat	st;
@@ -67,7 +67,7 @@ static void	exec_c_command_child(char **args, t_environ *env)
 	else if (path == NULL)
 		exit(2);
 	ready_exec_signal();
-	execve(path, args, generate_envp(env));
+	execve(path, args, envp);
 	exec_errno = errno;
 	if (stat(path, &st) == 0 && (st.st_mode & S_IFMT) == S_IFDIR)
 		errmsg = "is a directory";
@@ -87,7 +87,7 @@ static int	exec_c_command(char **args, t_ast_d *d, t_environ *env)
 	{
 		if (exec_d(d, env) != 0)
 			exit(1);
-		exec_c_command_child(args, env);
+		exec_c_command_child(args, generate_envp(env), env);
 	}
 	if (waitpid(pid, &stat, 0) < 0)
 	{
