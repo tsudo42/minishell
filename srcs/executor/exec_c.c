@@ -89,7 +89,7 @@ static int	exec_c_command(char **args, t_ast_d *d, t_environ *env)
 			exit(1);
 		exec_c_command_child(args, generate_envp(env), env);
 	}
-	if (waitpid(pid, &stat, 0) < 0)
+	if (waitpid(pid, &stat, WUNTRACED) < 0)
 	{
 		perror(EXEC_ERRMSG ": waitpid");
 		errno = 0;

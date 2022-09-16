@@ -80,14 +80,14 @@ static int	exec_p_wait(t_pipe_info *infos, size_t p_len, t_environ *env)
 	i = 0;
 	while (i < p_len - 1)
 	{
-		if (waitpid(infos[i].pid, &stat, 0) < 0)
+		if (waitpid(infos[i].pid, &stat, WUNTRACED) < 0)
 		{
 			perror(EXEC_ERRMSG ": waitpid");
 			errno = 0;
 		}
 		i++;
 	}
-	if (waitpid(infos[i].pid, &stat, 0) < 0)
+	if (waitpid(infos[i].pid, &stat, WUNTRACED) < 0)
 	{
 		perror(EXEC_ERRMSG ": waitpid");
 		errno = 0;
