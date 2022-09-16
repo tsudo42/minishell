@@ -6,23 +6,23 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/16 09:01:35 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/16 16:40:03 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static int	print_variable(t_var *var)
+static int	print_variable(t_var	*content)
 {
 	char	*value;
 
-	if (var->key != NULL && var->is_exported)
+	if (content->key != NULL && content->is_exported)
 	{
-		ft_dprintf(STDOUT_FILENO, "declare -x %s", var->key);
-		if (var->value != NULL)
+		ft_dprintf(STDOUT_FILENO, "declare -x %s", content->key);
+		if (content->value != NULL)
 		{
 			write(STDOUT_FILENO, "=\"", 2);
-			value = var->value;
+			value = content->value;
 			while (*value != '\0')
 			{
 				if (*value == '\"' || *value == '\\' || \
@@ -40,15 +40,19 @@ static int	print_variable(t_var *var)
 
 static int	print_values(t_environ *env)
 {
-	t_var	*var;
+	t_list	*list;
+	t_list	*list_head;
 
-	builtin_export_sort(env);
-	var = env->vars;
-	while (var != NULL)
+	list_head = init_list(env);
+	if (list_head)
+		ft_lstmsort(&list_head, (void *)cmp_key);
+	list = list_head;
+	while (list != NULL)
 	{
-		print_variable(var);
-		var = var->next;
+		print_variable((t_var *)list->content);
+		list = list->next;
 	}
+	ft_lstclear(&list, NULL);
 	return (0);
 }
 
