@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "exec.h"
+#include "exec_internal.h"
 
 int	rl_status_checker_heredoc(void)
 {
@@ -32,7 +33,7 @@ void	cleanup_heredoc_signal(int *is_error)
 {
 	rl_event_hook = 0;
 	errno = 0;
-	signal(SIGINT, SIG_IGN);
+	ft_x_signal(SIGINT, SIG_IGN, EXEC_ERRMSG ": signal");
 	if (errno != 0)
 		*is_error = 1;
 }
@@ -40,8 +41,8 @@ void	cleanup_heredoc_signal(int *is_error)
 int	ready_heredoc_signal(int *is_error)
 {
 	errno = 0;
-	signal(SIGINT, signal_handler_heredoc);
-	signal(SIGQUIT, SIG_IGN);
+	ft_x_signal(SIGINT, signal_handler_heredoc, EXEC_ERRMSG ": signal");
+	ft_x_signal(SIGQUIT, SIG_IGN, EXEC_ERRMSG ": signal");
 	if (errno != 0)
 	{
 		*is_error = 1;

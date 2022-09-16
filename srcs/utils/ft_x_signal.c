@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_calc_retval.c                                 :+:      :+:    :+:   */
+/*   ft_x_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,43 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec_internal.h"
-#include <sys/wait.h>
+#include "utils.h"
 #include <signal.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-static int	exec_signaled_prompt(int sig)
+/* ************************************************************************** */
+/*  This function is an error checking version of signal(3).                  */
+/*  This function prints an error message and terminates the process calling  */
+/*  exit(3) when pipe faces error.                                            */
+/* ************************************************************************** */
+void	(*ft_x_signal(int sig, void (*func)(int), const char *errmsg))(int s)
 {
-	if (sig == SIGINT)
-	{
-		write(STDERR_FILENO, "\n", 1);
-	}
-	else if (sig == SIGQUIT)
-	{
-		ft_dprintf(STDERR_FILENO, "Quit: %d\n", sig);
-	}
-	return (0);
-}
+	void	(*ret)(int);
 
-int	exec_calc_retval(int stat, t_environ *env)
-{
-	pid_t	pid;
-
-	if (WIFEXITED(stat))
-		return (WEXITSTATUS(stat));
-	if (WIFSIGNALED(stat))
-	{
-		g_sig = WTERMSIG(stat);
-		pid = getpid();
-		if (pid > 0 && pid != env->parent_pid)
-		{
-			ft_x_signal(SIGINT, SIG_DFL, EXEC_ERRMSG ": signal");
-			ft_x_signal(SIGQUIT, SIG_DFL, EXEC_ERRMSG ": signal");
-			kill(pid, WTERMSIG(stat));
-			perror("kill");
-		}
-		else
-			exec_signaled_prompt(g_sig);
-		return (WTERMSIG(stat) + 128);
-	}
-	return (WSTOPSIG(stat) + 128);
+	ret = signal(sig, func);
+	if (ret != SIG_ERR)
+		return (ret);
+	perror(errmsg);
+	exit(INTERNAL_ERR_NUM);
 }

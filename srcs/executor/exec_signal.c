@@ -20,8 +20,8 @@ static void	signal_handler(int sig)
 void	ready_exec_signal(void)
 {
 	errno = 0;
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
+	ft_x_signal(SIGINT, signal_handler, EXEC_ERRMSG ": signal");
+	ft_x_signal(SIGQUIT, signal_handler, EXEC_ERRMSG ": signal");
 	if (errno != 0)
 	{
 		perror(EXEC_INTERNAL_ERRMSG ": signal");
