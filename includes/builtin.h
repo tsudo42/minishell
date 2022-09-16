@@ -29,8 +29,6 @@ int		builtin_echo(char **argv, t_environ *env);
 int		builtin_cd(char **argv, t_environ *env);
 int		builtin_pwd(char **argv, t_environ *env);
 int		builtin_export(char **argv, t_environ *env);
-int		cmp_key(void *p1, void *p2);
-t_list	*init_list(t_environ *env);
 int		builtin_unset(char **argv, t_environ *env);
 int		builtin_env(char **argv, t_environ *env);
 int		builtin_exit(char **argv, t_environ *env);
