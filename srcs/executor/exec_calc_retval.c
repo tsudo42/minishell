@@ -37,7 +37,7 @@ int	exec_calc_retval(int stat, t_environ *env)
 	{
 		g_sig = WTERMSIG(stat);
 		pid = getpid();
-		if (pid > 0 && pid != env->parent_pid)
+		if (pid > 0 && env->is_parent != 1)
 		{
 			ft_x_signal(SIGINT, SIG_DFL, EXEC_ERRMSG ": signal");
 			ft_x_signal(SIGQUIT, SIG_DFL, EXEC_ERRMSG ": signal");

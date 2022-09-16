@@ -26,7 +26,7 @@ typedef struct s_var {
 
 typedef struct s_environ {
 	int		exit_status;
-	pid_t	parent_pid;
+	int		is_parent;
 	t_var	*vars;
 }	t_environ;
 

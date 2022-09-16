@@ -119,7 +119,7 @@ t_environ	*environ_init(void)
 		exit(1);
 	}
 	env->exit_status = 0;
-	env->parent_pid = getpid();
+	env->is_parent = 1;
 	env->vars = init_environ_vars();
 	update_shlvl(env);
 	update_pwd(env);

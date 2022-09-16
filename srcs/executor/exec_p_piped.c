@@ -108,7 +108,10 @@ int	exec_p_piped(t_ast_p *p, size_t p_len, t_environ *env)
 	{
 		infos[i].pid = ft_x_fork(EXEC_ERRMSG);
 		if (infos[i].pid == 0)
+		{
+			env->is_parent = 0;
 			exec_p_piped_child(p, infos, p_len, env);
+		}
 		i++;
 		p = p->next;
 	}
