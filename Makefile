@@ -129,6 +129,7 @@ U_SRCS	:= \
 	srcs/utils/ft_x_strdup.c \
 	srcs/utils/ft_r_dup2.c \
 	srcs/utils/ft_x_dup2.c \
+	srcs/utils/ft_x_signal.c \
 	srcs/utils/ft_x_dup.c \
 	srcs/utils/ft_x_pipe.c \
 	srcs/utils/ft_x_fork.c \
