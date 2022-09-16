@@ -81,15 +81,18 @@ static int	exec_c_command(char **args, t_ast_d *d, t_environ *env)
 {
 	pid_t	pid;
 	int		stat;
+	int		fifo[2];
 
+	ft_x_pipe(fifo, EXEC_ERRMSG ": pipe");
 	pid = ft_x_fork(EXEC_ERRMSG);
 	if (pid == 0)
 	{
-		env->is_parent = 0;
+		env->my_pid = exec_pid_recv(fifo);
 		if (exec_d(d, env) != 0)
 			exit(1);
 		exec_c_command_child(args, generate_envp(env), env);
 	}
+	exec_pid_tell(fifo, pid);
 	if (waitpid(pid, &stat, WUNTRACED) < 0)
 	{
 		perror(EXEC_ERRMSG ": waitpid");

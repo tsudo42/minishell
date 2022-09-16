@@ -101,17 +101,20 @@ int	exec_p_piped(t_ast_p *p, size_t p_len, t_environ *env)
 	t_pipe_info	*infos;
 	size_t		i;
 	int			ret;
+	int			fifo[2];
 
 	infos = infos_ready(p_len);
 	i = 0;
 	while (p != NULL)
 	{
-		infos[i].pid = ft_x_fork(EXEC_ERRMSG);
+		ft_x_pipe(fifo, EXEC_ERRMSG ": pipe");
+		infos[i].pid = ft_x_fork(EXEC_ERRMSG ": fork");
 		if (infos[i].pid == 0)
 		{
-			env->is_parent = 0;
+			env->my_pid = exec_pid_recv(fifo);
 			exec_p_piped_child(p, infos, p_len, env);
 		}
+		exec_pid_tell(fifo, infos[i].pid);
 		i++;
 		p = p->next;
 	}

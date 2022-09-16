@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_calc_retval.c                                 :+:      :+:    :+:   */
+/*   exec_pid.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,39 +11,35 @@
 /* ************************************************************************** */
 
 #include "exec_internal.h"
-#include <sys/wait.h>
-#include <signal.h>
 
-static int	exec_signaled_prompt(int sig)
+static void	exec_pid_error(const char *func_name)
 {
-	if (sig == SIGINT)
-	{
-		write(STDERR_FILENO, "\n", 1);
-	}
-	else if (sig == SIGQUIT)
-	{
-		ft_dprintf(STDERR_FILENO, "Quit: %d\n", sig);
-	}
-	return (0);
+	if (func_name == NULL)
+		func_name = "unknown";
+	ft_dprintf(STDERR_FILENO, \
+		"%s: %s: %s", EXEC_INTERNAL_ERRMSG, func_name, strerror(errno));
+	exit(EXEC_INTERNAL_ERRNUM);
 }
 
-int	exec_calc_retval(int stat, t_environ *env)
+void	exec_pid_tell(int fifo[2], pid_t pid)
 {
-	if (WIFEXITED(stat))
-		return (WEXITSTATUS(stat));
-	if (WIFSIGNALED(stat))
-	{
-		g_sig = WTERMSIG(stat);
-		if (env->my_pid > 0)
-		{
-			ft_x_signal(SIGINT, SIG_DFL, EXEC_ERRMSG ": signal");
-			ft_x_signal(SIGQUIT, SIG_DFL, EXEC_ERRMSG ": signal");
-			kill(env->my_pid, WTERMSIG(stat));
-			perror(EXEC_ERRMSG ": kill");
-		}
-		else
-			exec_signaled_prompt(g_sig);
-		return (WTERMSIG(stat) + 128);
-	}
-	return (WSTOPSIG(stat) + 128);
+	if (close(fifo[0]) < 0)
+		exec_pid_error("close");
+	if (write(fifo[1], &pid, sizeof(pid_t)) < 0)
+		exec_pid_error("write");
+	if (close(fifo[1]) < 0)
+		exec_pid_error("close");
+}
+
+pid_t	exec_pid_recv(int fifo[2])
+{
+	pid_t	pid;
+
+	if (close(fifo[1]) < 0)
+		exec_pid_error("close");
+	if (read(fifo[0], &pid, sizeof(pid_t)) < 0)
+		exec_pid_error("read");
+	if (close(fifo[0]) < 0)
+		exec_pid_error("close");
+	return (pid);
 }

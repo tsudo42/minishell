@@ -27,6 +27,10 @@ typedef struct s_pipe_info {
 
 void	exec_error(const char *name);
 void	ready_exec_signal(void);
+
+void	exec_pid_tell(int fifo[2], pid_t pid);
+pid_t	exec_pid_recv(int fifo[2]);
+
 int		exec_calc_retval(int stat, t_environ *env);
 
 int		ready_heredoc_signal(int *is_error);
