@@ -42,13 +42,6 @@ int		ft_x_dup(int fildes, const char *errmsg);
 int		ft_x_dup2(int fildes, int fildes2, const char *errmsg);
 
 /* ************************************************************************** */
-/*  This function is an error checking version of dup2(2).                    */
-/*  This function prints an error message and terminates the process and      */
-/*  return the new file discriptor. When dup2 faces error, -1 is returned.    */
-/* ************************************************************************** */
-int		ft_r_dup2(int fildes, int fildes2, const char *errmsg);
-
-/* ************************************************************************** */
 /*  This function is an error checking version of fork(2).                    */
 /*  This function prints an error message and terminates the process calling  */
 /*  exit(3) when fork faces error.                                            */

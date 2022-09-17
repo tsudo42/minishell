@@ -6,7 +6,7 @@
 #    By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#              #
-#    Updated: 2022/09/15 19:06:00 by hos              ###   ########.fr        #
+#    Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,9 +46,9 @@ A_SRCS	:= \
 
 SRCS	+= $(B_SRCS)
 B_SRCS	:= \
+	srcs/builtin/builtin_export_sort.c \
 	srcs/builtin/builtin_echo.c \
 	srcs/builtin/builtin_export.c \
-	srcs/builtin/builtin_export_sort.c \
 	srcs/builtin/builtin_unset.c \
 	srcs/builtin/builtin_pwd.c \
 	srcs/builtin/builtin_env.c \
@@ -127,7 +127,6 @@ U_SRCS	:= \
 	srcs/utils/ft_free_strarr.c \
 	srcs/utils/ft_x_malloc.c \
 	srcs/utils/ft_x_strdup.c \
-	srcs/utils/ft_r_dup2.c \
 	srcs/utils/ft_x_dup2.c \
 	srcs/utils/ft_x_signal.c \
 	srcs/utils/ft_x_dup.c \
