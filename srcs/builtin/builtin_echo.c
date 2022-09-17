@@ -30,10 +30,10 @@ static int	is_option_n(char *str)
 
 int	builtin_echo(char **argv, t_environ *env)
 {
-	bool	print_newline;
+	int	print_newline;
 
 	if (argv == NULL || *argv == NULL)
-		return (STATUS_FAILURE);
+		return (BUILTIN_FAILURE);
 	(void)env;
 	argv++;
 	print_newline = !is_option_n(*argv);
@@ -46,7 +46,7 @@ int	builtin_echo(char **argv, t_environ *env)
 		if (*argv != NULL)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 	}
-	if (print_newline == true)
+	if (print_newline)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	return (STATUS_SUCCESS);
+	return (BUILTIN_SUCCESS);
 }

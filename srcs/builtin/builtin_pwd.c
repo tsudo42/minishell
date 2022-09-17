@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 int	builtin_pwd(char **argv, t_environ *env)
 {
@@ -22,9 +24,9 @@ int	builtin_pwd(char **argv, t_environ *env)
 	if (path == NULL)
 	{
 		perror(PWD_ERRMSG ": getcwd");
-		return (STATUS_FAILURE);
+		return (BUILTIN_FAILURE);
 	}
 	ft_putendl_fd(path, STDOUT_FILENO);
 	free(path);
-	return (STATUS_SUCCESS);
+	return (BUILTIN_SUCCESS);
 }

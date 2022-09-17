@@ -36,7 +36,7 @@ int	builtin_unset(char **argv, t_environ *env)
 	int	status;
 
 	if (argv == NULL || *argv == NULL)
-		return (STATUS_FAILURE);
+		return (BUILTIN_FAILURE);
 	status = 0;
 	while (*argv != NULL)
 	{

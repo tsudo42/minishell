@@ -24,5 +24,5 @@ int	builtin_env(char **argv, t_environ *env)
 			ft_dprintf(STDOUT_FILENO, "%s=%s\n", var->key, var->value);
 		var = var->next;
 	}
-	return (STATUS_SUCCESS);
+	return (BUILTIN_SUCCESS);
 }
