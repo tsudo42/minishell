@@ -82,7 +82,7 @@ static int	exec_c_command(char **args, t_ast_d *d, t_environ *env)
 	pid_t	pid;
 	int		stat;
 
-	pid = ft_x_fork(EXEC_ERRMSG);
+	pid = exec_fork(env);
 	if (pid == 0)
 	{
 		if (exec_d(d, env) != 0)
