@@ -30,6 +30,7 @@ endif
 
 SRCS	+= $(M_SRCS)
 M_SRCS	:= \
+	srcs/minishell/input.c \
 	srcs/minishell/main.c \
 	srcs/minishell/signal.c \
 

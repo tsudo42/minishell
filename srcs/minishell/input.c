@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,34 +12,40 @@
 
 #include "minishell_internal.h"
 
-char	*input(t_environ *env);
-
-volatile sig_atomic_t	g_sig;
-
-static t_environ	*init(void)
+static int	is_continue(char *line)
 {
-	t_environ	*env;
-
-	env = environ_init();
-	return (env);
+	if (!line)
+		return (0);
+	if (ft_strncmp(line, "\0", 1) == 0)
+		return (1);
+	if (ft_strlen(line) >= ARG_MAX_SIZE)
+	{
+		ft_putendl_fd(MAIN_ERRMSG ": line too long", STDERR_FILENO);
+		return (1);
+	}
+	return (0);
 }
 
-int	main(void)
+char	*input(t_environ *env)
 {
-	t_environ	*env;
-	char		*line;
-	int			exit_status;
+	char	*line;
 
-	env = init();
 	while (1)
 	{
-		line = input(env);
-		if (!line)
-			break ;
-		executor(parser(lexer(line)), env);
+		errno = 0;
+		g_sig = 0;
+		ready_signal();
+		line = readline("minishell> ");
+		cleanup_signal();
+		if (g_sig != 0)
+		{
+			free(line);
+			env->exit_status = 130;
+			continue ;
+		}
+		if (is_continue(line))
+			continue ;
+		add_history(line);
+		return (line);
 	}
-	exit_status = env->exit_status;
-	environ_destroy(env);
-	printf("exit\n");
-	return (exit_status);
 }
