@@ -21,7 +21,7 @@ static void	exec_pid_error(const char *func_name)
 	exit(EXEC_INTERNAL_ERRNUM);
 }
 
-void	exec_pid_tell(int fifo[2], pid_t pid)
+static void	exec_pid_tell(int fifo[2], pid_t pid)
 {
 	if (close(fifo[0]) < 0)
 		exec_pid_error("close");
@@ -31,7 +31,7 @@ void	exec_pid_tell(int fifo[2], pid_t pid)
 		exec_pid_error("close");
 }
 
-pid_t	exec_pid_recv(int fifo[2])
+static pid_t	exec_pid_recv(int fifo[2])
 {
 	pid_t	pid;
 
@@ -41,5 +41,22 @@ pid_t	exec_pid_recv(int fifo[2])
 		exec_pid_error("read");
 	if (close(fifo[0]) < 0)
 		exec_pid_error("close");
+	return (pid);
+}
+
+pid_t	exec_fork(t_environ *env)
+{
+	int		fifo[2];
+	pid_t	pid;
+
+	if (pipe(fifo) < 0)
+		exec_pid_error("pipe");
+	pid = fork();
+	if (pid < 0)
+		exec_pid_error("fork");
+	if (pid != 0)
+		exec_pid_tell(fifo, pid);
+	else
+		env->my_pid = exec_pid_recv(fifo);
 	return (pid);
 }

@@ -133,7 +133,6 @@ U_SRCS	:= \
 	srcs/utils/ft_x_signal.c \
 	srcs/utils/ft_x_dup.c \
 	srcs/utils/ft_x_pipe.c \
-	srcs/utils/ft_x_fork.c \
 
 SRCS	+= $(D_SRCS)
 D_SRCS	:= \
