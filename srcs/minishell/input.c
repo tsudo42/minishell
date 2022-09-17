@@ -10,7 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_internal.h"
+#include "minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
+
+#define ARG_MAX_SIZE 4096
+
+int	cleanup_signal(void);
+int	ready_signal(void);
 
 static int	is_continue(char *line)
 {
@@ -20,7 +27,7 @@ static int	is_continue(char *line)
 		return (1);
 	if (ft_strlen(line) >= ARG_MAX_SIZE)
 	{
-		ft_putendl_fd(MAIN_ERRMSG ": line too long", STDERR_FILENO);
+		ft_putendl_fd(ERRMSG ": line too long", STDERR_FILENO);
 		return (1);
 	}
 	return (0);

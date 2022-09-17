@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_internal.h"
+#include "minishell.h"
 
 char	*input(t_environ *env);
 

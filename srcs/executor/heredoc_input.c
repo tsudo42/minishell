@@ -15,6 +15,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <readline/readline.h>
 
 /* unquote delim and return whether delim was quoted. */
 static int	is_quoted(char *delim)
