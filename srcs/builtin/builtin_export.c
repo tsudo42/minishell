@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/16 16:40:03 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/16 22:00:08 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	print_values(t_environ *env)
 		print_variable((t_var *)list->content);
 		list = list->next;
 	}
-	ft_lstclear(&list, NULL);
+	ft_lstclear(&list_head, NULL);
 	return (0);
 }
 
