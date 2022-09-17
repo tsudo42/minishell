@@ -18,17 +18,9 @@
 #include <errno.h>
 #include <stdlib.h>
 
-char	*input(t_environ *env);
-
 volatile sig_atomic_t	g_sig;
 
-static t_environ	*init(void)
-{
-	t_environ	*env;
-
-	env = environ_init();
-	return (env);
-}
+char	*input(t_environ *env);
 
 int	main(void)
 {
@@ -36,7 +28,7 @@ int	main(void)
 	char		*line;
 	int			exit_status;
 
-	env = init();
+	env = environ_init();
 	while (1)
 	{
 		line = input(env);
