@@ -40,6 +40,6 @@ int	main(void)
 	}
 	exit_status = env->exit_status;
 	environ_destroy(env);
-	printf("exit\n");
+	ft_dprintf(STDERR_FILENO, "exit\n");
 	return (exit_status);
 }
