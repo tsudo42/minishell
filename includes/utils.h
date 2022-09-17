@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:16:49 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/16 21:58:14 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,12 @@ void	ft_x_pipe(int fildes[2], const char *errmsg);
 /*  strdup(3) when pipe faces error.                                          */
 /* ************************************************************************** */
 char	*ft_x_strdup(const char *s1, const char *errmsg);
+
+/* ************************************************************************** */
+/*  This function is to exit after calling a perror.       .                  */
+/*  This function prints an error message and exit.                           */
+/*  The argument of the exit is INTERNAL_ERR_NUM.                             */
+/* ************************************************************************** */
+void	*ft_x_perror(const char *errmsg);
 
 #endif /* UTILS_H */

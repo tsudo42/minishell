@@ -6,7 +6,7 @@
 #    By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#              #
-#    Updated: 2022/09/16 16:40:18 by hos              ###   ########.fr        #
+#    Updated: 2022/09/16 21:58:57 by hos              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -132,6 +132,7 @@ U_SRCS	:= \
 	srcs/utils/ft_x_dup.c \
 	srcs/utils/ft_x_pipe.c \
 	srcs/utils/ft_x_fork.c \
+	srcs/utils/ft_x_perror.c \
 
 SRCS	+= $(D_SRCS)
 D_SRCS	:= \
