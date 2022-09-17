@@ -12,6 +12,7 @@
 
 #include "exec.h"
 #include "exec_internal.h"
+#include <stdio.h>
 #include <readline/readline.h>
 
 int	rl_status_checker_heredoc(void)

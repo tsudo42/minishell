@@ -11,6 +11,12 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "exec.h"
+#include "environ.h"
+#include "lexer.h"
+#include "parser.h"
+#include <errno.h>
+#include <stdlib.h>
 
 char	*input(t_environ *env);
 

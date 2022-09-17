@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 #include "utils.h"
+#include <errno.h>
+#include <stdio.h>
 #include <readline/readline.h>
 
 static int	rl_status_checker(void)

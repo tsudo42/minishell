@@ -13,16 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
 # include <signal.h>
-# include <stdbool.h>
-# include "libft.h"
-# include "parser.h"
-# include "lexer.h"
-# include "exec.h"
 
 # define ERRMSG "minishell"
 

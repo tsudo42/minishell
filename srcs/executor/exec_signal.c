@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "exec_internal.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 static void	signal_handler(int sig)
 {
