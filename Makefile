@@ -46,6 +46,7 @@ A_SRCS	:= \
 
 SRCS	+= $(B_SRCS)
 B_SRCS	:= \
+	srcs/builtin/builtin_export_sort.c \
 	srcs/builtin/builtin_echo.c \
 	srcs/builtin/builtin_export.c \
 	srcs/builtin/builtin_export2.c \
@@ -73,6 +74,7 @@ EX_SRCS	:= \
 	srcs/executor/exec_c.c \
 	srcs/executor/heredoc_input.c \
 	srcs/executor/exec_p_piped.c \
+	srcs/executor/exec_pid.c \
 	srcs/executor/exec_d.c \
 	srcs/executor/heredoc_set.c \
 	srcs/executor/exec_calc_retval.c \
@@ -129,10 +131,12 @@ U_SRCS	:= \
 	srcs/utils/ft_x_strdup.c \
 	srcs/utils/ft_r_dup2.c \
 	srcs/utils/ft_x_dup2.c \
+	srcs/utils/ft_x_signal.c \
 	srcs/utils/ft_x_dup.c \
 	srcs/utils/ft_x_pipe.c \
 	srcs/utils/ft_x_fork.c \
 	srcs/utils/ft_x_perror.c \
+
 
 SRCS	+= $(D_SRCS)
 D_SRCS	:= \

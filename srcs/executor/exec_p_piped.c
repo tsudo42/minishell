@@ -80,14 +80,14 @@ static int	exec_p_wait(t_pipe_info *infos, size_t p_len, t_environ *env)
 	i = 0;
 	while (i < p_len - 1)
 	{
-		if (waitpid(infos[i].pid, &stat, 0) < 0)
+		if (waitpid(infos[i].pid, &stat, WUNTRACED) < 0)
 		{
 			perror(EXEC_ERRMSG ": waitpid");
 			errno = 0;
 		}
 		i++;
 	}
-	if (waitpid(infos[i].pid, &stat, 0) < 0)
+	if (waitpid(infos[i].pid, &stat, WUNTRACED) < 0)
 	{
 		perror(EXEC_ERRMSG ": waitpid");
 		errno = 0;
@@ -106,7 +106,7 @@ int	exec_p_piped(t_ast_p *p, size_t p_len, t_environ *env)
 	i = 0;
 	while (p != NULL)
 	{
-		infos[i].pid = ft_x_fork(EXEC_ERRMSG);
+		infos[i].pid = exec_fork(env);
 		if (infos[i].pid == 0)
 			exec_p_piped_child(p, infos, p_len, env);
 		i++;

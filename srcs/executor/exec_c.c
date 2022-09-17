@@ -13,6 +13,7 @@
 #include "exec_internal.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 
 static int	(*get_builtin_func(char	*name))(char **args, t_environ *env)
@@ -51,39 +52,44 @@ static int	exec_c_builtin(int (*builtin_func)(char **, t_environ *), \
 	return (ret);
 }
 
-static void
-	exec_c_command_child(char *path, char **args, t_ast_d *d, t_environ *env)
+static void	exec_c_command_child(char **args, char **envp, t_environ *env)
 {
-	if (exec_d(d, env) != 0)
-		exit(1);
-	if (*path == '\0')
+	char		*path;
+	struct stat	st;
+	int			exec_errno;
+	const char	*errmsg;
+
+	if (args[0] == NULL)
 		exit(0);
-	ready_exec_signal();
-	execve(path, args, generate_envp(env));
-	if (errno == ENOENT)
-	{
-		ft_dprintf(STDERR_FILENO, \
-			"%s: %s: command not found\n", EXEC_ERRMSG, path);
+	path = execpath(args[0], env);
+	if (path == NULL && errno == ENOENT)
 		exit(127);
-	}
-	perror(EXEC_ERRMSG);
-	exit(INTERNAL_ERR_NUM);
+	else if (path == NULL)
+		exit(2);
+	ready_exec_signal();
+	execve(path, args, envp);
+	exec_errno = errno;
+	if (stat(path, &st) == 0 && (st.st_mode & S_IFMT) == S_IFDIR)
+		errmsg = "is a directory";
+	else
+		errmsg = strerror(exec_errno);
+	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", EXEC_ERRMSG, path, errmsg);
+	exit(126);
 }
 
 static int	exec_c_command(char **args, t_ast_d *d, t_environ *env)
 {
 	pid_t	pid;
 	int		stat;
-	char	*path;
 
-	path = execpath(args[0], env);
-	if (path == NULL)
-		exec_error("execpath");
-	pid = ft_x_fork(EXEC_ERRMSG);
+	pid = exec_fork(env);
 	if (pid == 0)
-		exec_c_command_child(path, args, d, env);
-	free(path);
-	if (waitpid(pid, &stat, 0) < 0)
+	{
+		if (exec_d(d, env) != 0)
+			exit(1);
+		exec_c_command_child(args, generate_envp(env), env);
+	}
+	if (waitpid(pid, &stat, WUNTRACED) < 0)
 	{
 		perror(EXEC_ERRMSG ": waitpid");
 		errno = 0;

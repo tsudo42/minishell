@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_x_fork.c                                        :+:      :+:    :+:   */
+/*   ft_x_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,21 +11,21 @@
 /* ************************************************************************** */
 
 #include "utils.h"
+#include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
 
 /* ************************************************************************** */
-/*  This function is an error checking version of fork(2).                    */
+/*  This function is an error checking version of signal(3).                  */
 /*  This function prints an error message and terminates the process calling  */
-/*  exit(3) when fork faces error.                                            */
+/*  exit(3) when pipe faces error.                                            */
 /* ************************************************************************** */
-pid_t	ft_x_fork(const char *errmsg)
+void	(*ft_x_signal(int sig, void (*func)(int), const char *errmsg))(int s)
 {
-	pid_t	ret;
+	void	(*ret)(int);
 
-	ret = fork();
-	if (ret >= 0)
+	ret = signal(sig, func);
+	if (ret != SIG_ERR)
 		return (ret);
 	perror(errmsg);
 	exit(INTERNAL_ERR_NUM);
