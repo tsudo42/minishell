@@ -55,8 +55,12 @@ char	*input(t_environ *env)
 			continue ;
 		}
 		if (is_continue(line))
+		{
+			free(line);
 			continue ;
-		add_history(line);
+		}
+		if (line != NULL)
+			add_history(line);
 		return (line);
 	}
 }
