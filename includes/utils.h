@@ -76,11 +76,4 @@ void	(*ft_x_signal(int sig, void (*func)(int), const char *errmsg))(int);
 /* ************************************************************************** */
 char	*ft_x_strdup(const char *s1, const char *errmsg);
 
-/* ************************************************************************** */
-/*  This function is to exit after calling a perror.       .                  */
-/*  This function prints an error message and exit.                           */
-/*  The argument of the exit is INTERNAL_ERR_NUM.                             */
-/* ************************************************************************** */
-void	*ft_x_perror(const char *errmsg);
-
 #endif /* UTILS_H */

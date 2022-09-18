@@ -25,23 +25,22 @@ static int	cmp_key(void *p1, void *p2)
 static t_list	*init_list(t_environ *env)
 {
 	t_list	*list;
-	t_list	*list2;
+	t_list	*node;
 	t_var	*var;
 
 	if (!env)
 		return (NULL);
 	var = env->vars;
-	list = ft_lstnew(var);
-	if (!list)
-		ft_x_perror(EXIT_ERRMSG ": malloc");
-	if (var->next != NULL)
-		var = var->next;
+	list = NULL;
 	while (var != NULL)
 	{
-		list2 = ft_lstnew(var);
-		if (!list2)
-			ft_x_perror(EXIT_ERRMSG ": malloc");
-		ft_lstadd_back(&list, list2);
+		node = ft_lstnew(var);
+		if (!node)
+		{
+			perror(EXIT_ERRMSG ": malloc");
+			exit(INTERNAL_ERR_NUM);
+		}
+		ft_lstadd_back(&list, node);
 		var = var->next;
 	}
 	return (list);

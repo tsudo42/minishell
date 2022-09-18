@@ -46,7 +46,6 @@ A_SRCS	:= \
 
 SRCS	+= $(B_SRCS)
 B_SRCS	:= \
-	srcs/builtin/builtin_export_sort.c \
 	srcs/builtin/builtin_echo.c \
 	srcs/builtin/builtin_export.c \
 	srcs/builtin/builtin_unset.c \
@@ -134,9 +133,6 @@ U_SRCS	:= \
 	srcs/utils/ft_x_signal.c \
 	srcs/utils/ft_x_dup.c \
 	srcs/utils/ft_x_pipe.c \
-	srcs/utils/ft_x_fork.c \
-	srcs/utils/ft_x_perror.c \
-
 
 SRCS	+= $(D_SRCS)
 D_SRCS	:= \
