@@ -47,7 +47,6 @@ A_SRCS	:= \
 
 SRCS	+= $(B_SRCS)
 B_SRCS	:= \
-	srcs/builtin/builtin_export_sort.c \
 	srcs/builtin/builtin_echo.c \
 	srcs/builtin/builtin_export.c \
 	srcs/builtin/builtin_unset.c \
