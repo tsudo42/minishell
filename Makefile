@@ -6,7 +6,7 @@
 #    By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#              #
-#    Updated: 2022/09/16 21:58:57 by hos              ###   ########.fr        #
+#    Updated: 2022/07/01 00:00:00 by tsudo            ###   ##########         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,11 +49,11 @@ B_SRCS	:= \
 	srcs/builtin/builtin_export_sort.c \
 	srcs/builtin/builtin_echo.c \
 	srcs/builtin/builtin_export.c \
-	srcs/builtin/builtin_export2.c \
 	srcs/builtin/builtin_unset.c \
 	srcs/builtin/builtin_pwd.c \
 	srcs/builtin/builtin_env.c \
 	srcs/builtin/builtin_exit.c \
+	srcs/builtin/builtin_export_noarg.c \
 	srcs/builtin/builtin_cd.c \
 
 SRCS	+= $(EV_SRCS)

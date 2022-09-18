@@ -12,49 +12,7 @@
 
 #include "builtin.h"
 
-static int	print_variable(t_var	*content)
-{
-	char	*value;
-
-	if (content->key != NULL && content->is_exported)
-	{
-		ft_dprintf(STDOUT_FILENO, "declare -x %s", content->key);
-		if (content->value != NULL)
-		{
-			write(STDOUT_FILENO, "=\"", 2);
-			value = content->value;
-			while (*value != '\0')
-			{
-				if (*value == '\"' || *value == '\\' || \
-					*value == '$' || *value == '`')
-					write(STDOUT_FILENO, "\\", 1);
-				write(STDOUT_FILENO, value, 1);
-				value++;
-			}
-			write(STDOUT_FILENO, "\"", 1);
-		}
-		write(STDOUT_FILENO, "\n", 1);
-	}
-	return (0);
-}
-
-static int	print_values(t_environ *env)
-{
-	t_list	*list;
-	t_list	*list_head;
-
-	list_head = init_list(env);
-	if (list_head)
-		ft_lstmsort(&list_head, (void *)cmp_key);
-	list = list_head;
-	while (list != NULL)
-	{
-		print_variable((t_var *)list->content);
-		list = list->next;
-	}
-	ft_lstclear(&list_head, NULL);
-	return (0);
-}
+int	builtin_export_noarg(t_environ *env);
 
 static int	export_format_checker(char *str)
 {
@@ -104,7 +62,7 @@ int	builtin_export(char **argv, t_environ *env)
 	if (argv == NULL || *argv == NULL)
 		return (STATUS_FAILURE);
 	if (argv[1] == NULL)
-		return (print_values(env));
+		return (builtin_export_noarg(env));
 	else
 		return (export_values(argv, env));
 }
