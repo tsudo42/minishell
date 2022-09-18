@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 static int	cmp_key(void *p1, void *p2)
 {
@@ -38,7 +40,7 @@ static t_list	*init_list(t_environ *env)
 		if (!node)
 		{
 			perror(EXIT_ERRMSG ": malloc");
-			exit(INTERNAL_ERR_NUM);
+			exit(BUILTIN_FATALERROR);
 		}
 		ft_lstadd_back(&list, node);
 		var = var->next;

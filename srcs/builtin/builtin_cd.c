@@ -12,6 +12,7 @@
 
 #include "builtin.h"
 #include <stdio.h>
+#include <string.h>
 
 int	set_pwd(t_environ *env)
 {
@@ -32,7 +33,7 @@ int	builtin_cd(char **argv, t_environ *env)
 	char	*dest;
 
 	if (argv == NULL || *argv == NULL)
-		return (STATUS_FAILURE);
+		return (BUILTIN_FAILURE);
 	if (argv[1] != NULL)
 		dest = argv[1];
 	else
@@ -41,14 +42,14 @@ int	builtin_cd(char **argv, t_environ *env)
 		if (dest == NULL)
 		{
 			ft_dprintf(STDERR_FILENO, "%s: HOME not set\n", CD_ERRMSG);
-			return (STATUS_FAILURE);
+			return (BUILTIN_FAILURE);
 		}
 	}
 	if (chdir(dest) == -1)
 	{
 		ft_dprintf(STDERR_FILENO, \
 			"%s: %s: %s\n", CD_ERRMSG, dest, strerror(errno));
-		return (STATUS_FAILURE);
+		return (BUILTIN_FAILURE);
 	}
 	return (set_pwd(env));
 }
