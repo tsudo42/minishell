@@ -31,12 +31,11 @@ int	builtin_exit(char **argv, t_environ *env)
 {
 	long	exit_status;
 
-	if (argv == NULL || *argv == NULL)
-		return (BUILTIN_FAILURE);
 	(void)env;
-	if (argv[1] == NULL)
+	if (argv == NULL || argv[0] == NULL || argv[1] == NULL)
 	{
-		ft_dprintf(STDERR_FILENO, "exit\n");
+		if (env->my_pid == 0)
+			ft_dprintf(STDERR_FILENO, "exit\n");
 		exit (env->exit_status);
 	}
 	exit_status = builtin_get_exit_status(argv[1]);
@@ -51,6 +50,7 @@ int	builtin_exit(char **argv, t_environ *env)
 		ft_dprintf(STDERR_FILENO, "exit\n%s: too many arguments\n", EXIT_ERRMSG);
 		return (1);
 	}
-	ft_putstr_fd("exit\n", STDERR_FILENO);
+	if (env->my_pid == 0)
+		ft_putstr_fd("exit\n", STDERR_FILENO);
 	exit (exit_status);
 }
