@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/08/31 15:16:49 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/16 21:58:14 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,6 @@ int		ft_x_dup(int fildes, const char *errmsg);
 /*  exit(3) when dup2 faces error.                                            */
 /* ************************************************************************** */
 int		ft_x_dup2(int fildes, int fildes2, const char *errmsg);
-
-/* ************************************************************************** */
-/*  This function is an error checking version of fork(2).                    */
-/*  This function prints an error message and terminates the process calling  */
-/*  exit(3) when fork faces error.                                            */
-/* ************************************************************************** */
-pid_t	ft_x_fork(const char *errmsg);
 
 /* ************************************************************************** */
 /*  This function is an error checking version of malloc(3).                  */

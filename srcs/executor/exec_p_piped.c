@@ -106,7 +106,7 @@ int	exec_p_piped(t_ast_p *p, size_t p_len, t_environ *env)
 	i = 0;
 	while (p != NULL)
 	{
-		infos[i].pid = ft_x_fork(EXEC_ERRMSG);
+		infos[i].pid = exec_fork(env);
 		if (infos[i].pid == 0)
 			exec_p_piped_child(p, infos, p_len, env);
 		i++;

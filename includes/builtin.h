@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/16 09:03:43 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/16 16:37:49 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,18 @@
 # define BUILTIN_FAILURE	1
 # define BUILTIN_FATALERROR	2
 
-# define CD_ERRMSG		"cd"
-# define ECHO_ERRMSG	"echo"
-# define ENV_ERRMSG		"env"
+# define CD_ERRMSG		"minishell: cd"
+# define ECHO_ERRMSG	"minishell: echo"
+# define ENV_ERRMSG		"minishell: env"
 # define EXIT_ERRMSG	"minishell: exit"
-# define EXPORT_ERRMSG	"export"
-# define PWD_ERRMSG		"pwd"
-# define UNSET_ERRMSG	"unset"
+# define EXPORT_ERRMSG	"minishell: export"
+# define PWD_ERRMSG		"minishell: pwd"
+# define UNSET_ERRMSG	"minishell: unset"
 
 int		builtin_echo(char **argv, t_environ *env);
 int		builtin_cd(char **argv, t_environ *env);
 int		builtin_pwd(char **argv, t_environ *env);
 int		builtin_export(char **argv, t_environ *env);
-void	builtin_export_sort(t_environ *env);
 int		builtin_unset(char **argv, t_environ *env);
 int		builtin_env(char **argv, t_environ *env);
 int		builtin_exit(char **argv, t_environ *env);

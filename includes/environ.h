@@ -24,9 +24,14 @@ typedef struct s_var {
 	struct s_var	*next;
 }	t_var;
 
+/**
+ *  Struct to hold necessary information of minishell.
+ *
+ *  If and only if my_pid == 0, the process is main minishell process.
+ */
 typedef struct s_environ {
 	int		exit_status;
-	pid_t	parent_pid;
+	pid_t	my_pid;
 	t_var	*vars;
 }	t_environ;
 

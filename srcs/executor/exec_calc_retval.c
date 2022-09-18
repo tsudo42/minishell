@@ -30,20 +30,17 @@ static int	exec_signaled_prompt(int sig)
 
 int	exec_calc_retval(int stat, t_environ *env)
 {
-	pid_t	pid;
-
 	if (WIFEXITED(stat))
 		return (WEXITSTATUS(stat));
 	if (WIFSIGNALED(stat))
 	{
 		g_sig = WTERMSIG(stat);
-		pid = getpid();
-		if (pid > 0 && pid != env->parent_pid)
+		if (env->my_pid > 0)
 		{
 			ft_x_signal(SIGINT, SIG_DFL, EXEC_ERRMSG ": signal");
 			ft_x_signal(SIGQUIT, SIG_DFL, EXEC_ERRMSG ": signal");
-			kill(pid, WTERMSIG(stat));
-			perror("kill");
+			kill(env->my_pid, WTERMSIG(stat));
+			perror(EXEC_ERRMSG ": kill");
 		}
 		else
 			exec_signaled_prompt(g_sig);
