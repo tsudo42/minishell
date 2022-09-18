@@ -6,7 +6,7 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/16 09:03:43 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/16 16:37:49 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int		builtin_echo(char **argv, t_environ *env);
 int		builtin_cd(char **argv, t_environ *env);
 int		builtin_pwd(char **argv, t_environ *env);
 int		builtin_export(char **argv, t_environ *env);
-void	builtin_export_sort(t_environ *env);
 int		builtin_unset(char **argv, t_environ *env);
 int		builtin_env(char **argv, t_environ *env);
 int		builtin_exit(char **argv, t_environ *env);

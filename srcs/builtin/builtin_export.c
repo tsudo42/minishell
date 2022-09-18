@@ -6,51 +6,13 @@
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 00:00:00 by tsudo             #+#    #+#             */
-/*   Updated: 2022/09/16 09:01:35 by hos              ###   ########.fr       */
+/*   Updated: 2022/09/16 22:00:08 by hos              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static int	print_variable(t_var *var)
-{
-	char	*value;
-
-	if (var->key != NULL && var->is_exported)
-	{
-		ft_dprintf(STDOUT_FILENO, "declare -x %s", var->key);
-		if (var->value != NULL)
-		{
-			write(STDOUT_FILENO, "=\"", 2);
-			value = var->value;
-			while (*value != '\0')
-			{
-				if (*value == '\"' || *value == '\\' || \
-					*value == '$' || *value == '`')
-					write(STDOUT_FILENO, "\\", 1);
-				write(STDOUT_FILENO, value, 1);
-				value++;
-			}
-			write(STDOUT_FILENO, "\"", 1);
-		}
-		write(STDOUT_FILENO, "\n", 1);
-	}
-	return (0);
-}
-
-static int	print_values(t_environ *env)
-{
-	t_var	*var;
-
-	builtin_export_sort(env);
-	var = env->vars;
-	while (var != NULL)
-	{
-		print_variable(var);
-		var = var->next;
-	}
-	return (0);
-}
+int	builtin_export_noarg(t_environ *env);
 
 static int	export_format_checker(char *str)
 {
@@ -100,7 +62,7 @@ int	builtin_export(char **argv, t_environ *env)
 	if (argv == NULL || *argv == NULL)
 		return (STATUS_FAILURE);
 	if (argv[1] == NULL)
-		return (print_values(env));
+		return (builtin_export_noarg(env));
 	else
 		return (export_values(argv, env));
 }
