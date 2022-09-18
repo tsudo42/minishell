@@ -86,7 +86,7 @@ static int	print_values(t_environ *env)
 		print_variable((t_var *)list->content);
 		list = list->next;
 	}
-	ft_lstclear(&list, NULL);
+	ft_lstclear(&list_head, NULL);
 	return (0);
 }
 
