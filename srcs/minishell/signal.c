@@ -11,7 +11,10 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "minishell_internal.h"
+#include "utils.h"
+#include <errno.h>
+#include <stdio.h>
+#include <readline/readline.h>
 
 static int	rl_status_checker(void)
 {
@@ -33,7 +36,7 @@ int	cleanup_signal(void)
 {
 	rl_event_hook = 0;
 	errno = 0;
-	ft_x_signal(SIGINT, SIG_IGN, MAIN_ERRMSG ": signal");
+	ft_x_signal(SIGINT, SIG_IGN, ERRMSG ": signal");
 	if (errno != 0)
 		return (-1);
 	return (0);
@@ -42,8 +45,8 @@ int	cleanup_signal(void)
 int	ready_signal(void)
 {
 	errno = 0;
-	ft_x_signal(SIGINT, signal_handler, MAIN_ERRMSG ": signal");
-	ft_x_signal(SIGQUIT, SIG_IGN, MAIN_ERRMSG ": signal");
+	ft_x_signal(SIGINT, signal_handler, ERRMSG ": signal");
+	ft_x_signal(SIGQUIT, SIG_IGN, ERRMSG ": signal");
 	if (errno != 0)
 	{
 		cleanup_signal();

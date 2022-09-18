@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "exec_internal.h"
+#include <stdlib.h>
+#include <string.h>
 
 static void	exec_pid_error(const char *func_name)
 {

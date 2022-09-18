@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "exec_internal.h"
-#include <sys/wait.h>
 #include <signal.h>
+#include <stdio.h>
+#include <sys/wait.h>
 
 static int	exec_signaled_prompt(int sig)
 {

@@ -14,8 +14,11 @@
 # define BUILTIN_H
 
 # include "libft.h"
-# include "minishell.h"
 # include "environ.h"
+
+# define BUILTIN_SUCCESS	0
+# define BUILTIN_FAILURE	1
+# define BUILTIN_FATALERROR	2
 
 # define CD_ERRMSG		"minishell: cd"
 # define ECHO_ERRMSG	"minishell: echo"

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsudo <tsudo@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,33 +11,56 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "exec.h"
 #include "environ.h"
-#include "lexer.h"
-#include "parser.h"
-#include <errno.h>
+#include "libft.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
-volatile sig_atomic_t	g_sig;
+#define ARG_MAX_SIZE 4096
 
-char	*input(t_environ *env);
+int	cleanup_signal(void);
+int	ready_signal(void);
 
-int	main(void)
+static int	is_continue(char *line)
 {
-	t_environ	*env;
-	char		*line;
-	int			exit_status;
+	if (!line)
+		return (0);
+	if (ft_strncmp(line, "\0", 1) == 0)
+		return (1);
+	if (ft_strlen(line) >= ARG_MAX_SIZE)
+	{
+		ft_putendl_fd(ERRMSG ": line too long", STDERR_FILENO);
+		return (1);
+	}
+	return (0);
+}
 
-	env = environ_init();
+char	*input(t_environ *env)
+{
+	char	*line;
+
 	while (1)
 	{
-		line = input(env);
-		if (!line)
-			break ;
-		executor(parser(lexer(line)), env);
+		errno = 0;
+		g_sig = 0;
+		ready_signal();
+		line = readline("minishell> ");
+		cleanup_signal();
+		if (g_sig != 0)
+		{
+			free(line);
+			env->exit_status = 130;
+			continue ;
+		}
+		if (is_continue(line))
+		{
+			free(line);
+			continue ;
+		}
+		if (line != NULL)
+			add_history(line);
+		return (line);
 	}
-	exit_status = env->exit_status;
-	environ_destroy(env);
-	ft_dprintf(STDERR_FILENO, "exit\n");
-	return (exit_status);
 }

@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include <stdio.h>
+#include <string.h>
 
 int	set_pwd(t_environ *env)
 {
@@ -19,11 +21,11 @@ int	set_pwd(t_environ *env)
 	if (getcwd(buf, sizeof(buf)) == NULL)
 	{
 		perror(CD_ERRMSG ": getcwd");
-		return (STATUS_FAILURE);
+		return (BUILTIN_FAILURE);
 	}
 	variable_set("OLDPWD", variable_get("PWD", env), 0, env);
 	variable_set("PWD", buf, 0, env);
-	return (STATUS_SUCCESS);
+	return (BUILTIN_SUCCESS);
 }
 
 int	builtin_cd(char **argv, t_environ *env)
@@ -31,7 +33,7 @@ int	builtin_cd(char **argv, t_environ *env)
 	char	*dest;
 
 	if (argv == NULL || *argv == NULL)
-		return (STATUS_FAILURE);
+		return (BUILTIN_FAILURE);
 	if (argv[1] != NULL)
 		dest = argv[1];
 	else
@@ -40,14 +42,14 @@ int	builtin_cd(char **argv, t_environ *env)
 		if (dest == NULL)
 		{
 			ft_dprintf(STDERR_FILENO, "%s: HOME not set\n", CD_ERRMSG);
-			return (STATUS_FAILURE);
+			return (BUILTIN_FAILURE);
 		}
 	}
 	if (chdir(dest) == -1)
 	{
 		ft_dprintf(STDERR_FILENO, \
 			"%s: %s: %s\n", CD_ERRMSG, dest, strerror(errno));
-		return (STATUS_FAILURE);
+		return (BUILTIN_FAILURE);
 	}
 	return (set_pwd(env));
 }

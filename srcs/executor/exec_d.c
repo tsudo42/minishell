@@ -15,49 +15,36 @@
 #include "exec.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 
-static int	exec_d_redin(const char *word, int fd)
+static int	exec_d_redirection(const char *word, int fd, t_ast_d_type type)
 {
 	int	open_fd;
 
-	open_fd = open(word, O_RDONLY);
-	if (open_fd < 0)
-	{
-		ft_putstr_fd(EXEC_ERRMSG ": ", STDERR_FILENO);
-		perror(word);
-		return (-1);
-	}
-	if (ft_r_dup2(open_fd, fd, EXEC_ERRMSG) < 0)
-	{
-		close(open_fd);
-		return (-1);
-	}
-	close(open_fd);
-	return (0);
-}
-
-static int	exec_d_redout(const char *word, int fd, int is_append)
-{
-	int	open_fd;
-	int	ret;
-
-	if (is_append == 0)
+	open_fd = -1;
+	if (type == AST_D_REDIN)
+		open_fd = open(word, O_RDONLY);
+	else if (type == AST_D_REDOUT)
 		open_fd = open(word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else
+	else if (type == AST_D_REDAPP)
 		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else
+		exec_error("undefined d type");
 	if (open_fd < 0)
 	{
-		ft_putstr_fd(EXEC_ERRMSG ": ", STDERR_FILENO);
-		perror(word);
+		ft_dprintf(STDERR_FILENO, \
+			"%s: %s: %s\n", EXEC_ERRMSG, word, strerror(errno));
 		return (-1);
 	}
-	ret = ft_r_dup2(open_fd, fd, EXEC_ERRMSG);
-	close(open_fd);
-	if (ret < 0)
+	if (dup2(open_fd, fd) < 0)
+	{
+		perror(EXEC_ERRMSG ": dup2");
 		return (-1);
+	}
+	close(open_fd);
 	return (0);
 }
 
@@ -87,9 +74,9 @@ static long	calc_fd(t_ast_d_type type, char *num, int *is_err)
 	fd = ft_strtol(num, NULL, 10);
 	if (fd != STDIN_FILENO && fd != STDOUT_FILENO && fd != STDERR_FILENO)
 	{
-		errno = EBADF;
 		*is_err = 1;
 		ft_putstr_fd(EXEC_ERRMSG ": ", STDERR_FILENO);
+		errno = EBADF;
 		if (fd < 0 || INT_MAX < fd)
 			perror("file descriptor out of range");
 		else
@@ -111,16 +98,10 @@ int	exec_d(t_ast_d *d, t_environ *env)
 		fd = calc_fd(d->type, d->num, &is_err);
 		if (fd < 0)
 			return (1);
-		if (d->type == AST_D_REDIN)
-			is_err = exec_d_redin(d->word, fd);
-		else if (d->type == AST_D_REDOUT)
-			is_err = exec_d_redout(d->word, fd, 0);
-		else if (d->type == AST_D_REDAPP)
-			is_err = exec_d_redout(d->word, fd, 1);
-		else if (d->type == AST_D_HEREDOC)
-			is_err = exec_d_heredoc(d->heredoc_fd, fd);
+		if (d->type != AST_D_HEREDOC)
+			is_err = exec_d_redirection(d->word, fd, d->type);
 		else
-			exec_error("undefined d type");
+			is_err = exec_d_heredoc(d->heredoc_fd, fd);
 		d = d->next;
 	}
 	return (is_err);

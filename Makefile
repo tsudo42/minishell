@@ -30,6 +30,7 @@ endif
 
 SRCS	+= $(M_SRCS)
 M_SRCS	:= \
+	srcs/minishell/input.c \
 	srcs/minishell/main.c \
 	srcs/minishell/signal.c \
 
@@ -128,7 +129,6 @@ U_SRCS	:= \
 	srcs/utils/ft_free_strarr.c \
 	srcs/utils/ft_x_malloc.c \
 	srcs/utils/ft_x_strdup.c \
-	srcs/utils/ft_r_dup2.c \
 	srcs/utils/ft_x_dup2.c \
 	srcs/utils/ft_x_signal.c \
 	srcs/utils/ft_x_dup.c \

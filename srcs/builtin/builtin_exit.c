@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include <stdlib.h>
 
 static long	builtin_get_exit_status(char *str)
 {
@@ -31,7 +32,7 @@ int	builtin_exit(char **argv, t_environ *env)
 	long	exit_status;
 
 	if (argv == NULL || *argv == NULL)
-		return (STATUS_FAILURE);
+		return (BUILTIN_FAILURE);
 	(void)env;
 	if (argv[1] == NULL)
 	{
