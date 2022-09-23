@@ -25,9 +25,12 @@ int	ready_signal(void);
 
 static int	is_continue(char *line)
 {
+	size_t	spn;
+
 	if (!line)
 		return (0);
-	if (ft_strncmp(line, "\0", 1) == 0)
+	spn = ft_strspn(line, " \t\n");
+	if (line[spn] == '\0')
 		return (1);
 	if (ft_strlen(line) >= ARG_MAX_SIZE)
 	{
