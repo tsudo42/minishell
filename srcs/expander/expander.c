@@ -70,15 +70,17 @@ static t_list	*expander2(t_list *lst)
 
 t_list	*expander(char *word, t_environ *env)
 {
+	char	*param_expanded;
 	t_list	*lst;
 	t_list	*lst2;
 
 	errno = 0;
-	word = parameter_expander(word, env);
-	if (word == NULL)
-		return (NULL);
-	lst = word_splitter(word);
+	param_expanded = parameter_expander(word, env);
 	free(word);
+	if (param_expanded == NULL)
+		return (NULL);
+	lst = word_splitter(param_expanded);
+	free(param_expanded);
 	if (lst == NULL)
 		return (NULL);
 	lst2 = expander2(lst);
