@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-t_list	*next_parameter_token(char **word, t_environ *env);
+t_list	*next_parameter_token(char **word, char *quote, t_environ *env);
 
 static char	*lst_to_str(t_list *lst)
 {
@@ -53,15 +53,15 @@ char	*parameter_expander(char *word, t_environ *env)
 {
 	t_list	*lst;
 	t_list	*lst_node;
-	char	*to_free;
 	char	*str;
+	char	quote;
 
 	errno = 0;
-	to_free = word;
 	lst = NULL;
+	quote = '\0';
 	while (*word != '\0' && errno == 0)
 	{
-		lst_node = next_parameter_token(&word, env);
+		lst_node = next_parameter_token(&word, &quote, env);
 		if (lst_node == NULL)
 			perror(EXPANDER_ERRMSG ": malloc");
 		ft_lstadd_back(&lst, lst_node);
@@ -70,6 +70,5 @@ char	*parameter_expander(char *word, t_environ *env)
 	if (errno == 0)
 		str = lst_to_str(lst);
 	ft_lstclear(&lst, NULL);
-	free(to_free);
 	return (str);
 }

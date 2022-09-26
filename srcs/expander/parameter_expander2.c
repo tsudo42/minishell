@@ -58,27 +58,25 @@ static size_t	sep_var_len(char *str)
 	return (0);
 }
 
-static size_t	sep_len(char *str)
+static size_t	sep_len(char *str, char *quote)
 {
 	size_t	i;
-	char	q;
 
 	i = 0;
 	if (str[0] == '$')
 		i = sep_var_len(str);
 	if (i > 0)
 		return (0);
-	q = '\0';
 	while (str[i] != '\0')
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 		{
-			if (q == '\0')
-				q = str[i];
-			else if (q == str[i])
-				q = '\0';
+			if (*quote == '\0')
+				*quote = str[i];
+			else if (*quote == str[i])
+				*quote = '\0';
 		}
-		else if (str[i] == '$' && q != '\'' && sep_var_len(&(str[i])) > 0)
+		else if (str[i] == '$' && *quote != '\'' && sep_var_len(&(str[i])) > 0)
 			return (i);
 		i++;
 	}
@@ -116,7 +114,7 @@ static const char	*get_env_helper(char *param, t_environ *env)
 /* returns the ft_list node of parameter token.                              */
 /* (*word)[0] should not be '\0'.                                            */
 /* error message of malloc error should be printed outside of this function. */
-t_list	*next_parameter_token(char **word, t_environ *env)
+t_list	*next_parameter_token(char **word, char *quote, t_environ *env)
 {
 	t_list	*lst;
 	char	*word_head;
@@ -124,7 +122,7 @@ t_list	*next_parameter_token(char **word, t_environ *env)
 	char	tmp;
 
 	word_head = *word;
-	len = sep_len(word_head);
+	len = sep_len(word_head, quote);
 	if (len > 0)
 	{
 		(*word) += len;
