@@ -20,23 +20,44 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-static int	exec_d_redirection(const char *word, int fd, t_ast_d_type type)
+static char	*get_red_filename(t_ast_d *d, t_environ *env)
+{
+	char	*filename;
+	t_list	*exp;
+
+	errno = 0;
+	exp = expander(d->word, env);
+	d->word = NULL;
+	if (exp == NULL && errno)
+		return (NULL);
+	if (exp == NULL || exp->content == NULL || exp->next != NULL)
+	{
+		ft_dprintf(STDERR_FILENO, "%s: ambiguous redirect\n", EXEC_ERRMSG);
+		ft_lstclear(&exp, free);
+		return (NULL);
+	}
+	filename = exp->content;
+	free(exp);
+	return (filename);
+}
+
+static int	exec_d_redirection(const char *filename, int fd, t_ast_d_type type)
 {
 	int	open_fd;
 
 	open_fd = -1;
 	if (type == AST_D_REDIN)
-		open_fd = open(word, O_RDONLY);
+		open_fd = open(filename, O_RDONLY);
 	else if (type == AST_D_REDOUT)
-		open_fd = open(word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		open_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (type == AST_D_REDAPP)
-		open_fd = open(word, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		open_fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		exec_error("undefined d type");
 	if (open_fd < 0)
 	{
 		ft_dprintf(STDERR_FILENO, \
-			"%s: %s: %s\n", EXEC_ERRMSG, word, strerror(errno));
+			"%s: %s: %s\n", EXEC_ERRMSG, filename, strerror(errno));
 		return (-1);
 	}
 	if (dup2(open_fd, fd) < 0)
@@ -90,6 +111,7 @@ int	exec_d(t_ast_d *d, t_environ *env)
 {
 	int		is_err;
 	long	fd;
+	char	*filename;
 
 	(void)env;
 	is_err = 0;
@@ -99,7 +121,13 @@ int	exec_d(t_ast_d *d, t_environ *env)
 		if (fd < 0)
 			return (1);
 		if (d->type != AST_D_HEREDOC)
-			is_err = exec_d_redirection(d->word, fd, d->type);
+		{
+			filename = get_red_filename(d, env);
+			if (filename == NULL)
+				return (1);
+			is_err = exec_d_redirection(filename, fd, d->type);
+			free(filename);
+		}
 		else
 			is_err = exec_d_heredoc(d->heredoc_fd, fd);
 		d = d->next;
