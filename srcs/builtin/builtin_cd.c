@@ -45,6 +45,8 @@ int	builtin_cd(char **argv, t_environ *env)
 			return (BUILTIN_FAILURE);
 		}
 	}
+	if (*dest == '\0')
+		return (BUILTIN_SUCCESS);
 	if (chdir(dest) == -1)
 	{
 		ft_dprintf(STDERR_FILENO, \
