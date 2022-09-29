@@ -115,5 +115,6 @@ int	exec_p_piped(t_ast_p *p, size_t p_len, t_environ *env)
 	close_fds(infos, p_len);
 	ret = exec_p_wait(infos, p_len, env);
 	free(infos);
+	env->exit_status = ret;
 	return (ret);
 }

@@ -25,10 +25,7 @@ int	exec_l(t_ast_l *l, t_environ *env)
 	while (l != NULL)
 	{
 		if (!(ret) ^ (l->op == AST_L_OR))
-		{
 			ret = exec_p(l->p, env);
-			env->exit_status = ret;
-		}
 		l = l->next;
 	}
 	return (ret);
