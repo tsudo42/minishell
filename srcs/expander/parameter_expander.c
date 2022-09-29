@@ -62,7 +62,7 @@ char	*parameter_expander(char *word, t_environ *env)
 	while (*word != '\0' && errno == 0)
 	{
 		lst_node = next_parameter_token(&word, &quote, env);
-		if (lst_node == NULL)
+		if (lst_node == NULL && errno == ENOMEM)
 			perror(EXPANDER_ERRMSG ": malloc");
 		ft_lstadd_back(&lst, lst_node);
 	}
