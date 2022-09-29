@@ -25,6 +25,7 @@ static char	*execpath_without_env(char *name)
 	struct stat	st;
 	char		*exec_path;
 
+	errno = 0;
 	if (stat(name, &st) == 0)
 	{
 		exec_path = ft_strdup(name);
@@ -33,7 +34,7 @@ static char	*execpath_without_env(char *name)
 		return (exec_path);
 	}
 	ft_dprintf(STDERR_FILENO, \
-		"%s: %s: %s\n", EXPANDER_ERRMSG, name, strerror(ENOENT));
+		"%s: %s: %s\n", EXPANDER_ERRMSG, name, strerror(errno));
 	errno = ENOENT;
 	return (NULL);
 }
