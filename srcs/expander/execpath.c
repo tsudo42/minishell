@@ -126,7 +126,7 @@ char	*execpath(char *name, t_environ *env)
 		return (exec_path);
 	}
 	path_env = variable_get("PATH", env);
-	if (*path_env == '\0')
+	if (path_env != NULL && *path_env == '\0')
 		path_env = NULL;
 	if (ft_strchr(name, '/') != NULL || path_env == NULL)
 		return (execpath_without_env(name));
