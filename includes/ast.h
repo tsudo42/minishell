@@ -96,7 +96,8 @@ typedef struct s_ast_p {
 
 typedef enum e_ast_l_type {
 	AST_L_AND = 0,
-	AST_L_OR = 1
+	AST_L_OR = 1,
+	AST_L_COLON = 2
 }	t_ast_l_type;
 
 typedef struct s_ast_l {

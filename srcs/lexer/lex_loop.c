@@ -96,6 +96,8 @@ t_token_list	*lex_loop(char **input)
 		return (loop_return(input, sizeof(LEX_ANDAND) - 1, LR_T_OP));
 	if (ft_strncmp(*input, LEX_OROR, sizeof(LEX_OROR) - 1) == 0)
 		return (loop_return(input, sizeof(LEX_OROR) - 1, LR_T_OP));
+	if (ft_strncmp(*input, ";", 1) == 0)
+		return (loop_return(input, 1, LR_T_OP));
 	if (ft_strncmp(*input, LEX_PIPE, sizeof(LEX_PIPE) - 1) == 0)
 		return (loop_return(input, sizeof(LEX_PIPE) - 1, LR_T_PIPE));
 	if (ft_strncmp(*input, LEX_LBRACE, sizeof(LEX_LBRACE) - 1) == 0)

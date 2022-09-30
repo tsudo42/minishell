@@ -26,7 +26,7 @@
 # define LEX_REDAPP	">>"            /* redirect append    */
 # define LEX_HERE	"<<"            /* heredoc            */
 # define LEX_NUM	"0123456789"    /* set of numbers     */
-# define LEX_EOW	" \n&|()<>"     /* set of end of word */
+# define LEX_EOW	" \n&|;()<>"    /* set of end of word */
 
 /* lex_loop.c */
 t_token_list	*lex_loop(char **input);

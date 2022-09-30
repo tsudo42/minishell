@@ -43,8 +43,10 @@ static t_ast_l_type	get_ast_l_type(char *op)
 
 	if (ft_strncmp("&&", op, sizeof("&&")) == 0)
 		op_type = AST_L_AND;
-	else
+	else if (ft_strncmp("||", op, sizeof("||")) == 0)
 		op_type = AST_L_OR;
+	else
+		op_type = AST_L_COLON;
 	free(op);
 	return (op_type);
 }

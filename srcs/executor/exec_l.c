@@ -24,7 +24,7 @@ int	exec_l(t_ast_l *l, t_environ *env)
 	l = l->next;
 	while (l != NULL)
 	{
-		if (!(ret) ^ (l->op == AST_L_OR))
+		if (!(ret) ^ (l->op == AST_L_OR) || l->op == AST_L_COLON)
 			ret = exec_p(l->p, env);
 		l = l->next;
 	}
