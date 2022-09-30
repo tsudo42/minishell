@@ -51,13 +51,18 @@ static int	is_quoted(char *delim)
 static char	*heredoc_getline(int quoted, int *is_error, t_environ *env)
 {
 	char	*line;
+	char	*expanded;
 
 	errno = 0;
 	line = readline("> ");
 	if (errno != 0)
 		perror(EXEC_ERRMSG ": heredoc");
 	if (line != NULL && quoted)
-		line = parameter_expander(line, env);
+	{
+		expanded = parameter_expander(line, env);
+		free(line);
+		line = expanded;
+	}
 	if (errno != 0)
 		*is_error = 1;
 	return (line);

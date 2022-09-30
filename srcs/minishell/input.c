@@ -54,7 +54,7 @@ char	*input(t_environ *env)
 		if (g_sig != 0)
 		{
 			free(line);
-			env->exit_status = 130;
+			env->exit_status = 1;
 			continue ;
 		}
 		if (is_continue(line))

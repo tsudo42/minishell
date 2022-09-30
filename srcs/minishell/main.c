@@ -34,7 +34,7 @@ int	main(void)
 		line = input(env);
 		if (!line)
 			break ;
-		executor(parser(lexer(line)), env);
+		env->exit_status = executor(parser(lexer(line)), env);
 	}
 	exit_status = env->exit_status;
 	environ_destroy(env);

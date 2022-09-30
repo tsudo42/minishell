@@ -29,7 +29,7 @@ static int	rl_status_checker(void)
 static void	signal_handler(int sig)
 {
 	g_sig = sig;
-	write(1, "\n", 1);
+	write(STDERR_FILENO, "\n", 1);
 }
 
 int	cleanup_signal(void)
