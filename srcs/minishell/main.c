@@ -17,6 +17,7 @@
 #include "parser.h"
 #include <errno.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 volatile sig_atomic_t	g_sig;
 
@@ -27,7 +28,9 @@ int	main(void)
 	t_environ	*env;
 	char		*line;
 	int			exit_status;
+	extern FILE	*rl_outstream;
 
+	rl_outstream = stderr;
 	env = environ_init();
 	while (1)
 	{
