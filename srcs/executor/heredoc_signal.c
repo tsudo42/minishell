@@ -28,7 +28,7 @@ int	rl_status_checker_heredoc(void)
 static void	signal_handler_heredoc(int sig)
 {
 	g_sig = sig;
-	write(1, "\n", 1);
+	write(STDERR_FILENO, "\n", 1);
 }
 
 void	cleanup_heredoc_signal(int *is_error)
