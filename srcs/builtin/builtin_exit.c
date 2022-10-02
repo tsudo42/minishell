@@ -13,7 +13,7 @@
 #include "builtin.h"
 #include <stdlib.h>
 
-static long	builtin_get_exit_status(char *str)
+static long	builtin_get_exit_status(char *str, long *exit_status)
 {
 	long	num;
 	char	*endptr;
@@ -24,11 +24,13 @@ static long	builtin_get_exit_status(char *str)
 		endptr++;
 	if (*endptr != '\0' || errno != 0)
 		return (-1);
-	return (num);
+	*exit_status = num;
+	return (0);
 }
 
 int	builtin_exit(char **argv, t_environ *env)
 {
+	int		err;
 	long	exit_status;
 
 	(void)env;
@@ -38,8 +40,8 @@ int	builtin_exit(char **argv, t_environ *env)
 			ft_dprintf(STDERR_FILENO, "exit\n");
 		exit (env->exit_status);
 	}
-	exit_status = builtin_get_exit_status(argv[1]);
-	if (exit_status == -1)
+	err = builtin_get_exit_status(argv[1], &exit_status);
+	if (err)
 	{
 		ft_dprintf(STDERR_FILENO, \
 			"exit\n%s: %s: numeric argument required\n", EXIT_ERRMSG, argv[1]);
